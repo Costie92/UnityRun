@@ -20,11 +20,12 @@ public class ChunkLoading : MonoBehaviour {
     ShowCandidate[] showCandidates;
     public int wantToShowNumOfChunks = 4; //후방 하나, 나머지 앞의 청크들
     public int wantToShowNumOfChunksInBehind = 1;
-    public float nowPos = 0;
+    public float nowPos = 0;    //z축 기준 현재는
     public float newPos =0;
     // Use this for initialization
 
     void Start () {
+        MapAndObjPool.instance.obsBallPoolInit();
         MapAndObjPool.instance.ChunkPoolInit(wantToShowNumOfChunks);
         margin = chunk.GetComponentInChildren<Renderer>().bounds.size.z;
         showCandidates = new ShowCandidate[wantToShowNumOfChunks];
@@ -34,7 +35,7 @@ public class ChunkLoading : MonoBehaviour {
             showCandidates[i].pos = ((-1*wantToShowNumOfChunksInBehind) + i);   //후방과 전방에 놓을 청크의 수 저장
             showCandidates[i].alreadyIn = false;
         }
-        ChunkLoad(nowPos);
+        ChunkLoad(playerTr.position.z);
     }
 
 	// Update is called once per frame
@@ -68,10 +69,7 @@ public class ChunkLoading : MonoBehaviour {
                 }
                 if (temp)
                 {
-                    temp.transform.position = Vector3.zero;
-                    temp.transform.rotation = Quaternion.identity;
-                    //오브젝트 풀링 경우
-                    temp.SetActive(false);//비활성화로 풀링에 반납
+                    MapAndObjPool.instance.TurnInPoolObj(temp);
                    
 
                     //Destroy(temp);
@@ -113,7 +111,7 @@ public class ChunkLoading : MonoBehaviour {
     {
         for(int i=0;i< showCandidates.Length;i++)
         {
-            if (nowPos + (showCandidates[i].pos*margin) == item) //보여야하는 청크면 true반환
+            if (nowPos + (showCandidates[i].pos*margin) == item) //보여야하는 청크면 true반환,item은 청크의 시작위치이자 딕셔너리의 키
             {
                 showCandidates[i].alreadyIn = true;  //후보가 이미 생성되있다는 의미
                 return true;
