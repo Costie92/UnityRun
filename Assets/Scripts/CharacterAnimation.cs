@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterAnimation : MonoBehaviour
+public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 + 충돌판정을 담당
 {
 
-    Animator animator;
+    public static Animator animator; // 애니메이션을 구현하기위해 쓴거
     public Rigidbody rigidbody;
 
-    private float speedZ = 80.0f;
+    private float attacked = 20.0f; // 적과 부딪힌뒤에 밀려나는 정도
 
     // Use this for initialization
     void Start()
     {
-        this.animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>(); // 애니메이션을 구현하기위해 쓴거
         rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -21,31 +21,77 @@ public class CharacterAnimation : MonoBehaviour
     void Update()
     {
 
-        //animator.Play("WALK00_F"); // 기본 애니메이션은 걷기
-        Slide();
-
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Cube")
+        //animator.Play("WALK00_F"); // 기본 애니메이션은 걷기인데 코드로 구현한것은 아니고 애니메이션에서 기본을 걷는모습으로 설정함
+        if(CharacterMove.enemyAttack == false) // 적의 공격을 받지 않았을경우에만 실행
         {
-            Debug.Log("충돌됨");
-            animator.Play("DAMAGE00", -1, 0);
-            this.transform.Translate(Vector3.back * speedZ * Time.deltaTime);
+            SlideAnimation(); // 아래방향키를 눌렀을때 슬라이드하는 애니메이션을 실행 
+            JumpAnimation(); // 위방향키를 눌렀을때 점프애니메이션 실행
         }
+        else // 적에게 공격받았다면
+        {
+            // 적에게 부딫힌후 발생하는 이벤트 넣는곳
+        }
+
     }
 
-
-    public void Slide() // 슬라이드하기
+    void OnCollisionEnter(Collision collision) // 오브젝트와 충돌시 발생하는 이벤트
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        Debug.Log("캐릭터와 오브젝트가 닿음");
+        if (collision.gameObject.tag == "Enemy") // Enemy태그(이름밑의 Tag)의 오브젝트와 충돌시 발생하는 이벤트
         {
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("SLIDE00"))
+            CharacterMove.shield--;
+            if (CharacterMove.speedUpItem == false)
             {
-                Debug.Log("미끄러지기");
-                animator.Play("SLIDE00", -1, 0);
+                CharacterMove.enemyAttack = true; // 적에게 닿았다는것을 확인
+                Debug.Log("적과 닿음");
+                this.transform.Translate(Vector3.back * attacked * Time.deltaTime); // 적에게 닿은후 캐릭터의 위치가 뒤로 밀림 attacked값을 바꾸면 밀린정도를 바꿀수있음
+                DieAnimation(); // 죽는 애니메이션 실행
             }
         }
     }
+
+    public void DieAnimation() // 캐릭터가 죽는모습을 보여주고 게임을 정지시킴
+    {
+        animator.Play("DAMAGED01", -1, 0); // 뒤로 쓰러지는 애니메이션 실행
+        Invoke("GameOver", 2.0f); // 쓰러진뒤 2초뒤에 게임오버(게임이 정지되도록 만들어줌) 시켜주는 함수
+    }
+
+    public void SlideAnimation() // 슬라이드 (아래방향키)
+    {
+        if (Input.GetKeyDown(KeyCode.DownArrow)) // 아래방향키를 눌렀을떄
+        {
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("SLIDE00") && !animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00")) // 슬라이드 애니메이션이 실행중이 아닐때 (중복해서 슬라이드 애니메이션이 실행하는것을 막아주는 조건)
+            {
+                Debug.Log("미끄러지기");
+                animator.Play("SLIDE00", -1, 0); // 슬라이드하는 애니메이션 실행
+                this.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.25f, 0); // 캐릭터 콜라이더 중심 옮기기
+                this.GetComponent<CapsuleCollider>().height = 0.5f; // 캐릭터 콜라이더 높이 줄이기
+            }
+            Invoke("resetCollider", 2.0f); // 2초후 캐릭터 콜라이더를 되돌림
+        }
+    }
+
+    public void JumpAnimation() // 점프하기 (위방향키)
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow)) // 위방향키를 눌렀을때
+        {
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00")) // 점프 애니메이션이 실행중이 아닐때 (중복해서 점프 애니메이션이 실행하는것을 막아주는 조건)
+            {
+                Debug.Log("점프하기");
+                animator.Play("JUMP00", -1, 0); // 점프하는 애니메이션 실행
+            }
+        }
+    }
+
+    public void resetCollider() // 캐릭터 콜라이더 되돌리기
+    {
+        this.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.75f, 0); // 캐릭터 콜라이더 중심 옮기기
+        this.GetComponent<CapsuleCollider>().height = 1.5f; // 캐릭터 콜라이더 높이 바꾸기
+    }
+
+    public void GameOver() // 캐릭터가 쓰러진상태로 유지시켜주는 함수
+    {
+        Time.timeScale = 0; // 캐릭터 시간멈춤 (캐릭터가 쓰러진 모습 상태로 정지함)
+    }
+
 }
