@@ -2,32 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HuddleCtrl : MonoBehaviour ,IChildModel{
-    public Material[] materials;
-    private GameObject childModel; //구형 장애물 모델링 자식 추출
-
-    public void FromChildOnCollisionEnter(Collision coll)
+namespace hcp
+{
+    public class HuddleCtrl : MonoBehaviour, IChildModel
     {
-        
-    }
+        ObstacleST huddleST ;
+        public Material[] materials;
+        private GameObject childModel; //구형 장애물 모델링 자식 추출
 
-    public void FromChildOnTriggerEnter(Collider other)
-    {
-       
-    }
+        public void FromChildOnCollisionEnter(GameObject child, Collision coll)
+        {
 
-    // Use this for initialization
-    void Awake () {
-        childModel = transform.Find("childModel").gameObject; //구형 장애물 모델링 자식 추출  (transform.find로 자식 중 내에서 검색)
-    }
+        }
 
-    private void OnEnable()
-    {
-        childModel.GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
-    }
+        public void FromChildOnTriggerEnter(GameObject child, Collider other)
+        {
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
-}
+        }
+
+        // Use this for initialization
+        void Awake()
+        {
+           
+            huddleST.obstacleType = E_OBSTACLE.HUDDLE;
+            huddleST.beenHit = false;
+            childModel = transform.Find("childModel").gameObject; //구형 장애물 모델링 자식 추출  (transform.find로 자식 중 내에서 검색)
+        }
+
+        private void OnEnable()
+        {
+            childModel.GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
+        }
+        private void OnDisable()
+        {
+            huddleST.beenHit = false;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+    }
+};
