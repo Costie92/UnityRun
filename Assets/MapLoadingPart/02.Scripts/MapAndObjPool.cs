@@ -20,11 +20,13 @@ namespace hcp
         public List<GameObject> chunkPool = new List<GameObject>();
         public List<GameObject> obsBallPool = new List<GameObject>();
         public List<GameObject> obsHuddlePool = new List<GameObject>();
+        /*
         public List<GameObject> obsHuddlePool = new List<GameObject>();
         public List<GameObject> obsHuddlePool = new List<GameObject>();
         public List<GameObject> obsHuddlePool = new List<GameObject>();
         public List<GameObject> obsHuddlePool = new List<GameObject>();
         public List<GameObject> obsHuddlePool = new List<GameObject>();
+        */
         public static MapAndObjPool instance = null;
 
         private int chunkPoolCapacity = 10;
@@ -110,7 +112,6 @@ namespace hcp
         {
             return GetInSthPool(obsHuddlePool);
         }
-
         public void TurnInPoolObj(GameObject temp)
         {
             temp.transform.position = Vector3.zero;
@@ -118,5 +119,6 @@ namespace hcp
             //오브젝트 풀링 경우
             temp.SetActive(false);//비활성화로 풀링에 반납
         }
+
     }
 };

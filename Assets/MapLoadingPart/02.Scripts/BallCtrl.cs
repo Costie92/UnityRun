@@ -4,36 +4,23 @@ using UnityEngine;
 
 namespace hcp
 {
-    public class BallCtrl : MonoBehaviour, IChildModel
+    public class BallCtrl : ObstacleCtrl
     {
-        ObstacleST ballST;
-        public Transform playerTr;
-        private GameObject childModel; //구형 장애물 모델링 자식 추출
-        public Material[] materials;
-
-
         public float moveSpeed = 0.1f;
         Vector3 n = new Vector3(15, 0, 0);
 
         // Use this for initialization
-        void Awake()
+        protected override void Awake()
         {
-            ballST.obstacleType = E_OBSTACLE.BALL;
-            ballST.beenHit = false;
-            childModel = transform.Find("childModel").gameObject; //구형 장애물 모델링 자식 추출  (transform.find로 자식 중 내에서 검색)
-            playerTr = GameObject.FindGameObjectWithTag("PLAYER").transform;
-            //childModel.GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
+            base.Awake();
+            obsST.obstacleType = E_OBSTACLE.BALL;
         }
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             transform.LookAt(playerTr, Vector3.up);
-            childModel.GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
         }
-        private void OnDisable()
-        {
-            ballST.beenHit = false;
-        }
-        // Update is called once per frame
+
         void Update()
         {
             childModel.transform.Rotate(n, Space.Self);
@@ -43,19 +30,25 @@ namespace hcp
         }
 
 
-        public void FromChildOnTriggerEnter(GameObject child, Collider other)
+        public override void FromChildOnTriggerEnter(GameObject child, Collider other)
         {
+            print("오버라이드---자식모델링에서 콜리전받음");
             if (other.gameObject.CompareTag("PLAYER"))
             {
+               
                 print(gameObject.name + "트리거 콜리전!!!!!!!!!!!!");
+                objToCharactor.BeenHitByObs(obsST);
             }
         }
 
-        public void FromChildOnCollisionEnter(GameObject child, Collision collision)
+        public override void FromChildOnCollisionEnter(GameObject child, Collision collision)
         {
+            print("오버라이드---자식모델링에서 트리거받음");
             if (collision.gameObject.CompareTag("PLAYER"))
             {
+                
                 print(gameObject.name + "콜리전!!!!!!!!!!!!");
+                objToCharactor.BeenHitByObs(obsST);
             }
         }
     }
