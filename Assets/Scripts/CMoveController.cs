@@ -26,6 +26,7 @@ public class CMoveController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        //마우스 클릭시 포지션 저장
         if (Input.GetMouseButtonDown(0)) {
             if (Input.mousePosition.y > (height / 2))
             {
@@ -33,18 +34,22 @@ public class CMoveController : MonoBehaviour {
                 TapCount = 1;
             }
         }
+        // 마우스 클릭 유지시
         if (Input.GetMouseButton(0))
         {
             MousePosX = Input.mousePosition.x;
             MousePosY = Input.mousePosition.y;
+            //하단 부분 클릭 했을 경우
             if (TapCount == 0)
             {
                 if (MousePosY < (height / 2))
                 {
+                    //좌측으로 이동
                     if (MousePosX < (width / 2))
                     {
                         Trans.position -= transform.right * Time.deltaTime * speedMovements;
                     }
+                    //우측으로 이동
                     else
                     {
                         Trans.position += transform.right * Time.deltaTime * speedMovements;
@@ -52,20 +57,25 @@ public class CMoveController : MonoBehaviour {
                 }
             }
         }
+        //마우스 클릭 종료시
         else if (Input.GetMouseButtonUp(0)) {
+            //좌로 스와이프
             if (ButtonDownMousePos.x - MousePosX > (width / 5))
             {
                 print("Swipe Left");
             }
-            else if(MousePosX - ButtonDownMousePos.x > (width / 5))
+            //우로 스와이프
+            else if (MousePosX - ButtonDownMousePos.x > (width / 5))
             {
                 print("Swipe Right");
             }
+            //위로 스와이프
             else if (MousePosY - ButtonDownMousePos.y > (height / 10))
             {
                 print("Swipe Up");
                 
             }
+            //아래로 스와이프
             else if (ButtonDownMousePos.y - MousePosY > (height / 10))
             {
                 print("Swipe Down");
