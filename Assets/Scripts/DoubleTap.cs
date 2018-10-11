@@ -8,18 +8,16 @@ public class DoubleTap : MonoBehaviour {
     public float MaxDubbleTapTime;
     float TapTime;
     public SimpleTouchController Controller;
-
+    private float MousePosX;
     // Use this for initialization
     void Start() {
         TapTime = MaxDubbleTapTime;
         TapCount = 0;
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
         if (Input.GetMouseButtonDown(0))
         {
             if (TapTime > 0 && TapCount == 1)
