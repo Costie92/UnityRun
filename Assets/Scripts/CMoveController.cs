@@ -4,21 +4,73 @@ using UnityEngine;
 
 public class CMoveController : MonoBehaviour {
 
-    public SimpleTouchController Controller;
     public Transform Trans;
     public float speedMovements = 100f;
+    private float height;
+    private float width;
+    private float MousePosX;
+    private float MousePosY;
+    private int TapCount;
+    private Vector2 ButtonDownMousePos = new Vector2(0,0);
+    public float MaxDubbleTapTime;
+
     // Use this for initialization
     void Start () {
+        TapCount = 0;
+        Screen.SetResolution(1920, 1080, false);
+        height = Screen.height;
+        width = Screen.width;
         Trans = GetComponent<RectTransform>();
-        print(Trans.position.x);
-        print(Trans.position.y);
     }
-	
-	// Update is called once per frame
-	void Update () {
-        Trans.position += (transform.up * Controller.GetTouchPosition.y * Time.deltaTime * speedMovements) +
-            (transform.right * Controller.GetTouchPosition.x * Time.deltaTime * speedMovements);
-          //Trans.MovePosition(transform.position + (transform.forward * Controller.GetTouchPosition.y * Time.deltaTime * speedMovements) +
-          //  (transform.right * Controller.GetTouchPosition.x * Time.deltaTime * speedMovements));
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0)) {
+            if (Input.mousePosition.y > (height / 2))
+            {
+                ButtonDownMousePos = Input.mousePosition;
+                TapCount = 1;
+            }
+        }
+        if (Input.GetMouseButton(0))
+        {
+            MousePosX = Input.mousePosition.x;
+            MousePosY = Input.mousePosition.y;
+            if (TapCount == 0)
+            {
+                if (MousePosY < (height / 2))
+                {
+                    if (MousePosX < (width / 2))
+                    {
+                        Trans.position -= transform.right * Time.deltaTime * speedMovements;
+                    }
+                    else
+                    {
+                        Trans.position += transform.right * Time.deltaTime * speedMovements;
+                    }
+                }
+            }
+        }
+        else if (Input.GetMouseButtonUp(0)) {
+            if (ButtonDownMousePos.x - MousePosX > (width / 5))
+            {
+                print("Swipe Left");
+            }
+            else if(MousePosX - ButtonDownMousePos.x > (width / 5))
+            {
+                print("Swipe Right");
+            }
+            else if (MousePosY - ButtonDownMousePos.y > (height / 10))
+            {
+                print("Swipe Up");
+                
+            }
+            else if (ButtonDownMousePos.y - MousePosY > (height / 10))
+            {
+                print("Swipe Down");
+            }
+            TapCount = 0;
+        }
     }
 }
