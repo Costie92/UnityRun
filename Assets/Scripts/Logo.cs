@@ -5,14 +5,15 @@ using UnityEngine;
 
 public class Logo : MonoBehaviour {
     public RectTransform Mask;
-
+    private CMoveController cMove;
 	// Use this for initialization
 	void Start () {
-
+        
     }
 	
 	// Update is called once per frame
 	void Update () {
+
         if (Input.GetMouseButtonDown(0)) // 마우스가 눌린 경우 아무키나 터치된 것으로 간주한다.
         {
             Mask.gameObject.SetActive(true); // 페이드아웃용 흰색 패널을 활성화시킨다.

@@ -21,17 +21,6 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
     void Update()
     {
 
-        //animator.Play("WALK00_F"); // 기본 애니메이션은 걷기인데 코드로 구현한것은 아니고 애니메이션에서 기본을 걷는모습으로 설정함
-        if(CharacterMove.enemyAttack == false) // 적의 공격을 받지 않았을경우에만 실행
-        {
-            SlideAnimation(); // 아래방향키를 눌렀을때 슬라이드하는 애니메이션을 실행 
-            JumpAnimation(); // 위방향키를 눌렀을때 점프애니메이션 실행
-        }
-        else // 적에게 공격받았다면
-        {
-            // 적에게 부딫힌후 발생하는 이벤트 넣는곳
-        }
-
     }
 
     void OnCollisionEnter(Collision collision) // 오브젝트와 충돌시 발생하는 이벤트
@@ -58,29 +47,23 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
 
     public void SlideAnimation() // 슬라이드 (아래방향키)
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow)) // 아래방향키를 눌렀을떄
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("SLIDE00") && !animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00")) // 슬라이드 애니메이션이 실행중이 아닐때 (중복해서 슬라이드 애니메이션이 실행하는것을 막아주는 조건)
         {
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("SLIDE00") && !animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00")) // 슬라이드 애니메이션이 실행중이 아닐때 (중복해서 슬라이드 애니메이션이 실행하는것을 막아주는 조건)
-            {
-                Debug.Log("미끄러지기");
-                animator.Play("SLIDE00", -1, 0); // 슬라이드하는 애니메이션 실행
-                this.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.25f, 0); // 캐릭터 콜라이더 중심 옮기기
-                this.GetComponent<CapsuleCollider>().height = 0.5f; // 캐릭터 콜라이더 높이 줄이기
-            }
-            Invoke("resetCollider", 2.0f); // 2초후 캐릭터 콜라이더를 되돌림
+            Debug.Log("미끄러지기");
+            animator.Play("SLIDE00", -1, 0); // 슬라이드하는 애니메이션 실행
+            this.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.25f, 0); // 캐릭터 콜라이더 중심 옮기기
+            this.GetComponent<CapsuleCollider>().height = 0.5f; // 캐릭터 콜라이더 높이 줄이기
         }
+        Invoke("resetCollider", 2.0f); // 2초후 캐릭터 콜라이더를 되돌림
     }
 
     public void JumpAnimation() // 점프하기 (위방향키)
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow)) // 위방향키를 눌렀을때
-        {
             if (!animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00")) // 점프 애니메이션이 실행중이 아닐때 (중복해서 점프 애니메이션이 실행하는것을 막아주는 조건)
             {
                 Debug.Log("점프하기");
                 animator.Play("JUMP00", -1, 0); // 점프하는 애니메이션 실행
             }
-        }
     }
 
     public void resetCollider() // 캐릭터 콜라이더 되돌리기

@@ -3,8 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CMoveController : MonoBehaviour {
-
-    public Transform Trans;
+    private static CMoveController _instance = null;
+    public static CMoveController instance
+    {
+        get
+        {
+            if (_instance == null)
+                Debug.LogError("CMoveController is NULL");
+            return _instance;
+        }
+    }
+    private CharacterMove cMove;
+    private CharacterAnimation cAnim;
     public float speedMovements = 100f;
     private float height;
     private float width;
@@ -16,11 +26,12 @@ public class CMoveController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        cMove = GameObject.Find("unitychan").GetComponent<CharacterMove>();
+        _instance = this;
         TapCount = 0;
         Screen.SetResolution(1920, 1080, false);
         height = Screen.height;
         width = Screen.width;
-        Trans = GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -47,12 +58,14 @@ public class CMoveController : MonoBehaviour {
                     //좌측으로 이동
                     if (MousePosX < (width / 2))
                     {
-                        Trans.position -= transform.right * Time.deltaTime * speedMovements;
+                        cMove.turningPoint = false;
+                        cMove.Move(true);
                     }
                     //우측으로 이동
                     else
                     {
-                        Trans.position += transform.right * Time.deltaTime * speedMovements;
+                        cMove.turningPoint = false;
+                        cMove.Move(false);
                     }
                 }
             }
@@ -60,27 +73,33 @@ public class CMoveController : MonoBehaviour {
         //마우스 클릭 종료시
         else if (Input.GetMouseButtonUp(0)) {
             //좌로 스와이프
-            if (ButtonDownMousePos.x - MousePosX > (width / 5))
-            {
-                print("Swipe Left");
+            if (TapCount == 1) {
+                if (ButtonDownMousePos.x - MousePosX > (width / 5))
+                {
+                    cMove.Slide(true);
+                    print("Swipe Left");
+                }
+                //우로 스와이프
+                else if (MousePosX - ButtonDownMousePos.x > (width / 5))
+                {
+                    cMove.Slide(false);
+                    print("Swipe Right");
+                }
+                //위로 스와이프
+                else if (MousePosY - ButtonDownMousePos.y > (height / 10))
+                {
+                    cMove.Jump();
+                    print("Swipe Up");
+
+                }
+                //아래로 스와이프
+                else if (ButtonDownMousePos.y - MousePosY > (height / 10))
+                {
+                    cMove.SlideDown();
+                    print("Swipe Down");
+                }
+                TapCount = 0;
             }
-            //우로 스와이프
-            else if (MousePosX - ButtonDownMousePos.x > (width / 5))
-            {
-                print("Swipe Right");
-            }
-            //위로 스와이프
-            else if (MousePosY - ButtonDownMousePos.y > (height / 10))
-            {
-                print("Swipe Up");
-                
-            }
-            //아래로 스와이프
-            else if (ButtonDownMousePos.y - MousePosY > (height / 10))
-            {
-                print("Swipe Down");
-            }
-            TapCount = 0;
         }
     }
 }

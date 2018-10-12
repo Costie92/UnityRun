@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담당 (좌표및 회전값)
 {
+    private static CharacterMove _instance = null;
+    public static CharacterMove instance
+    {
+        get
+        {
+            if (_instance == null)
+                Debug.LogError("CMoveController is NULL");
+            return _instance;
+        }
+    }
 
+    private CharacterAnimation cAnim;
     public bool turningPoint = true; // 방향전환해야할 시점일경우 true 아닐경우에는 false
     public int horizontalLocation = 0;
     public float runSpeed = 4.5f; // 캐릭터가 앞으로 달려가는 스피드
@@ -30,96 +41,86 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     // Use this for initialization
     void Start()
     {
+        cAnim = GetComponent<CharacterAnimation>();
+        _instance = this;
         rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
         if (enemyAttack == false) // 적에게 부딪히지 않았을경우
         {
-            Move(); // 좌우로 회전하거나 움직일수 있는 함수
-            Jump(); // 점프하는 함수
+            Run();
         }
 
     }
-
-    void Move() // 좌우로 회전하거나 움직이는 이벤트를 담당하는 함수 turningPoint가 true일 경우와 false일경우로 나뉨
+    public void Run() {
+        this.transform.Translate(Vector3.forward * runSpeed * Time.deltaTime);
+    }
+    public void Move(bool isLeftDirection) // 좌우로 회전하거나 움직이는 이벤트를 담당하는 함수 turningPoint가 true일 경우와 false일경우로 나뉨
     {
-        if (turningPoint == true) // 갈림길일때
+        if (leftWall == false)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow) && rotateLeftMax == 0) // 왼쪽키 눌렀을때 (갈림길)
+            if (isLeftDirection && rotateLeftMax == 0) // 왼쪽키 눌렀을때
             {
-                if (turnLeftControl == 1) // 왼쪽 움직임을 1번에 1번씩만 하도록 제한해주는 조건
-                {
-                    rotateLeftMax = 0;
-                    turnLeftControl = 0;
-                }
-                StartCoroutine(LeftSlide()); // 왼쪽으로 90도를 자연스럽게 회전하도록 하는 함수
+                /*
+                    if (turnLeftControl == 1) // 왼쪽 움직임을 1번에 1번씩만 하도록 제한해주는 조건
+                    {
+                        rotateLeftMax = 0;
+                        turnLeftControl = 0;
+                    }
+                    StartCoroutine(LeftSlide()); // 왼쪽으로 좌표를 부드럽게 이동하도록 하는 함수
+                */
+                // this.transform.Translate(-positionX, 0.0f, 0.0f);  // x축으로 -positionX값 만큼 이동시켜줌
+                this.transform.Translate(-0.1f, 0.0f, 0.0f);  // 누른만큼 이동
             }
-            if (Input.GetKeyDown(KeyCode.RightArrow) && rotateRightMax == 0)  // 오른쪽키 눌렀을때 (갈림길)
+        }
+        if (rightWall == false)
+        {
+            if (!isLeftDirection && rotateRightMax == 0) // 오른쪽키 눌렀을때
             {
+                /*
                 if (turnRightControl == 1) // 오른쪽 움직임을 1번에 1번씩만 하도록 제한해주는 조건
                 {
                     rotateRightMax = 0;
                     turnRightControl = 0;
                 }
-                StartCoroutine(RightSlide()); // 왼쪽으로 90도를 자연스럽게 회전하도록 하는 함수
+                StartCoroutine(RightSlide()); // 오른쪽으로 좌표를 부드럽게 이동하도록 하는 함수
+                */
+                //  this.transform.Translate(positionX, 0.0f, 0.0f);  // x축으로 positionX값 만큼 이동시켜줌
+                this.transform.Translate(0.1f, 0.0f, 0.0f);  // 누른만큼 이동
             }
-            else // 갈림길일때 왼쪽이나 오른쪽키를 누르지 않았을경우
-            {
-                this.transform.Translate(Vector3.forward * runSpeed * Time.deltaTime); // 계속 앞으로 캐릭터가 이동함 runSpeed로 속도를 변경할수있음
-            }
-        }
-        if (turningPoint == false) // 갈림길이 아닐때
-        {
-            this.transform.Translate(Vector3.forward * runSpeed * Time.deltaTime); // 계속 앞으로 캐릭터가 이동함 runSpeed로 속도를 변경할수있음
-            if (leftWall == false)
-            {
-                if (Input.GetKey(KeyCode.LeftArrow) && rotateLeftMax == 0) // 왼쪽키 눌렀을때
-                {
-                    /*
-                        if (turnLeftControl == 1) // 왼쪽 움직임을 1번에 1번씩만 하도록 제한해주는 조건
-                        {
-                            rotateLeftMax = 0;
-                            turnLeftControl = 0;
-                        }
-                        StartCoroutine(LeftSlide()); // 왼쪽으로 좌표를 부드럽게 이동하도록 하는 함수
-                    */
-                    // this.transform.Translate(-positionX, 0.0f, 0.0f);  // x축으로 -positionX값 만큼 이동시켜줌
-                    this.transform.Translate(-0.1f, 0.0f, 0.0f);  // 누른만큼 이동
-                }
-            }
-            if (rightWall == false)
-            {
-                if (Input.GetKey(KeyCode.RightArrow) && rotateRightMax == 0) // 오른쪽키 눌렀을때
-                {
-                    /*
-                    if (turnRightControl == 1) // 오른쪽 움직임을 1번에 1번씩만 하도록 제한해주는 조건
-                    {
-                        rotateRightMax = 0;
-                        turnRightControl = 0;
-                    }
-                    StartCoroutine(RightSlide()); // 오른쪽으로 좌표를 부드럽게 이동하도록 하는 함수
-                    */
-                    //  this.transform.Translate(positionX, 0.0f, 0.0f);  // x축으로 positionX값 만큼 이동시켜줌
-                    this.transform.Translate(0.1f, 0.0f, 0.0f);  // 누른만큼 이동
-                }
-            }
-
         }
     }
-
-    void Jump() // 점프
+    public void Slide(bool isLeftDirection)
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow)) // 위쪽키를 눌렀을때
+        if (isLeftDirection && rotateLeftMax == 0) // 왼쪽으로 슬라이드 눌렀을때 (갈림길)
         {
-            if (!CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00")) // 점프 애니메이션이 실행중이 아닐때 (중복해서 점프 애니메이션이 실행하는것을 막아주는 조건)
+            if (turnLeftControl == 1) // 왼쪽 움직임을 1번에 1번씩만 하도록 제한해주는 조건
             {
-                rigidbody.AddForce(Vector3.up * 55.0f, ForceMode.Impulse); // * 뒤 숫자를 조절하여 뛰는높이 조정가능
+                rotateLeftMax = 0;
+                turnLeftControl = 0;
             }
+            StartCoroutine(LeftSlide()); // 왼쪽으로 90도를 자연스럽게 회전하도록 하는 함수
         }
+        if (!isLeftDirection && rotateRightMax == 0)  // 오른쪽으로 슬라이드 눌렀을때 (갈림길)
+        {
+            if (turnRightControl == 1) // 오른쪽 움직임을 1번에 1번씩만 하도록 제한해주는 조건
+            {
+                rotateRightMax = 0;
+                turnRightControl = 0;
+            }
+            StartCoroutine(RightSlide()); // 왼쪽으로 90도를 자연스럽게 회전하도록 하는 함수
+        }
+    }
+    public void SlideDown() {
+        cAnim.SlideAnimation();
+    }
+    public void Jump() // 점프
+    {
+        cAnim.JumpAnimation();
+        rigidbody.AddForce(Vector3.up * 55.0f, ForceMode.Impulse); // * 뒤 숫자를 조절하여 뛰는높이 조정가능
     }
 
     IEnumerator LeftSlide() // 왼쪽으로 부드럽게 움직이도록 해주는 함수 (회전하는 각도와 좌표이동할때의 움직임)
@@ -127,11 +128,9 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
         while (Loop == true && rotateLeftMax < 15) // 회전과 이동을 15번 반복해서 실행시켜줌 단 회전할때와 이동할때는 각각 분리해서 실행함
         {
             rotateY = +6.0f; // y축으로 회전하는 각도
-            // positionX = +0.1f; // x축으로 이동하는 좌표
-            if (turningPoint == true) // 회전할때
-            {
-                this.transform.Rotate(0.0f, -rotateY, 0.0f); // y축으로 -rotateY값 만큼 회전시켜줌
-            }
+                             // positionX = +0.1f; // x축으로 이동하는 좌표
+
+            this.transform.Rotate(0.0f, -rotateY, 0.0f); // y축으로 -rotateY값 만큼 회전시켜줌
             /*
             if (turningPoint == false) // 회전할때가 아닐때 // 이동할때
             {
@@ -153,11 +152,10 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
         while (Loop == true && rotateRightMax < 15)  // 회전과 이동을 15번 반복해서 실행시켜줌 단 회전할때와 이동할때는 각각 분리해서 실행함
         {
             rotateY = +6.0f; // y축으로 회전하는 각도
-            // positionX = +0.1f; // x축으로 이동하는 좌표
-            if (turningPoint == true) // 회전할때
-            {
-                this.transform.Rotate(0.0f, rotateY, 0.0f); // y축으로 rotateY값 만큼 회전시켜줌
-            }
+                             // positionX = +0.1f; // x축으로 이동하는 좌표
+
+            this.transform.Rotate(0.0f, rotateY, 0.0f); // y축으로 rotateY값 만큼 회전시켜줌
+
             /*
             if (turningPoint == false) // 회전할때가 아닐때 // 이동할때
             {
