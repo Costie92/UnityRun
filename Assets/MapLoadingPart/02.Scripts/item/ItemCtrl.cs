@@ -31,5 +31,11 @@ namespace hcp
             this.gameObject.SetActive(false);
           
         }
+
+        protected virtual void OnDisable()
+        {
+           // this.gameObject.transform.SetParent(null);
+        }
+        
     }
 }

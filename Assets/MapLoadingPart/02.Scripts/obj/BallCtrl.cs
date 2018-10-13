@@ -27,6 +27,7 @@ namespace hcp
             transform.Translate(Vector3.forward * moveSpeed, Space.Self);
             if (transform.position.z < playerTr.position.z - 10)
                 MapAndObjPool.GetInstance().TurnInPoolObj(this.gameObject);
+                
         }
 
 

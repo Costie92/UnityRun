@@ -56,14 +56,27 @@ namespace hcp
         }
         private void Start()
         {
+            MapAndObjPool.GetInstance().ChunkPoolInit(10);
+
             MapAndObjPool.GetInstance().obsBallPoolInit(5);
             MapAndObjPool.GetInstance().obsHuddlePoolInit(5);
-            MapAndObjPool.GetInstance().ChunkPoolInit(wantToShowNumOfChunks);
+            MapAndObjPool.GetInstance().obsUpperHuddle_1_PoolInit();
+            MapAndObjPool.GetInstance().obsUpperHuddle_2_PoolInit();
+            MapAndObjPool.GetInstance().obsUpperHuddle_3_PoolInit();
+            MapAndObjPool.GetInstance().obsFirePoolInit();
+
+            MapAndObjPool.GetInstance().itemHPPlusPoolInit();
+            MapAndObjPool.GetInstance().itemInvinciblePoolInit();
+            MapAndObjPool.GetInstance().itemShieldPoolInit();
+            MapAndObjPool.GetInstance().itemCoinPoolInit(100);
+            MapAndObjPool.GetInstance().itemMagnetPoolInit();
+
+
             ChunkLoading.GetInstance().ChunkLoad(GetPosByChunkMargin(), turnFlagSet);
         }
 
         //청크의 길이 단위로 플레이어의 위치값 체크
-        float GetPosByChunkMargin()
+        public float GetPosByChunkMargin()
         {
             float z = playerTr.position.z;
             int temp = (int)(z / chunkMargin);
@@ -142,11 +155,5 @@ namespace hcp
                 return true;
             else return false;
         }
-
-
-
-
-
-
     }
 }

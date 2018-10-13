@@ -19,7 +19,8 @@ namespace hcp
         private int wantToShowNumOfChunksInBehind ;//후방에 남겨둘 청크 수
 
         //키로 float, 청크의 생성위치, value는 청크 게임오브젝트
-        public Dictionary<float, GameObject> chunkOnMap = new Dictionary<float, GameObject>();
+        public Dictionary<float, GameObject>        chunkOnMap          = new Dictionary<float, GameObject>();
+        public Dictionary<float, List<GameObject>>  spawnedObjOnChunk   = new Dictionary<float, List<GameObject>>();
         ShowCandidate[] showCandidates;
 
         protected override void Awake()
@@ -37,13 +38,6 @@ namespace hcp
             margin = MapObjManager.GetInstance().GetChunkMargin();
 
         }
-        void Start()
-        {
-           
-           
-         
-        }
-
 
         public void ChunkLoad(float nowPos, flagInTurning turnFlagSet)
         {
@@ -69,6 +63,17 @@ namespace hcp
                         MapAndObjPool.GetInstance(). TurnInPoolObj(temp);
                         //Destroy(temp);
                     }
+
+                    if (spawnedObjOnChunk.ContainsKey(item))//스폰 됐던 아이템들 삭제
+                    {
+                        foreach (var spawned in spawnedObjOnChunk[item])
+                        {
+                            if(spawned.transform.position.z< MapObjManager.GetInstance().GetPosByChunkMargin()
+                                &&spawned.activeSelf==true)
+                            spawned.SetActive(false);
+                        }
+                        spawnedObjOnChunk.Remove(item);
+                    }
                 }
             }
 
@@ -80,6 +85,7 @@ namespace hcp
                     float makePos = nowPos + showCandidates[i].pos * margin;
                     Vector3 pos = new Vector3(0, 0, makePos);
                     var temp = MapAndObjPool.GetInstance().GetChunkInPool();
+                    List<GameObject> spawnedThingsTemp = new List<GameObject>();
 
                     if (temp != null)
                     {
@@ -87,13 +93,26 @@ namespace hcp
                         temp.transform.position = pos;
                         temp.transform.rotation = Quaternion.identity;
                         temp.SetActive(true);
+                        Transform spawnPointGroup = temp.transform.Find("SpawnPointGroup");
+                        //스폰포인트에 오브젝트들을 자식으로 붙이면 안 됨 위치에만 두되 따로 관리할 수 있는 자료구조를 이용하여 
+                        //청크가 삭제될때 그 자리의 스폰 포인트 들도 다 삭제할 수 있도록 해야함.
+                        for (int s = 0; s < spawnPointGroup.transform.childCount; s++)
+                        {
+                            List<GameObject> t=
+                            RandomObjGenerator.GetInstance().RandomObjGen(spawnPointGroup.GetChild(s), s);
+                            if(null != t)
+                            spawnedThingsTemp.AddRange(t);
+
+                        }
                     }
                     else
                     {
                        Debug.Log("받아온 게 널임");
                     }
-
                     chunkOnMap.Add(makePos, temp);
+                    spawnedObjOnChunk.Add(makePos, spawnedThingsTemp);
+
+
                 }
             }
 

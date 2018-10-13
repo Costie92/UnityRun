@@ -8,8 +8,13 @@ namespace hcp
     public class MapAndObjPool : SingletonTemplate<MapAndObjPool>
     {
         public GameObject chunk;
+
         public GameObject obstacleBall;
         public GameObject obstacleHuddle;
+        public GameObject obstacleUpperHuddle_1;
+        public GameObject obstacleUpperHuddle_2;
+        public GameObject obstacleUpperHuddle_3;
+        public GameObject obstacleFire;
 
         public GameObject item_HPPLUS;
         public GameObject item_INVINCIBLE;
@@ -18,19 +23,36 @@ namespace hcp
         public GameObject item_MAGNET;
 
         public List<GameObject> chunkPool = new List<GameObject>();
+
         public List<GameObject> obsBallPool = new List<GameObject>();
         public List<GameObject> obsHuddlePool = new List<GameObject>();
-        /*
-        public List<GameObject> obsHuddlePool = new List<GameObject>();
-        public List<GameObject> obsHuddlePool = new List<GameObject>();
-        public List<GameObject> obsHuddlePool = new List<GameObject>();
-        public List<GameObject> obsHuddlePool = new List<GameObject>();
-        public List<GameObject> obsHuddlePool = new List<GameObject>();
-        */
+        public List<GameObject> obsUpperHuddle_1_Pool = new List<GameObject>();
+        public List<GameObject> obsUpperHuddle_2_Pool = new List<GameObject>();
+        public List<GameObject> obsUpperHuddle_3_Pool = new List<GameObject>();
+        public List<GameObject> obsFirePool = new List<GameObject>();
+
+        public List<GameObject> itemHPPlusPool = new List<GameObject>();
+        public List<GameObject> itemInvinciblePool = new List<GameObject>();
+        public List<GameObject> itemShieldPool = new List<GameObject>();
+        public List<GameObject> itemCoinPool = new List<GameObject>();
+        public List<GameObject> itemMagnetPool = new List<GameObject>();
+
 
         private int chunkPoolCapacity = 10;
+
         private int obsBallPoolCapacity = 5;
         private int obsHuddlePoolCapacity = 5;
+        private int obsUpperHuddle_1_PoolCapacity = 5;
+        private int obsUpperHuddle_2_PoolCapacity = 5;
+        private int obsUpperHuddle_3_PoolCapacity = 5;
+        private int obsFirePoolCapacity = 5;
+
+        private int itemHPPlusPoolCapacity = 5;
+        private int itemInvinciblePoolCapacity = 5;
+        private int itemShieldPoolCapacity = 5;
+        private int itemCoinPoolCapacity = 5;
+        private int itemMagnetPoolCapacity = 5;
+
 
         protected override void Awake()
         {
@@ -50,8 +72,7 @@ namespace hcp
         void PoolInit(GameObject prefab, List<GameObject> list, int capacity, string parentName, string poolobjname)
         {
             GameObject PoolParent = new GameObject(parentName);
-
-
+            
             if (!prefab)
             {
                 return;
@@ -98,6 +119,59 @@ namespace hcp
             PoolInit(obstacleHuddle, obsHuddlePool, obsHuddlePoolCapacity, "obsHuddlePoolParent", "OBSHUDDLE_");
         }
 
+        public void obsUpperHuddle_1_PoolInit(int capacity1 = 5)
+        {
+            obsUpperHuddle_1_PoolCapacity = capacity1;
+            PoolInit(obstacleUpperHuddle_1, obsUpperHuddle_1_Pool, obsUpperHuddle_1_PoolCapacity, "obsupperHuddle_1_PoolParent", "OBSUPHUDDLE_1_");
+        }
+
+        public void obsUpperHuddle_2_PoolInit(int capacity1 = 5)
+        {
+            obsUpperHuddle_2_PoolCapacity = capacity1;
+            PoolInit(obstacleUpperHuddle_2, obsUpperHuddle_2_Pool, obsUpperHuddle_2_PoolCapacity, "obsupperHuddle_2_PoolParent", "OBSUPHUDDLE_2_");
+        }
+
+        public void obsUpperHuddle_3_PoolInit(int capacity1 = 5)
+        {
+            obsUpperHuddle_3_PoolCapacity = capacity1;
+            PoolInit(obstacleUpperHuddle_3, obsUpperHuddle_3_Pool, obsUpperHuddle_3_PoolCapacity, "obsupperHuddle_3_PoolParent", "OBSUPHUDDLE_3_");
+        }
+
+        public void obsFirePoolInit(int capacity1 = 5)
+        {
+            obsFirePoolCapacity = capacity1;
+            PoolInit(obstacleFire, obsFirePool, obsFirePoolCapacity, "obsFirePoolParent", "OBSFIRE_");
+        }
+
+        public void itemHPPlusPoolInit(int capacity1 = 5)
+        {
+            itemHPPlusPoolCapacity = capacity1;
+            PoolInit(item_HPPLUS, itemHPPlusPool, itemHPPlusPoolCapacity, "itemHPPlusPoolParent", "ITEMHPPLUS_");
+        }
+
+        public void itemInvinciblePoolInit(int capacity1 = 5)
+        {
+            itemInvinciblePoolCapacity = capacity1;
+            PoolInit(item_INVINCIBLE, itemInvinciblePool, itemInvinciblePoolCapacity, "itemInvinciblePoolParent", "ITEMINVINCIBLE_");
+        }
+
+        public void itemShieldPoolInit(int capacity1 = 5)
+        {
+            itemShieldPoolCapacity = capacity1;
+            PoolInit(item_SHIELD, itemShieldPool, itemShieldPoolCapacity, "itemShieldPoolParent", "ITEMSHIELD_");
+        }
+
+        public void itemCoinPoolInit(int capacity1 = 5)
+        {
+            itemCoinPoolCapacity = capacity1;
+            PoolInit(item_COIN, itemCoinPool, itemCoinPoolCapacity, "itemCoinPoolParent", "ITEMCOIN_");
+        }
+
+        public void itemMagnetPoolInit(int capacity1 = 5)
+        {
+            itemMagnetPoolCapacity = capacity1;
+            PoolInit(item_MAGNET, itemMagnetPool, itemMagnetPoolCapacity, "itemMagnetPoolParent", "ITEMMAGNET_");
+        }
 
 
         public GameObject GetChunkInPool()
@@ -114,6 +188,52 @@ namespace hcp
         {
             return GetInSthPool(obsHuddlePool);
         }
+
+        public GameObject GetObsUpperHuddle_1_InPool()
+        {
+            return GetInSthPool(obsUpperHuddle_1_Pool);
+        }
+
+        public GameObject GetObsUpperHuddle_2_InPool()
+        {
+            return GetInSthPool(obsUpperHuddle_2_Pool);
+        }
+
+        public GameObject GetObsUpperHuddle_3_InPool()
+        {
+            return GetInSthPool(obsUpperHuddle_3_Pool);
+        }
+
+        public GameObject GetObsFireInPool()
+        {
+            return GetInSthPool(obsFirePool);
+        }
+
+        public GameObject GetItemHPPlusInPool()
+        {
+            return GetInSthPool(itemHPPlusPool);
+        }
+
+        public GameObject GetItemInvincibleInPool()
+        {
+            return GetInSthPool(itemInvinciblePool);
+        }
+
+        public GameObject GetItemShieldInPool()
+        {
+            return GetInSthPool(itemShieldPool);
+        }
+
+        public GameObject GetItemCoinInPool()
+        {
+            return GetInSthPool(itemCoinPool);
+        }
+
+        public GameObject GetItemMagnetInPool()
+        {
+            return GetInSthPool(itemMagnetPool);
+        }
+
         public void TurnInPoolObj(GameObject temp)
         {
             temp.transform.position = Vector3.zero;

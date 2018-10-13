@@ -70,9 +70,9 @@ namespace hcp
             if (whereToTurn == null) yield break;
             if (whichTurn == E_WhichTurn.LEFT)
             {
-                while (whereToTurn.eulerAngles.y < 90)
+                while (whereToTurn != null && whereToTurn.eulerAngles.y < 90)   //다 돌기전에 지나가버리는 사태를 대비해서whereToTurn != null 조건문 추가
                 {
-
+               
                     whereToTurn.Rotate(0.0f, 15f, 0.0f);
                     yield return new WaitForSeconds(Mathf.Epsilon * 1f);
                 }
@@ -80,8 +80,9 @@ namespace hcp
             else if(whichTurn == E_WhichTurn.RIGHT)
             {
                 whereToTurn.Rotate(0.0f, -0.01f, 0.0f);//쿼터니언과 수 부분
-                while ( whereToTurn.eulerAngles.y >= 270)
+                while (whereToTurn != null&& whereToTurn.eulerAngles.y >= 270)
                 {
+                  
                     // print(turnChunks.transform.eulerAngles.y);
                     whereToTurn.Rotate(0.0f, -15f, 0.0f);
                     yield return new WaitForSeconds(Mathf.Epsilon * 1f);

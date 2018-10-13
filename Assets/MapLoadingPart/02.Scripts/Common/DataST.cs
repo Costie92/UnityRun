@@ -8,6 +8,7 @@ namespace hcp
             SHIELD,
             COIN,
             MAGNET,
+            EITEMMAX
         };
 
         public  enum E_OBSTACLE 
@@ -16,6 +17,7 @@ namespace hcp
             HUDDLE,
             UPPER_HUDDLE,
             FIRE,
+            EOBSMAX
         };
     [System.Serializable]
     public class ItemST

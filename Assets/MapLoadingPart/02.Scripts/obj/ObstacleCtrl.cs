@@ -39,6 +39,9 @@ namespace hcp
         protected void OnDisable()
         {
             obsST.beenHit = false;
+
+          //  this.gameObject.transform.SetParent(null);
+            //스폰포인트와의 부모관계 삭제의도.
         }
 
         
