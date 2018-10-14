@@ -93,6 +93,7 @@ namespace hcp
                         temp.transform.position = pos;
                         temp.transform.rotation = Quaternion.identity;
                         temp.SetActive(true);
+
                         Transform spawnPointGroup = temp.transform.Find("SpawnPointGroup");
                         //스폰포인트에 오브젝트들을 자식으로 붙이면 안 됨 위치에만 두되 따로 관리할 수 있는 자료구조를 이용하여 
                         //청크가 삭제될때 그 자리의 스폰 포인트 들도 다 삭제할 수 있도록 해야함.
@@ -102,14 +103,15 @@ namespace hcp
                             RandomObjGenerator.GetInstance().RandomObjGen(spawnPointGroup.GetChild(s), s);
                             if(null != t)
                             spawnedThingsTemp.AddRange(t);
-
                         }
+
                     }
                     else
                     {
                        Debug.Log("받아온 게 널임");
                     }
                     chunkOnMap.Add(makePos, temp);
+
                     spawnedObjOnChunk.Add(makePos, spawnedThingsTemp);
 
 

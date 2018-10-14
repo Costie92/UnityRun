@@ -32,7 +32,7 @@ namespace hcp
         }
         protected virtual void OnEnable()
         {
-            print("옵스타클 오네이블");
+            //print("옵스타클 오네이블");
             childModel.GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
         }
 

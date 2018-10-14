@@ -83,12 +83,14 @@ namespace hcp
                 {
                 temp +=enumArr[i];//각 백분율이 들어감
                 //enum 구조체의 선언 순서 필시 확인!!
+                Debug.Log(i+"번째의 확률은 = "+enumArr[i]);
                 }
                 Debug.Log("백분율 총합 " +temp);
                 //~임시디버깅용
 
 
             float randProb = Random.Range(0f, 100f);
+            Debug.Log("백분율 확률은" +randProb);
 
             float formerSum = 0;
 
@@ -114,6 +116,7 @@ namespace hcp
             int item = probHundred(itemProbs, (int)E_ITEM.EITEMMAX);
             if (item >= 0 && item < (int)E_ITEM.EITEMMAX)
             {
+                Debug.Log((E_ITEM)item + "결정");
                 return (E_ITEM)item;
             }
             else
@@ -129,6 +132,7 @@ namespace hcp
             int obs = probHundred(obsProbs, (int)E_OBSTACLE.EOBSMAX);
             if (obs >= 0 && obs < (int)E_OBSTACLE.EOBSMAX)
             {
+                Debug.Log((E_OBSTACLE)obs + "결정");
                 return (E_OBSTACLE)obs;
             }
             else
@@ -178,9 +182,11 @@ namespace hcp
         //!!!볼은 절대 연속으로 세번 나오거나 하면 안돼!!!!!
         public List<GameObject> RandomObjGen(Transform spawnPoint, int spawnPointNum)
         {
+            Debug.Log("오브젝트 젠 위치는 " + spawnPoint.position.z + "넘버 = " + spawnPointNum);
             List<GameObject> whatSpawned=new List<GameObject>();
             if (upperHFlag)
             {
+                Debug.Log("어퍼플래그 위치 = "+ spawnPoint.position.z + "넘버 = "+ spawnPointNum);
                 if (spawnPointNum == 2)
                 {
                     upperHFlag = false;
@@ -198,31 +204,37 @@ namespace hcp
                 {
                     case E_OBSTACLE.BALL:
                         //볼 생성 풀링;
+                        Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum+"일때 볼 생성");
                         GenByPool(MapAndObjPool.GetInstance().GetObsBallInPool(), spawnPoint, whatSpawned);
                         break;
                     case E_OBSTACLE.HUDDLE:
                         //허들생성풀링
+                        Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 허들 생성");
                         GenByPool(MapAndObjPool.GetInstance().GetObsHuddleInPool(), spawnPoint, whatSpawned);
                         break;
                     case E_OBSTACLE.FIRE:
                         //불 생성풀링
+                        Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 FIRE 생성");
                         GenByPool(MapAndObjPool.GetInstance().GetObsFireInPool(), spawnPoint, whatSpawned);
                         break;
                     case E_OBSTACLE.UPPER_HUDDLE:
                         //어퍼허들 길이 체크, 스폰 포인트 위치랑 등등 해서 잘
+                        Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 어퍼허들 생성");
                         if (spawnPointNum == 0)
                         {
+                            Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버 = " + spawnPointNum + "어퍼플래그 온");
                             if (null    !=  GenByPool(MapAndObjPool.GetInstance().GetObsUpperHuddle_3_InPool(), spawnPoint, whatSpawned))
                                 upperHFlag = true;
                         }
                         else if (spawnPointNum == 1)
                         {
+                            Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum +  "어퍼플래그 온");
                             if (null != GenByPool(MapAndObjPool.GetInstance().GetObsUpperHuddle_2_InPool(), spawnPoint, whatSpawned))
                                 upperHFlag = true;
                         }
                         else if (spawnPointNum == 2)
                         {
-                                GenByPool(MapAndObjPool.GetInstance().GetObsUpperHuddle_1_InPool(), spawnPoint, whatSpawned);
+                            GenByPool(MapAndObjPool.GetInstance().GetObsUpperHuddle_1_InPool(), spawnPoint, whatSpawned);
                          }
                         break;
                     default:
@@ -237,24 +249,30 @@ namespace hcp
                 switch (eWhichItem)
                 {
                     case E_ITEM.HPPLUS:
+                        Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 회복 아이템 생성");
                         //회복 아이템 풀링
                         GenByPool(MapAndObjPool.GetInstance().GetItemHPPlusInPool(), spawnPoint, whatSpawned);
                         break;
                     case E_ITEM.INVINCIBLE:
+                        Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 무적 아이템 생성");
                         //무적아이템풀링
                         GenByPool(MapAndObjPool.GetInstance().GetItemInvincibleInPool(), spawnPoint, whatSpawned);
                         break;
                     case E_ITEM.SHIELD:
+                        Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 쉴드 아이템 생성");
                         //쉴드 아이템 풀링
                         GenByPool(MapAndObjPool.GetInstance().GetItemShieldInPool(), spawnPoint, whatSpawned);
                         break;
                     case E_ITEM.MAGNET:
+                        Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 자석 아이템 생성");
                         //자석아이템 풀링
                         GenByPool(MapAndObjPool.GetInstance().GetItemMagnetInPool(), spawnPoint, whatSpawned);
                         break;
                     case E_ITEM.COIN:
+                        Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 코인 아이템 생성진입");
                         if (Gamble(50, "parabola CoinLine?"))
                         {
+                            Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 코인 포물선 생성");
                             for (float i = 0; i < MapObjManager.GetInstance().GetChunkMargin(); i = i + 1)
                             {
                                 GameObject temp= MapAndObjPool.GetInstance().GetItemCoinInPool();
@@ -267,19 +285,27 @@ namespace hcp
                                     temp.SetActive(true);
                                     whatSpawned.Add(temp);
                                 }
-                                else break;
+                                else
+                                {
+                                    Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "코인포물성 도중 풀링 불가로 브레이크.");
+                                    break;
+                                }
                                 //생성(spawnPoint.p-osition.x,y,spawnPoint.p-osition.z+(-5+i))
                             }
+                            Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 코인 포물선 - 장애물 설치 여부 진입");
                             if (Gamble(50, "fireorHuddle on coin Line?"))
                             {
+                                Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 코인 포물선 - 장애물 설치 분기");
                                 if (Gamble(50, "huddle?"))
                                 {
                                     //허들놓기
+                                    Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 코인 포물선 - 허들 장애물 설치");
                                     GenByPool(MapAndObjPool.GetInstance().GetObsHuddleInPool(), spawnPoint, whatSpawned);
                                 }
                                 else
                                 {
                                     //불 놓기
+                                    Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 코인 포물선 - FIRE 장애물 설치");
                                     GenByPool(MapAndObjPool.GetInstance().GetObsFireInPool(), spawnPoint, whatSpawned);
                                 }
                             }
@@ -287,6 +313,7 @@ namespace hcp
                         else
                         {
                             //직선 코인라인생성
+                            Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 직선 코인라인 생성");
                             for (int i = 0; i < MapObjManager.GetInstance().GetChunkMargin(); i++)
                             {
                                 GameObject temp = MapAndObjPool.GetInstance().GetItemCoinInPool();
@@ -297,7 +324,11 @@ namespace hcp
                                     temp.SetActive(true);
                                     whatSpawned.Add(temp);
                                 }
-                                else break;
+                                else
+                                {
+                                    Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 직선 코인 도중 풀링불가로 브레이크.");
+                                    break;
+                                }
                             }
                         }
                         break;
