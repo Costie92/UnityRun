@@ -56,19 +56,19 @@ namespace hcp
                 return 0;
 
             float turning = Random.Range(0f, 100f);   //방향전환확률
-            if (turning >turnProbability) return 0;  //방향 전환 없음
+            if (turning > turnProbability) return 0;  //방향 전환 없음
 
             else //방향전환 있음
             {
                 print("터닝 플래그 온");
 
                 float makePos = nowPos + frontShowChunk * margin;
-                float turningPoint = makePos+(2 * margin);  //2는 기역자 청크모델 자체에 의해 결정된 값
+                float turningPoint = makePos + (2 * margin);  //2는 기역자 청크모델 자체에 의해 결정된 값
                 turnChunksPos = new Vector3(0, 0, makePos);
 
-                print("생성위치 ="+ turnChunksPos + "터닝포인트="+turningPoint);
+                print("생성위치 =" + turnChunksPos + "터닝포인트=" + turningPoint);
 
-                if(Random.Range(0,2)==0)    //0이면 왼쪽
+                if (Random.Range(0, 2) == 0)    //0이면 왼쪽
                 {
                     Debug.Log("왼쪽 결정");
                     whichTurn = E_WhichTurn.LEFT;
@@ -81,9 +81,11 @@ namespace hcp
                     //오른쪽 청크 생성
                 }
                 //ui 쪽에 터닝포인트와 방향 알려줌
+                if (mapTurnToUI!=null)
+                {
                 mapTurnToUI.SetTurningPointToUI(turnedPoint);
                 mapTurnToUI.SetWhichTurnToUI(whichTurn);
-
+                }
                 return turningPoint;
             }
         }
