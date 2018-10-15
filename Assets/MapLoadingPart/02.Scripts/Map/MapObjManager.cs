@@ -27,6 +27,7 @@ namespace hcp
     public class MapObjManager : SingletonTemplate<MapObjManager>
     {
      
+
         public GameObject chunk;    //청크
         private Transform playerTr;
         public float chunkMargin;
@@ -39,8 +40,11 @@ namespace hcp
         flagInTurning turnFlagSet;
         E_WhichTurn whichTurn=E_WhichTurn.NOT_TURN;
 
+        IMapTurnToUI mapTurnToUI;
+
         public float GetChunkMargin() { return chunkMargin; }
 
+        
 
         // Use this for initialization
         protected override void Awake()
@@ -53,6 +57,8 @@ namespace hcp
          
             chunkMargin = chunk.GetComponentInChildren<Renderer>().bounds.size.z;
             playerTr = GameObject.FindGameObjectWithTag("PLAYER").transform;
+
+            mapTurnToUI = GameObject.Find("TController").GetComponent<IMapTurnToUI>();
         }
         private void Start()
         {
@@ -106,16 +112,29 @@ namespace hcp
                     if (turnFlagSet.flag == false) //터닝 준비 초기화
                     {
                        //터닝청크 생성
-                        TurnPartInCharge.GetInstance().GenerateTurnChunks(whichTurn,turnChunksPos);
+                        TurnPartInCharge.GetInstance().GenerateTurnChunks(whichTurn,turnChunksPos,turnFlagSet.turningPoint);
                         
                         turnedPoint = turnFlagSet.turningPoint;
                         ChunkLoading.GetInstance().ChunkLoad(nowPos, turnFlagSet);
                         turnFlagSet.flag = true;
                         turnFlagSet.readyForTurn = 0;
+
+                        //ui 쪽에 터닝포인트와 방향 알려줌
+                        if (mapTurnToUI != null)
+                        {
+                            mapTurnToUI.SetTurningPointToUI(turnFlagSet.turningPoint);
+                            mapTurnToUI.SetWhichTurnToUI(whichTurn);
+                        }
                     }
+
+
                     //터닝포인트 구간에 들어가기 전까지 청크로드 하지 않음.
                     //터닝포인트 진입시 청크로드 안할 구간 체크.
-                    //터닝포인트 진입
+                    //터닝포인트 진입 
+
+                    /*
+                    ui와 맞추기 위해 임시로 주석처리해둠
+
                     if (turnFlagSet.flag && nowPos >= turnFlagSet.turningPoint)
                     {
                         //지형돌리기 작업
@@ -128,6 +147,7 @@ namespace hcp
                                 TurnPartInCharge.GetInstance().Turn();
                             }
                         }
+                       */ 
 
                         if (turnFlagSet.readyForTurn == 0)
                             turnFlagSet.readyForTurn = 3 + wantToShowNumOfChunksInBehind;  //터닝포인트 부터 기역자 청크의 꺽이는 나머지 청크들
@@ -135,6 +155,7 @@ namespace hcp
                         ChunkLoading.GetInstance().ChunkLoad(nowPos, turnFlagSet);
 
                         turnFlagSet.readyForTurn--;
+
                         if (nowPos >= turnFlagSet.turningPoint + (3*chunkMargin)) //터닝 프로세스 완료. 터닝 초기화!
                         {
                             whichTurn = E_WhichTurn.NOT_TURN;
@@ -142,18 +163,26 @@ namespace hcp
                             turnFlagSet.readyForTurn = 0;
                             turnFlagSet.turningPoint = 0;
                             TurnPartInCharge.GetInstance().Reset();
+                            //ui 쪽에 터닝포인트와 방향 리셋
+                            if (mapTurnToUI != null)
+                            {
+                                mapTurnToUI.SetTurningPointToUI(turnFlagSet.turningPoint);
+                                mapTurnToUI.SetWhichTurnToUI(whichTurn);
+                            }
                         }
                     }
                 }
             }
         }
-
+        /*
         //터닝포인트와 나우포스가 맞는지 체크   나중에 ui 쪽이랑 맞춰줄것.
+        ui 맞추기 위해 임시로 주석처리해둠
         bool AtTurningPoint(float nowPos, float turningPoint)   
         {
             if (nowPos == turningPoint)
                 return true;
             else return false;
         }
+        */
     }
 }

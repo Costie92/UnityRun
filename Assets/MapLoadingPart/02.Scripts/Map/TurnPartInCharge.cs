@@ -13,6 +13,7 @@ namespace hcp
         public Transform whereToTurn;
         Quaternion originRot;
         E_WhichTurn whichTurn;
+        float turningPoint;
 
         protected override void Awake()
         {
@@ -27,11 +28,30 @@ namespace hcp
             leftTurnChunks.SetActive(false);
             rightTurnChunks.SetActive(false);
         }
+        private void Start()
+        {
+            TouchControl.swipeScreen += new SwipeScreen(TurnCheck);  //델리게이트 인스턴스에 이쪽의 콜백 메소드 체인 걸어둠.
+        }
+        void TurnCheck(float turningPoint, E_WhichTurn whichTurn)
+        {
+            Debug.Log("델리게이트 이벤트 호출 받음 매개변수 =" + turningPoint + whichTurn);
+            if (this.whichTurn == whichTurn && this.turningPoint == turningPoint)
+            {
+                Debug.Log("터닝체크완료.");
+                Turn();
+            }
+            else
+            {
+                Debug.Log("터닝 체크 매개변수 맞지 않음.");
+            }
+            
+        }
 
 
-        public void GenerateTurnChunks(E_WhichTurn whichTurn, Vector3 pos)
+        public void GenerateTurnChunks(E_WhichTurn whichTurn, Vector3 pos,float turningPoint)
         {
             this.whichTurn = whichTurn;
+            this.turningPoint = turningPoint;
             if(whichTurn==E_WhichTurn.LEFT)
             {
                 whereToTurn = leftTurnChunks.transform.Find("TurningPoint");
@@ -46,7 +66,6 @@ namespace hcp
                 rightTurnChunks.transform.position = pos;
                 whereToTurn.transform.rotation = originRot;
                 rightTurnChunks.SetActive(true);
-               
             }
             else { Debug.Log("턴파트에서 오류001"); }
 

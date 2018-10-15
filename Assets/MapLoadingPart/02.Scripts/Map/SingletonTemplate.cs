@@ -8,7 +8,6 @@ namespace hcp
     public class SingletonTemplate<T> : MonoBehaviour where T : class
     {
         private static T instance = default(T);
-        protected static int testT;
         
         public static T GetInstance()
         {

@@ -40,7 +40,7 @@ namespace hcp
         {
             base.Awake();
             coinLineHighPointY = 3;
-            jumpStartPointZ = 2;    //점프 시작위치에 맞춰서 설정
+            jumpStartPointZ = 3;    //점프 시작위치에 맞춰서 설정
 
             a = -coinLineHighPointY / (jumpStartPointZ * jumpStartPointZ);
             probReset();
@@ -273,7 +273,7 @@ namespace hcp
                         if (Gamble(50, "parabola CoinLine?"))
                         {
                             Debug.Log(spawnPoint.position.z + "스폰 위치의 넘버= " + spawnPointNum + "일때 코인 포물선 생성");
-                            for (float i = 0; i < MapObjManager.GetInstance().GetChunkMargin(); i = i + 1)
+                            for (float i = 0; i < MapObjManager.GetInstance().GetChunkMargin(); i = i + 1f)    //0.5f 가 코인 간격
                             {
                                 GameObject temp= MapAndObjPool.GetInstance().GetItemCoinInPool();
                                 float y=0;

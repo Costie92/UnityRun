@@ -5,9 +5,6 @@ namespace hcp
 {
     public class MapPathGenerator : SingletonTemplate<MapPathGenerator>
     {
-        IMapTurnToUI mapTurnToUI;
-        GameObject ui;
-
         int frontShowChunk;
         float margin;
         public float turnProbability=50;   //회전 확률
@@ -23,29 +20,19 @@ namespace hcp
             }
         }
 
-        
-
         // Use this for initialization
         protected override void Awake()
         {
             base.Awake();
             frontShowChunk = MapObjManager.GetInstance().wantToShowNumOfChunks 
                 - MapObjManager.GetInstance().wantToShowNumOfChunksInBehind;
-
-            mapTurnToUI = GameObject.Find("TController").GetComponent<IMapTurnToUI>();
-            ui = GameObject.Find("TController");
         }
 
         private void Start()
         {
             margin = MapObjManager.GetInstance().GetChunkMargin();
-
-            TouchControl.swipeScreen += new SwipeScreen( tempDeEvent);
-
         }
-        void tempDeEvent(float a, E_WhichTurn whichTurn) {
-            Debug.Log("델리게이트 이벤트 호출 받음 매개변수 =" + a + whichTurn);
-        }
+       
 
         public float WillTurn(float nowPos,float turnedPoint , out E_WhichTurn whichTurn,out Vector3 turnChunksPos)  //터닝포인트 (10단위 위치) 리턴
          {
@@ -80,12 +67,9 @@ namespace hcp
                     whichTurn = E_WhichTurn.RIGHT;
                     //오른쪽 청크 생성
                 }
-                //ui 쪽에 터닝포인트와 방향 알려줌
-                if (mapTurnToUI!=null)
-                {
-                mapTurnToUI.SetTurningPointToUI(turnedPoint);
-                mapTurnToUI.SetWhichTurnToUI(whichTurn);
-                }
+
+              
+
                 return turningPoint;
             }
         }
