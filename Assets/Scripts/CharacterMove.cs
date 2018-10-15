@@ -119,8 +119,11 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     }
     public void Jump() // 점프
     {
-        cAnim.JumpAnimation();
-        rigidbody.AddForce(Vector3.up * 55.0f, ForceMode.Impulse); // * 뒤 숫자를 조절하여 뛰는높이 조정가능
+        if (!CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00"))
+        {
+            cAnim.JumpAnimation();
+            rigidbody.AddForce(Vector3.up * 55.0f, ForceMode.Impulse); // * 뒤 숫자를 조절하여 뛰는높이 조정가능
+        }
     }
 
     IEnumerator LeftSlide() // 왼쪽으로 부드럽게 움직이도록 해주는 함수 (회전하는 각도와 좌표이동할때의 움직임)
