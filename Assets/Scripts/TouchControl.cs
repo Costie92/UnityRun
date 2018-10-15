@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CMoveController : MonoBehaviour {
-    private static CMoveController _instance = null;
-    public static CMoveController instance
+public delegate void SwipeScreen(float tPoint, hcp.E_WhichTurn eTurn);
+
+public class TouchControl : MonoBehaviour {
+    
+    private static TouchControl _instance = null;
+    public static TouchControl instance
     {
         get
         {
             if (_instance == null)
-                Debug.LogError("CMoveController is NULL");
+                Debug.LogError("TouchControl is NULL");
             return _instance;
         }
     }
+    
+    public float turningpoint;
     private CharacterMove cMove;
     private CharacterAnimation cAnim;
     public float speedMovements = 100f;
@@ -23,12 +28,15 @@ public class CMoveController : MonoBehaviour {
     private int TapCount;
     private Vector2 ButtonDownMousePos = new Vector2(0,0);
     public float MaxDubbleTapTime;
-
+    public static event SwipeScreen swipeScreen;
     // Use this for initialization
+    public float GetTpoint() { return turningpoint; }
+    public void SetTpoint(float Tpoint) { turningpoint = Tpoint; }
     void Start () {
-        cMove = GameObject.Find("unitychan").GetComponent<CharacterMove>();
         _instance = this;
-        TapCount = 0;
+        cMove = GameObject.Find("unitychan").GetComponent<CharacterMove>();
+
+        TapCount = 1;
         Screen.SetResolution(1920, 1080, false);
         height = Screen.height;
         width = Screen.width;
@@ -37,6 +45,7 @@ public class CMoveController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        
         //마우스 클릭시 포지션 저장
         if (Input.GetMouseButtonDown(0)) {
             if (Input.mousePosition.y > (height / 2))
@@ -58,12 +67,14 @@ public class CMoveController : MonoBehaviour {
                     //좌측으로 이동
                     if (MousePosX < (width / 2))
                     {
+                        swipeScreen(turningpoint, hcp.E_WhichTurn.LEFT);
                         cMove.turningPoint = false;
                         cMove.Move(true);
                     }
                     //우측으로 이동
                     else
                     {
+                        swipeScreen(turningpoint, hcp.E_WhichTurn.RIGHT);
                         cMove.turningPoint = false;
                         cMove.Move(false);
                     }

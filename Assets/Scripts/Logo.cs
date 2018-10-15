@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Logo : MonoBehaviour {
     public RectTransform Mask;
-    private CMoveController cMove;
+    private TouchControl cMove;
 	// Use this for initialization
 	void Start () {
         
