@@ -67,14 +67,12 @@ public class TouchControl : MonoBehaviour {
                     //좌측으로 이동
                     if (MousePosX < (width / 2))
                     {
-                        swipeScreen(turningpoint, hcp.E_WhichTurn.LEFT);
                         cMove.turningPoint = false;
                         cMove.Move(true);
                     }
                     //우측으로 이동
                     else
                     {
-                        swipeScreen(turningpoint, hcp.E_WhichTurn.RIGHT);
                         cMove.turningPoint = false;
                         cMove.Move(false);
                     }
@@ -89,12 +87,14 @@ public class TouchControl : MonoBehaviour {
                 {
                     cMove.Slide(true);
                     print("Swipe Left");
+                    swipeScreen(turningpoint, hcp.E_WhichTurn.LEFT);
                 }
                 //우로 스와이프
                 else if (MousePosX - ButtonDownMousePos.x > (width / 5))
                 {
                     cMove.Slide(false);
                     print("Swipe Right");
+                    swipeScreen(turningpoint, hcp.E_WhichTurn.RIGHT);
                 }
                 //위로 스와이프
                 else if (MousePosY - ButtonDownMousePos.y > (height / 10))
