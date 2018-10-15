@@ -12,6 +12,7 @@ namespace hcp
         public bool flag;
         public float turningPoint;
     }
+    [System.Serializable]
     public enum E_WhichTurn
     {
         LEFT = 0,
@@ -26,8 +27,6 @@ namespace hcp
     [RequireComponent(typeof(TurnPartInCharge))]
     public class MapObjManager : SingletonTemplate<MapObjManager>
     {
-
-
         public GameObject chunk;    //청크
         private Transform playerTr;
         public float chunkMargin;
