@@ -347,7 +347,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1050067051}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.63, y: 0, z: -3.26}
+  m_LocalPosition: {x: -2.79, y: 0, z: 3.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1675038837}
@@ -454,11 +454,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f76806479d916a64aa03f8e3eba7912f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  distance: 10
-  height: 10
-  rotationDamping: 0
-  heightDamping: 10
 --- !u!1 &2135879911
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,7 +526,7 @@ MonoBehaviour:
     type: 2}
   obstacleUpperHuddle_3: {fileID: 1800261010193034, guid: 47e65472dea097843acb5bc34ebfe95d,
     type: 2}
-  obstacleFire: {fileID: 1692030264644048, guid: 53bc5c80105367b4f94c1ea9efc744d4,
+  obstacleFire: {fileID: 1986836281195050, guid: 17c04370040159a4e99cce4920bf16a3,
     type: 2}
   item_HPPLUS: {fileID: 1040533653885940, guid: 06d83a98b203fcd4982ac2ff57f1b84b,
     type: 2}
@@ -565,6 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a677f8a01eeb0fa4f9305a268d8deb51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnProbability: 50
 --- !u!114 &2135879916
 MonoBehaviour:
   m_ObjectHideFlags: 0

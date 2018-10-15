@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4194614923314234}
   - component: {fileID: 135561015154076690}
+  - component: {fileID: 114673857062334216}
   - component: {fileID: 114111904030242598}
   m_Layer: 0
   m_Name: Item_SHIELD
@@ -87,7 +88,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9a57274e2d973824091a795b15dca40b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -125,6 +126,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09be91c04a9d738419c1094cba7cad28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114673857062334216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1040533653885940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181c38a0d756f1940bb5faf18d95f079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135561015154076690
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -132,7 +144,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1040533653885940}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5

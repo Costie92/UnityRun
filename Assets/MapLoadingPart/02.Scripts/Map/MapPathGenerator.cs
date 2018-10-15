@@ -7,7 +7,7 @@ namespace hcp
     {
         int frontShowChunk;
         float margin;
-        private float turnProbability=50;   //회전 확률
+        public float turnProbability=50;   //회전 확률
         int turningTerm = 10;
 
         public float GetTurnProbability() { return turnProbability; }
