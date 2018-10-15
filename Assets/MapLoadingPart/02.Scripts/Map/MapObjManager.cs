@@ -7,11 +7,11 @@ namespace hcp
 {
     [System.Serializable]
     public struct flagInTurning
-        {
-            public int readyForTurn;
-            public bool flag;
-            public float turningPoint;
-        }
+    {
+        public int readyForTurn;
+        public bool flag;
+        public float turningPoint;
+    }
     public enum E_WhichTurn
     {
         LEFT = 0,
@@ -26,7 +26,7 @@ namespace hcp
     [RequireComponent(typeof(TurnPartInCharge))]
     public class MapObjManager : SingletonTemplate<MapObjManager>
     {
-     
+
 
         public GameObject chunk;    //청크
         private Transform playerTr;
@@ -35,16 +35,16 @@ namespace hcp
         public int wantToShowNumOfChunksInBehind = 1;
         public float nowPos = 0;    //z축 기준 현재는
         public float newPos = 0;
-        public float turnedPoint=0;
+        public float turnedPoint = 0;
         Vector3 turnChunksPos;
         flagInTurning turnFlagSet;
-        E_WhichTurn whichTurn=E_WhichTurn.NOT_TURN;
+        E_WhichTurn whichTurn = E_WhichTurn.NOT_TURN;
 
         IMapTurnToUI mapTurnToUI;
 
         public float GetChunkMargin() { return chunkMargin; }
 
-        
+
 
         // Use this for initialization
         protected override void Awake()
@@ -54,7 +54,7 @@ namespace hcp
             turnFlagSet.turningPoint = 0;
             turnFlagSet.flag = false;
             turnFlagSet.readyForTurn = 0;
-         
+
             chunkMargin = chunk.GetComponentInChildren<Renderer>().bounds.size.z;
             playerTr = GameObject.FindGameObjectWithTag("PLAYER").transform;
 
@@ -87,10 +87,10 @@ namespace hcp
             float z = playerTr.position.z;
             int temp = (int)(z / chunkMargin);
             if (z < 0) temp += -1;
-            float tempPos = temp * chunkMargin;    
+            float tempPos = temp * chunkMargin;
             return tempPos;
         }
-        
+
         // Update is called once per frame
         void Update()
         {
@@ -99,21 +99,21 @@ namespace hcp
             {
                 nowPos = newPos;
 
-                if (nowPos > 10*chunkMargin && turnFlagSet.flag == false)   //회전 여부 체크
-                    turnFlagSet.turningPoint = MapPathGenerator.GetInstance().WillTurn(nowPos,turnedPoint,out whichTurn,out turnChunksPos);
+                if (nowPos > 10 * chunkMargin && turnFlagSet.flag == false)   //회전 여부 체크
+                    turnFlagSet.turningPoint = MapPathGenerator.GetInstance().WillTurn(nowPos, turnedPoint, out whichTurn, out turnChunksPos);
 
                 if (turnFlagSet.turningPoint == 0)
                 {
                     ChunkLoading.GetInstance().ChunkLoad(nowPos, turnFlagSet);
                     return;
                 }
-                else if (turnFlagSet.turningPoint > 0&&whichTurn!=E_WhichTurn.NOT_TURN) //터닝이 나왔으면
+                else if (turnFlagSet.turningPoint > 0 && whichTurn != E_WhichTurn.NOT_TURN) //터닝이 나왔으면
                 {
                     if (turnFlagSet.flag == false) //터닝 준비 초기화
                     {
-                       //터닝청크 생성
-                        TurnPartInCharge.GetInstance().GenerateTurnChunks(whichTurn,turnChunksPos,turnFlagSet.turningPoint);
-                        
+                        //터닝청크 생성
+                        TurnPartInCharge.GetInstance().GenerateTurnChunks(whichTurn, turnChunksPos, turnFlagSet.turningPoint);
+
                         turnedPoint = turnFlagSet.turningPoint;
                         ChunkLoading.GetInstance().ChunkLoad(nowPos, turnFlagSet);
                         turnFlagSet.flag = true;
@@ -132,13 +132,14 @@ namespace hcp
                     //터닝포인트 진입시 청크로드 안할 구간 체크.
                     //터닝포인트 진입 
 
-                    /*
-                    ui와 맞추기 위해 임시로 주석처리해둠
+
+                    //ui와 맞추기 위해 임시로 주석처리해둠
 
                     if (turnFlagSet.flag && nowPos >= turnFlagSet.turningPoint)
                     {
+                        /*
                         //지형돌리기 작업
-                        if(AtTurningPoint(nowPos,turnFlagSet.turningPoint))
+                        if (AtTurningPoint(nowPos, turnFlagSet.turningPoint))
                         {
                             if (whichTurn == E_WhichTurn.NOT_TURN)
                                 Debug.Log("위치턴 오류");
@@ -147,7 +148,7 @@ namespace hcp
                                 TurnPartInCharge.GetInstance().Turn();
                             }
                         }
-                       */ 
+                        */
 
                         if (turnFlagSet.readyForTurn == 0)
                             turnFlagSet.readyForTurn = 3 + wantToShowNumOfChunksInBehind;  //터닝포인트 부터 기역자 청크의 꺽이는 나머지 청크들
@@ -156,7 +157,7 @@ namespace hcp
 
                         turnFlagSet.readyForTurn--;
 
-                        if (nowPos >= turnFlagSet.turningPoint + (3*chunkMargin)) //터닝 프로세스 완료. 터닝 초기화!
+                        if (nowPos >= turnFlagSet.turningPoint + (3 * chunkMargin)) //터닝 프로세스 완료. 터닝 초기화!
                         {
                             whichTurn = E_WhichTurn.NOT_TURN;
                             turnFlagSet.flag = false;
