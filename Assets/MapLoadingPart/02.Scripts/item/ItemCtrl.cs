@@ -8,6 +8,7 @@ namespace hcp
         IObjToCharactor objToCharactor;
         Transform playerTr;
         
+        
         protected ItemST itemST;
         // Use this for initialization
         protected virtual void Awake()
@@ -15,6 +16,8 @@ namespace hcp
             itemST = new ItemST();
             playerTr = GameObject.FindGameObjectWithTag("PLAYER").transform;
             objToCharactor = playerTr.gameObject.GetComponent<IObjToCharactor>();
+
+           
         }
         
         protected  void OnCollisionEnter(Collision collision)

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33410926723857774}
   - component: {fileID: 23564764007455736}
   - component: {fileID: 65665863585021736}
+  - component: {fileID: 114877105327858714}
   m_Layer: 0
   m_Name: childModel
   m_TagString: Untagged
@@ -37,6 +38,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4340307115758666}
+  - component: {fileID: 114896227491260462}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -125,3 +127,27 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114877105327858714
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1046981517708840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b1f1446f10f43e44816c63fe0184031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114896227491260462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1986836281195050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6646fd0ce097e8349acdf092f53db5d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: 5f7714929d748414dbab48c64bf14952, type: 2}

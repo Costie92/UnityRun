@@ -13,6 +13,12 @@ public class Temp : MonoBehaviour ,IObjToCharactor{
         print("아이템 이벤트 받음.");
     }
 
+    public bool GetMagnetState()
+    {
+        print("마그넷상태");
+        return false;
+    }
+
     // Use this for initialization
     void Start () {
 		
