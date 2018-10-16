@@ -12,7 +12,6 @@ public class CharacterDie : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         FallingDie();
-
     }
 
     public void Die() // 캐릭터가 죽는모습을 보여주고 게임을 정지시킴

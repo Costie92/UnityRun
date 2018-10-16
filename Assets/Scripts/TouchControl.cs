@@ -86,23 +86,17 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
                 if (ButtonDownMousePos.x - MousePosX > (width / 5))
                 {
                     SetWhichTurnToUI(E_WhichTurn.LEFT);
-                    //cMove.Slide(true);
                     print("Swipe Left");
-                    if (turningpoint != 0 && unitychan.transform.position.z > turningpoint)
-                    {
-                        swipeScreen(turningpoint, whichTurn);
-                    }
+                    SwipeToTurn();
+
+
                 }
                 //우로 스와이프
                 else if (MousePosX - ButtonDownMousePos.x > (width / 5))
                 {
                     SetWhichTurnToUI(E_WhichTurn.RIGHT);
-                    //cMove.Slide(false);
                     print("Swipe Right");
-                    if (turningpoint != 0 && unitychan.transform.position.z > turningpoint)
-                    {
-                        swipeScreen(turningpoint, whichTurn);
-                    }
+                    SwipeToTurn();
                 }
                 //위로 스와이프
                 else if (MousePosY - ButtonDownMousePos.y > (height / 10))
@@ -121,6 +115,13 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
             }
         }
     }
+    public void SwipeToTurn() {
+        if (turningpoint != 0 && unitychan.transform.position.z > turningpoint)
+        {
+            swipeScreen(turningpoint, whichTurn);
+        }
+    }
+
 
     public float GetTurningPointInUI()
     {
