@@ -30,7 +30,7 @@ public class ObjEat : MonoBehaviour,IObjToCharactor { // ,IObjToCharactor
         switch (itemST.itemType)
         {
             case E_ITEM.HPPLUS: //HP업먹음
-                if (HP < 3)
+                if (HP < 5)
                 {
                     HP++;
                 }
@@ -123,8 +123,6 @@ public class ObjEat : MonoBehaviour,IObjToCharactor { // ,IObjToCharactor
             //this.transform.Translate(Vector3.back * attacked * Time.deltaTime); // 적에게 닿은후 캐릭터의 위치가 뒤로 밀림 attacked값을 바꾸면 밀린정도를 바꿀수있음
             CharacterAnimation.DamageAnimation(); // 체력깎임 애니메이션 실행
             HP--;
-            this.GetComponent<CapsuleCollider>().isTrigger = true;
-            this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY;
             CharacterMove.runSpeed = CharacterMove.runSpeed /2.0f;
             Invoke("DamagedEvent3", 1.5f);
         }
@@ -140,8 +138,6 @@ public class ObjEat : MonoBehaviour,IObjToCharactor { // ,IObjToCharactor
     {
         Debug.Log("체력닳음");
         CharacterMove.runSpeed = CharacterMove.runSpeed *2.0f;
-        this.GetComponent<CapsuleCollider>().isTrigger = false;
-        this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
     }
 
     public void GameOver() // 캐릭터가 쓰러진상태로 유지시켜주는 함수

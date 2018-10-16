@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 114352394337181926}
   - component: {fileID: 114235178974927282}
   - component: {fileID: 114046206462684588}
+  - component: {fileID: 114960952399461336}
   m_Layer: 0
   m_Name: unitychan
   m_TagString: PLAYER
@@ -5277,13 +5278,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turningPoint: 0
   horizontalLocation: 0
-  runSpeed: 10
   Loop: 1
   rotateY: 0
   rotateLeftMax: 0
   rotateRightMax: 0
   turnLeftControl: 0
   turnRightControl: 0
+  jumpHeight: 100
 --- !u!114 &114352394337181926
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5303,6 +5304,17 @@ MonoBehaviour:
   backwardSpeed: 2
   rotateSpeed: 2
   jumpPower: 3
+--- !u!114 &114960952399461336
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1040589733625110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a5a8bd5b6c5f84580c74663ba260f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &136202722530083950
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -64,7 +64,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     }
     public void Move(bool isLeftDirection) // 좌우로 회전하거나 움직이는 이벤트를 담당하는 함수 turningPoint가 true일 경우와 false일경우로 나뉨
     {
-        if (this.Character.transform.position.x > 0.1f)
+        if (this.Character.transform.position.x > 2f)
         {
             if (isLeftDirection && rotateLeftMax == 0) // 왼쪽키 눌렀을때
             {
@@ -80,7 +80,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
                 this.transform.Translate(-0.1f, 0.0f, 0.0f);  // 누른만큼 이동
             }
         }
-        if (this.Character.transform.position.x < 9.5f)
+        if (this.Character.transform.position.x < 8f)
         {
             if (!isLeftDirection && rotateRightMax == 0) // 오른쪽키 눌렀을때
             {
