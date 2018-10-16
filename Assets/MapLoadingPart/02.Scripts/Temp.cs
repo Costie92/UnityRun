@@ -1,11 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using hcp;
+public class Temp : MonoBehaviour ,IObjToCharactor{
+    public void BeenHitByObs(ObstacleST obstacleST)
+    {
+        print("옵스타클 이벤트 받음.");
+    }
 
-public class Temp : MonoBehaviour {
+    public void GetItem(ItemST itemST)
+    {
+        print("아이템 이벤트 받음.");
+    }
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		
 	}
 	

@@ -31,10 +31,22 @@ namespace hcp
                 */
                 
         }
+        public override void FromChildOnCollisionEnter(GameObject child, Collision collision)
+        {
+            base.FromChildOnCollisionEnter(child, collision);
+            Debug.Log("볼 장애물 콜리전엔터 이벤트");
+            if (collision.gameObject.CompareTag("PLAYER"))
+            {
+                objToCharactor.BeenHitByObs(obsST);
+                
+            }
+            obsST.beenHit = false;
+        }
 
 
         public override void FromChildOnTriggerEnter(GameObject child, Collider other)
         {
+            base.FromChildOnTriggerEnter(child, other);
             Debug.Log("볼 장애물 트리거엔터 이벤트");
             if (other.gameObject.CompareTag("PLAYER"))
             {
@@ -44,15 +56,6 @@ namespace hcp
             obsST.beenHit = false;
         }
 
-        public override void FromChildOnCollisionEnter(GameObject child, Collision collision)
-        {
-            Debug.Log("볼 장애물 콜리전엔터 이벤트");
-            if (collision.gameObject.CompareTag("PLAYER"))
-            {
-                objToCharactor.BeenHitByObs(obsST);
-                
-            }
-            obsST.beenHit = false;
-        }
+     
     }
 };
