@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using hcp;
 using UnityEngine;
 
 public delegate void SwipeScreen(float tPoint, hcp.E_WhichTurn eTurn);
 
-public class TouchControl : MonoBehaviour {
+public class TouchControl : MonoBehaviour,IMapTurnToUI {
     
     private static TouchControl _instance = null;
     public static TouchControl instance
@@ -16,8 +17,9 @@ public class TouchControl : MonoBehaviour {
             return _instance;
         }
     }
-    
+    E_WhichTurn whichTurn;
     public float turningpoint;
+    private GameObject unitychan;
     private CharacterMove cMove;
     private CharacterAnimation cAnim;
     public float speedMovements = 100f;
@@ -30,13 +32,11 @@ public class TouchControl : MonoBehaviour {
     public float MaxDubbleTapTime;
     public static event SwipeScreen swipeScreen;
     // Use this for initialization
-    public float GetTpoint() { return turningpoint; }
-    public void SetTpoint(float Tpoint) { turningpoint = Tpoint; }
     void Start () {
         _instance = this;
-        cMove = GameObject.Find("unitychan").GetComponent<CharacterMove>();
-
-        TapCount = 1;
+        cMove = GameObject.FindWithTag("PLAYER").GetComponent<CharacterMove>();
+        unitychan = GameObject.FindWithTag("PLAYER");
+        TapCount = 0;
         Screen.SetResolution(1920, 1080, false);
         height = Screen.height;
         width = Screen.width;
@@ -85,16 +85,24 @@ public class TouchControl : MonoBehaviour {
             if (TapCount == 1) {
                 if (ButtonDownMousePos.x - MousePosX > (width / 5))
                 {
-                    cMove.Slide(true);
+                    SetWhichTurnToUI(E_WhichTurn.LEFT);
+                    //cMove.Slide(true);
                     print("Swipe Left");
-                    swipeScreen(turningpoint, hcp.E_WhichTurn.LEFT);
+                    if (turningpoint != 0 && unitychan.transform.position.z > turningpoint)
+                    {
+                        swipeScreen(turningpoint, whichTurn);
+                    }
                 }
                 //우로 스와이프
                 else if (MousePosX - ButtonDownMousePos.x > (width / 5))
                 {
-                    cMove.Slide(false);
+                    SetWhichTurnToUI(E_WhichTurn.RIGHT);
+                    //cMove.Slide(false);
                     print("Swipe Right");
-                    swipeScreen(turningpoint, hcp.E_WhichTurn.RIGHT);
+                    if (turningpoint != 0 && unitychan.transform.position.z > turningpoint)
+                    {
+                        swipeScreen(turningpoint, whichTurn);
+                    }
                 }
                 //위로 스와이프
                 else if (MousePosY - ButtonDownMousePos.y > (height / 10))
@@ -112,5 +120,25 @@ public class TouchControl : MonoBehaviour {
                 TapCount = 0;
             }
         }
+    }
+
+    public float GetTurningPointInUI()
+    {
+        return turningpoint;
+    }
+
+    public E_WhichTurn GetWhichTurnInUI()
+    {
+        return whichTurn;
+    }
+
+    public void SetTurningPointToUI(float turningPoint)
+    {
+        this.turningpoint = turningPoint;
+    }
+
+    public void SetWhichTurnToUI(E_WhichTurn whichTurn)
+    {
+        this.whichTurn = whichTurn;
     }
 }
