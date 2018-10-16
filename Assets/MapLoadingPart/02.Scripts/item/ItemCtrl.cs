@@ -18,14 +18,15 @@ namespace hcp
         }
         
         protected  void OnCollisionEnter(Collision collision)
-        { print("아이템 콜리전");
+        {   Debug.Log(itemST.itemType+"아이템 콜리전");
             objToCharactor.GetItem(itemST);
            
             this.gameObject.SetActive(false);
             
         }
         protected  void OnTriggerEnter(Collider other)
-        {   print("아이템 트리거 콜리전");
+        {
+            Debug.Log(itemST.itemType + "아이템 트리거 콜리전");
             objToCharactor.GetItem(itemST);
            
             this.gameObject.SetActive(false);

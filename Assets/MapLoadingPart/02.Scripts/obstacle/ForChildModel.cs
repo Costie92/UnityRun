@@ -16,12 +16,12 @@ namespace hcp
 
         private void OnCollisionEnter(Collision collision)
         {
-            print("자식모델링에서 콜리전 해서 인터페이스 보냄");
+           // print("자식모델링에서 콜리전 해서 인터페이스 보냄");
             iChildModel.FromChildOnCollisionEnter(this.gameObject,  collision);
         }
         private void OnTriggerEnter(Collider other)
         {
-            print("자식모델링에서 트리거 해서 인터페이스 보냄");
+           // print("자식모델링에서 트리거 해서 인터페이스 보냄");
             iChildModel.FromChildOnTriggerEnter(this.gameObject, other);
         }
 

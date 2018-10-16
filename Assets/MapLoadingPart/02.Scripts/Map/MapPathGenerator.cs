@@ -38,7 +38,7 @@ namespace hcp
          {
             whichTurn = E_WhichTurn.NOT_TURN;
             turnChunksPos = Vector3.zero;
-            Debug.Log("터닝텀은 = "+(turnedPoint + turningTerm * margin));
+            if (ChunkLoading.debugLog) Debug.Log("터닝텀은 = "+(turnedPoint + turningTerm * margin));
             if (turnedPoint + turningTerm * margin > nowPos) //터닝 텀.
                 return 0;
 
@@ -57,13 +57,13 @@ namespace hcp
 
                 if (Random.Range(0, 2) == 0)    //0이면 왼쪽
                 {
-                    Debug.Log("왼쪽 결정");
+                    if (ChunkLoading.debugLog) Debug.Log("왼쪽 결정");
                     whichTurn = E_WhichTurn.LEFT;
                     //왼쪽 기역 청크 생성
                 }
                 else
                 {
-                    Debug.Log("오른쪽 결정");
+                    if (ChunkLoading.debugLog) Debug.Log("오른쪽 결정");
                     whichTurn = E_WhichTurn.RIGHT;
                     //오른쪽 청크 생성
                 }

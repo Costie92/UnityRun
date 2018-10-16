@@ -14,12 +14,14 @@ namespace hcp
 
         public virtual void FromChildOnCollisionEnter(GameObject child, Collision coll)
         {
-            print("옵스타클컬 콜리전");
+            obsST.beenHit = true;
+            Debug.Log("옵스타클컬 콜리전");
         }
 
         public virtual void FromChildOnTriggerEnter(GameObject child, Collider other)
         {
-            print("옵스타클컬 트리거");
+            obsST.beenHit = true;
+            Debug.Log("옵스타클컬 트리거");
         }
 
         protected virtual void Awake()

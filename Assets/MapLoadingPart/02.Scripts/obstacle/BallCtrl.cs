@@ -35,24 +35,24 @@ namespace hcp
 
         public override void FromChildOnTriggerEnter(GameObject child, Collider other)
         {
-            print("오버라이드---자식모델링에서 콜리전받음");
+            Debug.Log("볼 장애물 트리거엔터 이벤트");
             if (other.gameObject.CompareTag("PLAYER"))
             {
-               
-                print(gameObject.name + "트리거 콜리전!!!!!!!!!!!!");
                 objToCharactor.BeenHitByObs(obsST);
+                
             }
+            obsST.beenHit = false;
         }
 
         public override void FromChildOnCollisionEnter(GameObject child, Collision collision)
         {
-            print("오버라이드---자식모델링에서 트리거받음");
+            Debug.Log("볼 장애물 콜리전엔터 이벤트");
             if (collision.gameObject.CompareTag("PLAYER"))
             {
-                
-                print(gameObject.name + "콜리전!!!!!!!!!!!!");
                 objToCharactor.BeenHitByObs(obsST);
+                
             }
+            obsST.beenHit = false;
         }
     }
 };

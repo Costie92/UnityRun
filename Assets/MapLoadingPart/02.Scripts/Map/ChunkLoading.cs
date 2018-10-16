@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace hcp
 {
+   
     public class ChunkLoading : SingletonTemplate<ChunkLoading>
     {
         [System.Serializable]
@@ -13,7 +14,8 @@ namespace hcp
             public float pos;
             public bool alreadyIn;
         }
-
+         public static bool debugLog = false;
+        
         private float margin;//청크의 z축 크기(실제 바닥면 개념 큐브등의 크기)
         private int wantToShowNumOfChunks; //보여줄 청크의 총 수
         private int wantToShowNumOfChunksInBehind ;//후방에 남겨둘 청크 수
@@ -24,7 +26,8 @@ namespace hcp
         ShowCandidate[] showCandidates;
 
         protected override void Awake()
-        {
+        {  
+
             base.Awake();
             wantToShowNumOfChunks = MapObjManager.GetInstance().wantToShowNumOfChunks;
             wantToShowNumOfChunksInBehind = MapObjManager.GetInstance().wantToShowNumOfChunksInBehind;
@@ -42,7 +45,7 @@ namespace hcp
         public void ChunkLoad(float nowPos, flagInTurning turnFlagSet)
         {
             CandidateReady();
-             Debug.Log("청크로드");
+            if(debugLog) Debug.Log("청크로드");
             if (turnFlagSet.flag && turnFlagSet.readyForTurn > 0)
                 CandidateReadyForTurn(turnFlagSet.readyForTurn);
 
@@ -56,7 +59,7 @@ namespace hcp
                     if (chunkOnMap.ContainsKey(item))
                     {
                         if (chunkOnMap.Remove(item)) ;
-                            Debug.Log(item.ToString() + " 위치 청크 삭제");
+                        if (debugLog) Debug.Log(item.ToString() + " 위치 청크 삭제");
                     }
                     if (temp)
                     {
@@ -81,7 +84,7 @@ namespace hcp
             {
                 if (!showCandidates[i].alreadyIn)    //청크를 생성해야할 위치
                 {
-                   Debug.Log(showCandidates[i].pos + "자리에 청크 생성");
+                    if (debugLog) Debug.Log(showCandidates[i].pos + "자리에 청크 생성");
                     float makePos = nowPos + showCandidates[i].pos * margin;
                     Vector3 pos = new Vector3(0, 0, makePos);
                     var temp = MapAndObjPool.GetInstance().GetChunkInPool();
@@ -89,7 +92,7 @@ namespace hcp
 
                     if (temp != null)
                     {
-                        Debug.Log("&&&&&&&&&&&&&&&&&&");
+                        if (debugLog) Debug.Log("&&&&&&&&&&&&&&&&&&");
                         temp.transform.position = pos;
                         temp.transform.rotation = Quaternion.identity;
                         temp.SetActive(true);
@@ -108,7 +111,7 @@ namespace hcp
                     }
                     else
                     {
-                       Debug.Log("받아온 게 널임");
+                        if (debugLog) Debug.Log("받아온 게 널임");
                     }
                     chunkOnMap.Add(makePos, temp);
 
