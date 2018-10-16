@@ -10,7 +10,8 @@ public class ObjEat : MonoBehaviour,IObjToCharactor { // ,IObjToCharactor
     public static int HP = 3; // 체력 //처음3개 최대5개
     bool speedUpItem = false;
     private float attacked = 20.0f;
-    private bool Invincible = false;
+    public static bool Invincible = false;
+    private bool Shield = false;
 
     // Use this for initialization
     void Start () {
@@ -86,6 +87,18 @@ public class ObjEat : MonoBehaviour,IObjToCharactor { // ,IObjToCharactor
         }
     }
 
+    void ShieldEvent()
+    {
+        Shield = true;
+        Invoke("ShieldDestroy", 33.5f);
+    }
+
+    void ShieldDestroy()
+    {
+        print("실드 자연파괴");
+        Shield = false;
+    }
+
     void INVINCIBLEItem() // 스피드업 아이템 기능구현 함수
     {
         Debug.Log("스피드업 아이템 먹음");
@@ -110,7 +123,12 @@ public class ObjEat : MonoBehaviour,IObjToCharactor { // ,IObjToCharactor
 
     void DamagedEvent()
     {
-        if(Invincible == false)
+        if(Invincible == false && Shield == true)
+        {
+            print("실드 없어짐");
+            Invoke("ShieldDestroy", 1.0f);
+        }
+        if(Invincible == false && Shield == false)
         {
             DamagedEvent2();
         }
@@ -137,6 +155,7 @@ public class ObjEat : MonoBehaviour,IObjToCharactor { // ,IObjToCharactor
     void DamagedEvent3() // 데미지 닳았을때 이벤트
     {
         Debug.Log("체력닳음");
+        Debug.Log("HP " + HP + " 개");
         CharacterMove.runSpeed = CharacterMove.runSpeed *2.0f;
     }
 
