@@ -23,6 +23,7 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
 
     }
 
+    /* ObjEat으로 옮김
     void OnCollisionEnter(Collision collision) // 오브젝트와 충돌시 발생하는 이벤트
     {
         Debug.Log("캐릭터와 오브젝트가 닿음");
@@ -38,11 +39,16 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
             }
         }
     }
+    */
+    public static void DamageAnimation() // 캐릭터가 죽는모습을 보여주고 게임을 정지시킴
+    {
+        animator.Play("DAMAGED00", -1, 0); // 뒤로 쓰러지는 애니메이션 실행
+    }
 
-    public void DieAnimation() // 캐릭터가 죽는모습을 보여주고 게임을 정지시킴
+    public static void DieAnimation() // 캐릭터가 죽는모습을 보여주고 게임을 정지시킴
     {
         animator.Play("DAMAGED01", -1, 0); // 뒤로 쓰러지는 애니메이션 실행
-        Invoke("GameOver", 2.0f); // 쓰러진뒤 2초뒤에 게임오버(게임이 정지되도록 만들어줌) 시켜주는 함수
+        //Invoke("GameOver", 2.0f); // 쓰러진뒤 2초뒤에 게임오버(게임이 정지되도록 만들어줌) 시켜주는 함수
     }
 
     public void SlideAnimation() // 슬라이드 (아래방향키)
@@ -59,7 +65,6 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
 
     public void JumpAnimation() // 점프하기 (위방향키)
     {
-
         Debug.Log("점프하기");
         animator.Play("JUMP00", -1, 0); // 점프하는 애니메이션 실행
     }

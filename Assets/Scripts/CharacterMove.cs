@@ -15,10 +15,12 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
         }
     }
 
+    GameObject Character;
+
     private CharacterAnimation cAnim;
     public bool turningPoint = true; // 방향전환해야할 시점일경우 true 아닐경우에는 false
     public int horizontalLocation = 0;
-    public float runSpeed = 4.5f; // 캐릭터가 앞으로 달려가는 스피드
+    public static float runSpeed = 6.5f; // 캐릭터가 앞으로 달려가는 스피드
 
     public bool Loop = true; // while문 작동하시키기 위해 만듬 (별의미는 없음)
     public float rotateY = 0; // 캐릭터가 회전하는 각도
@@ -28,6 +30,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     public int turnLeftControl = 0; // 왼쪽 컨트롤을 제어하기 위해 만든 변수
     public int turnRightControl = 0; // 오른쪽 컨트롤을 제어하기 위해 만든 변수
 
+    public float jumpHeight = 100.0f;
     public static bool enemyAttack = false;
     public static bool leftWall = false;
     public static bool rightWall = false;
@@ -41,6 +44,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     // Use this for initialization
     void Start()
     {
+        Character = GameObject.Find("unitychan");
         cAnim = GetComponent<CharacterAnimation>();
         _instance = this;
         rigidbody = GetComponent<Rigidbody>();
@@ -60,7 +64,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     }
     public void Move(bool isLeftDirection) // 좌우로 회전하거나 움직이는 이벤트를 담당하는 함수 turningPoint가 true일 경우와 false일경우로 나뉨
     {
-        if (leftWall == false)
+        if (this.Character.transform.position.x > 0.1f)
         {
             if (isLeftDirection && rotateLeftMax == 0) // 왼쪽키 눌렀을때
             {
@@ -76,7 +80,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
                 this.transform.Translate(-0.1f, 0.0f, 0.0f);  // 누른만큼 이동
             }
         }
-        if (rightWall == false)
+        if (this.Character.transform.position.x < 9.5f)
         {
             if (!isLeftDirection && rotateRightMax == 0) // 오른쪽키 눌렀을때
             {
@@ -122,7 +126,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
         if (!CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00"))
         {
             cAnim.JumpAnimation();
-            rigidbody.AddForce(Vector3.up * 55.0f, ForceMode.Impulse); // * 뒤 숫자를 조절하여 뛰는높이 조정가능
+            rigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse); // * 뒤 숫자를 조절하여 뛰는높이 조정가능
         }
     }
 
@@ -198,15 +202,16 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
         }
     }
 
+    /*
     void OnCollisionEnter(Collision collision) // 아이템과 닿았다는것을 확인
     {
-        if (collision.gameObject.tag == "SpeedUpItem") // SpeedUpItem태그(이름밑의 Tag)의 오브젝트와 충돌시 발생하는 이벤트
+         // SpeedUpItem태그(이름밑의 Tag)의 오브젝트와 충돌시 발생하는 이벤트
         {
             Destroy(collision.gameObject); // 아이템 제거
             SpeedUpItem(); // 스피드업 아이템
         }
 
-        if (collision.gameObject.tag == "ShieldItem") // SpeedUpItem태그(이름밑의 Tag)의 오브젝트와 충돌시 발생하는 이벤트
+         // SpeedUpItem태그(이름밑의 Tag)의 오브젝트와 충돌시 발생하는 이벤트
         {
             shield = 1;
             Destroy(collision.gameObject); // 아이템 제거
@@ -252,4 +257,6 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
         this.GetComponent<CapsuleCollider>().isTrigger = false; // 오브젝트 뚫기 해제
         this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None; // Rigidbody 포지션 초기화
     }
+    */
+
 }
