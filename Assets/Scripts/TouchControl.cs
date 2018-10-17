@@ -45,7 +45,9 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
     // Update is called once per frame
     void Update()
     {
-        
+        if (ObjEat.Invincible) {
+            SwipeToTurn();
+        }
         //마우스 클릭시 포지션 저장
         if (Input.GetMouseButtonDown(0)) {
             if (Input.mousePosition.y > (height / 2))
