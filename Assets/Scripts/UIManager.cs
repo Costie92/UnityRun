@@ -15,9 +15,9 @@ public class UIManager : MonoBehaviour {
         }
     }
     public GameObject[] Hps;
-    public GameObject UI_Invincible;
     public GameObject UI_Shield;
     public GameObject UI_Magnet;
+    public GameObject UI_Invincible;
     public Text CoinText;
 
     // Use this for initialization
