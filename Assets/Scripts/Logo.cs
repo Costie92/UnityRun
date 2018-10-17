@@ -22,6 +22,6 @@ public class Logo : MonoBehaviour {
     }
     void Complete()
     {
-        SceneManager.LoadScene(0); // 빌드셋팅에서 1번에 설정된 Scene을 불러온다.
+        SceneManager.LoadScene(1); // 빌드셋팅에서 1번에 설정된 Scene을 불러온다.
     }
 }

@@ -32,7 +32,7 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
     public float MaxDubbleTapTime;
     public static event SwipeScreen swipeScreen;
     // Use this for initialization
-    void Start () {
+    void Awake () {
         _instance = this;
         cMove = GameObject.FindWithTag("PLAYER").GetComponent<CharacterMove>();
         unitychan = GameObject.FindWithTag("PLAYER");
