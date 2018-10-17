@@ -85,7 +85,10 @@ public class ObjEat : MonoBehaviour,IObjToCharactor { // ,IObjToCharactor
             case E_OBSTACLE.FIRE:
                 if(Invincible == false)
                 {
-                    HP = 0;
+                    if (Shield == false)
+                    {
+                        HP = 0;
+                    }
                     DamagedEvent();
                     Debug.Log("FIRE");
                 }
