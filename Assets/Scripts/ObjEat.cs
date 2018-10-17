@@ -83,9 +83,12 @@ public class ObjEat : MonoBehaviour,IObjToCharactor { // ,IObjToCharactor
                 Debug.Log("UPPER_HUDDLE");
                 break;
             case E_OBSTACLE.FIRE:
-                HP = 0;
-                DamagedEvent();
-                Debug.Log("FIRE");
+                if(Invincible == false)
+                {
+                    HP = 0;
+                    DamagedEvent();
+                    Debug.Log("FIRE");
+                }
                 break;
             case E_OBSTACLE.EOBSMAX:
                 Debug.Log("옵스타클 충돌에서 오류");
