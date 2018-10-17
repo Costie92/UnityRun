@@ -11,7 +11,8 @@ public class ObjEat : MonoBehaviour,IObjToCharactor { // ,IObjToCharactor
     bool speedUpItem = false;
     private float attacked = 20.0f;
     public static bool Invincible = false;
-    private bool Shield = false;
+    public static bool Shield = false;
+    public static bool Magnet = false;
 
     // Use this for initialization
     void Start () {
@@ -39,10 +40,14 @@ public class ObjEat : MonoBehaviour,IObjToCharactor { // ,IObjToCharactor
                 break;
             case E_ITEM.INVINCIBLE: //무적
                 Debug.Log("INVINCIBLE 먹음");
-                Invincible = true;
-                INVINCIBLEItem();
+                if (Invincible == false)
+                {
+                    Invincible = true;
+                    INVINCIBLEItem();
+                }
                 break;
             case E_ITEM.SHIELD: //방어막먹음
+                ShieldEvent();
                 Debug.Log("SHIELD 먹음");
                 break;
             case E_ITEM.COIN: //동전먹음
@@ -50,6 +55,7 @@ public class ObjEat : MonoBehaviour,IObjToCharactor { // ,IObjToCharactor
                 Debug.Log("COIN " + Coin +" 개");
                 break;
             case E_ITEM.MAGNET: //자석먹음
+                MagnetEvent();
                 Debug.Log("MAGNET 먹음");
                 break;
             case E_ITEM.EITEMMAX:
@@ -87,10 +93,22 @@ public class ObjEat : MonoBehaviour,IObjToCharactor { // ,IObjToCharactor
         }
     }
 
+    void MagnetEvent()
+    {
+        Magnet = true;
+        Invoke("MagentDestroy", 10.0f);
+    }
+
+    void MagentDestroy()
+    {
+        print("자석 끝");
+        Magnet = false;
+    }
+
     void ShieldEvent()
     {
         Shield = true;
-        Invoke("ShieldDestroy", 33.5f);
+        Invoke("ShieldDestroy", 10.0f);
     }
 
     void ShieldDestroy()
