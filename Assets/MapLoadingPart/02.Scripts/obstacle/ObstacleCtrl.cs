@@ -14,14 +14,11 @@ namespace hcp
 
         public virtual void FromChildOnCollisionEnter(GameObject child, Collision coll)
         {
-            obsST.beenHit = true;
-            Debug.Log("옵스타클컬 콜리전");
+            Debug.Log("콜리전 이벤트. 원래 이건 일어나서는 안됨.");
         }
 
         public virtual void FromChildOnTriggerEnter(GameObject child, Collider other)
         {
-            obsST.beenHit = true;
-            Debug.Log("옵스타클컬 트리거");
         }
 
         protected virtual void Awake()
@@ -35,15 +32,17 @@ namespace hcp
         protected virtual void OnEnable()
         {
             //print("옵스타클 오네이블");
-            childModel.GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
+           childModel.GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
+            obsST.beenHit = false;
         }
 
-        protected void OnDisable()
-        {
+        protected virtual void OnDisable()
+        { 
             obsST.beenHit = false;
-
-          //  this.gameObject.transform.SetParent(null);
-            //스폰포인트와의 부모관계 삭제의도.
+            if (childModel.GetComponent<Collider>().enabled == false)
+            {
+                childModel.GetComponent<Collider>().enabled = true;
+            }
         }
 
         

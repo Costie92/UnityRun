@@ -20,19 +20,16 @@ namespace hcp
            
         }
         
-        protected  void OnCollisionEnter(Collision collision)
-        {   Debug.Log(itemST.itemType+"아이템 콜리전");
-            objToCharactor.GetItem(itemST);
-           
-            this.gameObject.SetActive(false);
-            
-        }
+       
         protected  void OnTriggerEnter(Collider other)
         {
-            Debug.Log(itemST.itemType + "아이템 트리거 콜리전");
-            objToCharactor.GetItem(itemST);
-           
-            this.gameObject.SetActive(false);
+            if (other.gameObject.CompareTag("PLAYER"))
+            {
+                Debug.Log(itemST.itemType + "아이템 트리거 콜리전");
+                objToCharactor.GetItem(itemST);
+
+                this.gameObject.SetActive(false);
+            }
           
         }
 

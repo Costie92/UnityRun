@@ -6,28 +6,27 @@ namespace hcp
 {
     public class HuddleCtrl : ObstacleCtrl
     {
-        public override void FromChildOnCollisionEnter(GameObject child, Collision coll)
-        {
-            base.FromChildOnCollisionEnter(child, coll);
-            Debug.Log("허들 장애물 콜리전엔터 이벤트");
-            if (coll.gameObject.CompareTag("PLAYER"))
-            {
-                objToCharactor.BeenHitByObs(obsST);
-               
-            }
-            obsST.beenHit = false;
-        }
+        bool beenHitByObs = false;
+        bool beenHitByPlayer = false;
 
+        float rotationX = 0;
         public override void FromChildOnTriggerEnter(GameObject child, Collider other)
         {
             base.FromChildOnTriggerEnter(child, other);
-            Debug.Log("허들 장애물 트리거엔터 이벤트");
+           
             if (other.gameObject.CompareTag("PLAYER"))
             {
+                Debug.Log("허들 플레이어 피격");
+                obsST.beenHit = true;
+                if(!beenHitByObs)beenHitByPlayer = true;
                 objToCharactor.BeenHitByObs(obsST);
-               
             }
-            obsST.beenHit = false;
+            if (other.gameObject.CompareTag("OBSTACLE") || (other.transform.parent != null && other.transform.parent.CompareTag("OBSTACLE")))
+            {
+               if(!beenHitByPlayer) beenHitByObs = true;
+                Debug.Log("허들 볼에 피격");
+            }
+            childModel.GetComponent<Collider>().enabled = false;
         }
 
         // Use this for initialization
@@ -36,16 +35,32 @@ namespace hcp
             base.Awake();
             obsST.obstacleType = E_OBSTACLE.HUDDLE;
         }
-        /*
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-        }
-        */
-        // Update is called once per frame
-        void Update()
-        {
 
+        private void Update()
+        {
+            if (beenHitByObs)
+            {
+                if (transform.eulerAngles.x < 90)
+                    transform.Rotate(5f, 0f, 0f);
+            }
+            if (beenHitByPlayer)
+            {
+                if (rotationX >= -70)
+                {
+                    rotationX = rotationX - 5;
+
+                    transform.rotation = Quaternion.Euler(rotationX, - 180, 0);
+                    transform.Translate(Vector3.up*0.014f, Space.World);
+                }
+            }
         }
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            beenHitByObs = false;
+            beenHitByPlayer = false;
+            rotationX = 0;
+        }
+
     }
 };
