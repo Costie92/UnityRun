@@ -40,6 +40,10 @@ namespace hcp {
         //아이템,장애물 관리 리스트들 
         private static List<GameObject>[] genedObjLists;
 
+        public static Queue<MapObjST> MapObjSTQue = new Queue<MapObjST>();   //맵 옵젝 저장구조.
+
+        public static Queue<float> TurningPointQue = new Queue<float>();   //저장되있는걸 가져와서 터닝포인트큐와 맵옵젝큐에 넣음
+
         protected override void Awake()
         {
             base.Awake();
