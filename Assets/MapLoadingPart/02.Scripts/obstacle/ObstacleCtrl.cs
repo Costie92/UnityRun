@@ -11,6 +11,8 @@ namespace hcp
         public Material[] materials;
         protected GameObject childModel;
         protected IObjToCharactor objToCharactor;
+        protected Renderer childModelRdr;
+        protected Collider childModelCollider;
 
         public virtual void FromChildOnCollisionEnter(GameObject child, Collision coll)
         {
@@ -28,23 +30,22 @@ namespace hcp
             childModel = transform.Find("childModel").gameObject; //구형 장애물 모델링 자식 추출  (transform.find로 자식 중 내에서 검색)
             obsST.beenHit = false;
             objToCharactor = playerTr.gameObject.GetComponent<IObjToCharactor>();
+            childModelRdr = childModel.GetComponent<Renderer>();
+            childModelCollider = childModel.GetComponent<Collider>();
         }
         protected virtual void OnEnable()
         {
-            //print("옵스타클 오네이블");
-           childModel.GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
+            childModelRdr.material = materials[Random.Range(0, materials.Length)];
             obsST.beenHit = false;
         }
 
         protected virtual void OnDisable()
         { 
             obsST.beenHit = false;
-            if (childModel.GetComponent<Collider>().enabled == false)
+            if (childModelCollider.enabled == false)
             {
-                childModel.GetComponent<Collider>().enabled = true;
+                childModelCollider.enabled = true;
             }
         }
-
-        
     }
 }

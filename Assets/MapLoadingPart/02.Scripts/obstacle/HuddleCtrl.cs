@@ -16,7 +16,7 @@ namespace hcp
            
             if (other.gameObject.CompareTag("PLAYER"))
             {
-                Debug.Log("허들 플레이어 피격");
+             //   Debug.Log("허들 플레이어 피격");
                 obsST.beenHit = true;
                 if(!beenHitByObs)beenHitByPlayer = true;
                 objToCharactor.BeenHitByObs(obsST);
@@ -24,7 +24,7 @@ namespace hcp
             if (other.gameObject.CompareTag("OBSTACLE") || (other.transform.parent != null && other.transform.parent.CompareTag("OBSTACLE")))
             {
                if(!beenHitByPlayer) beenHitByObs = true;
-                Debug.Log("허들 볼에 피격");
+             //   Debug.Log("허들 볼에 피격");
             }
             childModel.GetComponent<Collider>().enabled = false;
         }

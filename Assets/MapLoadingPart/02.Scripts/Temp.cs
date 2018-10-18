@@ -5,12 +5,12 @@ using hcp;
 public class Temp : MonoBehaviour ,IObjToCharactor{
     public void BeenHitByObs(ObstacleST obstacleST)
     {
-        print("옵스타클 이벤트 받음.");
+       // print("옵스타클 이벤트 받음.");
     }
 
     public void GetItem(ItemST itemST)
     {
-        print("아이템 이벤트 받음.");
+      //  print("아이템 이벤트 받음.");
     }
 
     public bool GetMagnetState()
@@ -19,11 +19,6 @@ public class Temp : MonoBehaviour ,IObjToCharactor{
         return false;
     }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKey("w"))

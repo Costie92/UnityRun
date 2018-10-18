@@ -5,7 +5,13 @@ using System.Linq;
 
 namespace hcp
 {
-   
+    [System.Serializable]
+    public enum E_CHUNK_CREATE_DEL
+    {
+        CREATE=0,
+        DEL,
+        MAX
+    };
     public class ChunkLoading : SingletonTemplate<ChunkLoading>
     {
         [System.Serializable]
@@ -14,126 +20,131 @@ namespace hcp
             public float pos;
             public bool alreadyIn;
         }
-         public static bool debugLog = false;
-        
+
+        public static bool debugLog = false;
+
         private float margin;//청크의 z축 크기(실제 바닥면 개념 큐브등의 크기)
+        private float marginDiv;
         private int wantToShowNumOfChunks; //보여줄 청크의 총 수
         private int wantToShowNumOfChunksInBehind ;//후방에 남겨둘 청크 수
-
-        //키로 float, 청크의 생성위치, value는 청크 게임오브젝트
-        public Dictionary<float, GameObject>        chunkOnMap          = new Dictionary<float, GameObject>();
-        public Dictionary<float, List<GameObject>>  spawnedObjOnChunk   = new Dictionary<float, List<GameObject>>();
+        
+        public Dictionary<float, GameObject>        chunkOnMap;
         ShowCandidate[] showCandidates;
+        List<float>[] crtAndDelPosLists;
 
         protected override void Awake()
-        {  
-
+        {
             base.Awake();
+            chunkOnMap = DataOfMapObjMgr.chunkOnMap;
+
             wantToShowNumOfChunks = MapObjManager.GetInstance().wantToShowNumOfChunks;
             wantToShowNumOfChunksInBehind = MapObjManager.GetInstance().wantToShowNumOfChunksInBehind;
             showCandidates = new ShowCandidate[wantToShowNumOfChunks];
 
-            for (int i = 0; i < showCandidates.Length; i++)
+            for (int i = 0; i < showCandidates.Length; i++) //청크 후보 자리 초기화
             {
                 showCandidates[i].pos = ((-1 * wantToShowNumOfChunksInBehind) + i);   //후방과 전방에 놓을 청크의 수 저장
                 showCandidates[i].alreadyIn = false;
             }
             margin = MapObjManager.GetInstance().GetChunkMargin();
+            marginDiv = 1 / margin;
 
+            crtAndDelPosLists = new List<float>[(int)E_CHUNK_CREATE_DEL.MAX];
+            for (int i = 0; i < (int)E_CHUNK_CREATE_DEL.MAX; i++)
+            {
+                crtAndDelPosLists[i] = new List<float>();
+            }
         }
 
-        public void ChunkLoad(float nowPos, flagInTurning turnFlagSet)
+        public void ChunkLoad(float nowPos)
         {
+            CleanCrtDelLists();
             CandidateReady();
-            if(debugLog) Debug.Log("청크로드");
-            if (turnFlagSet.flag && turnFlagSet.readyForTurn > 0)
-                CandidateReadyForTurn(turnFlagSet.readyForTurn);
 
-            foreach (var item in chunkOnMap.Keys.ToList())   //삭제할 청크 찾음
-            {
-               // Debug.Log("item=" + item.ToString());
-                if (!InShowListChk(nowPos, item)) //있는 청크리스트 중 현재 보일 청크가 아님
-                    //삭제할 청크만 체크하는 것.
-                {
-                    GameObject temp = chunkOnMap[item];
-                    if (chunkOnMap.ContainsKey(item))
-                    {
-                        if (chunkOnMap.Remove(item)) ;
-                        if (debugLog) Debug.Log(item.ToString() + " 위치 청크 삭제");
-                    }
-                    if (temp)
-                    {
-                        MapAndObjPool.GetInstance(). TurnInPoolObj(temp);
-                        //Destroy(temp);
-                    }
-
-                    if (spawnedObjOnChunk.ContainsKey(item))//스폰 됐던 아이템들 삭제
-                    {
-                        foreach (var spawned in spawnedObjOnChunk[item])
-                        {
-                            if(spawned.transform.position.z< MapObjManager.GetInstance().GetPosByChunkMargin()
-                                &&spawned.activeSelf==true)
-                            spawned.SetActive(false);
-                        }
-                        spawnedObjOnChunk.Remove(item);
-                    }
-                }
-            }
-
-            for (int i = 0; i < showCandidates.Length; i++)    //생성할 청크(후방 이동과 전진이동에 유연하기 위해서)
-            {
-                if (!showCandidates[i].alreadyIn)    //청크를 생성해야할 위치
-                {
-                    if (debugLog) Debug.Log(showCandidates[i].pos + "자리에 청크 생성");
-                    float makePos = nowPos + showCandidates[i].pos * margin;
-                    Vector3 pos = new Vector3(0, 0, makePos);
-                    var temp = MapAndObjPool.GetInstance().GetChunkInPool();
-                    List<GameObject> spawnedThingsTemp = new List<GameObject>();
-
-                    if (temp != null)
-                    {
-                        if (debugLog) Debug.Log("&&&&&&&&&&&&&&&&&&");
-                        temp.transform.position = pos;
-                        temp.transform.rotation = Quaternion.identity;
-                        temp.SetActive(true);
-
-                        Transform spawnPointGroup = temp.transform.Find("SpawnPointGroup");
-                        //스폰포인트에 오브젝트들을 자식으로 붙이면 안 됨 위치에만 두되 따로 관리할 수 있는 자료구조를 이용하여 
-                        //청크가 삭제될때 그 자리의 스폰 포인트 들도 다 삭제할 수 있도록 해야함.
-                        for (int s = 0; s < spawnPointGroup.transform.childCount; s++)
-                        {
-                            List<GameObject> t=
-                            RandomObjGenerator.GetInstance().RandomObjGen(spawnPointGroup.GetChild(s), s);
-                            if(null != t)
-                            spawnedThingsTemp.AddRange(t);
-                        }
-
-                    }
-                    else
-                    {
-                        if (debugLog) Debug.Log("받아온 게 널임");
-                    }
-                    chunkOnMap.Add(makePos, temp);
-
-                    spawnedObjOnChunk.Add(makePos, spawnedThingsTemp);
-
-
-                }
-            }
-
+            CandidateCheck(nowPos);   //후보군 체크
+            ChunkCreateAndDel();
         }
-        bool InShowListChk(float nowPos, float item) //청크리스트[item]이 보여야하는 청크인지 체크
+
+        public void ChunkLoad(float nowPos, float turningPoint)
         {
+            CleanCrtDelLists();
+            CandidateReadyForTurn(nowPos,turningPoint);
+
+            CandidateCheck(nowPos);   //터닝 포인트 들어온 대로 후보군 체크
+            ChunkCreateAndDel();
+        }
+
+        void CandidateCheck(float nowPos)//청크리스트를 이용하여 생성과 삭제할 자리를 찾아냄.
+        {
+            bool checkFinished = false;
+            
+            foreach (float item in chunkOnMap.Keys.ToList())   //생성과 삭제 관리
+            {
+                checkFinished = false;
+                for (int i = 0; i < showCandidates.Length; i++) //후보군
+                {
+                    float pos = nowPos + (showCandidates[i].pos * margin);
+                    if (pos == item&&showCandidates[i].alreadyIn==false) //후보군에 있다면
+                    {
+                        showCandidates[i].alreadyIn = true;  //후보가 이미 생성되있다는 의미
+                        //이 item은 삭제되지 않음.
+                        checkFinished = true;
+                        break;
+                    }
+                }
+                if(checkFinished==false)
+                //후보군에 들지 못한 청크.
+                crtAndDelPosLists[(int)E_CHUNK_CREATE_DEL.DEL].Add(item);
+            }
+
             for (int i = 0; i < showCandidates.Length; i++)
             {
-                if (nowPos + (showCandidates[i].pos * margin) == item) //보여야하는 청크면 true반환,item은 청크의 시작위치이자 딕셔너리의 키
+                if (showCandidates[i].alreadyIn == false)
                 {
-                    showCandidates[i].alreadyIn = true;  //후보가 이미 생성되있다는 의미
-                    return true;
+                    float pos = nowPos + (showCandidates[i].pos * margin);
+                    //새로 생성할 청크 포지션
+                    crtAndDelPosLists[(int)E_CHUNK_CREATE_DEL.CREATE].Add(pos);
                 }
             }
-            return false;
         }
+
+        void ChunkCreateAndDel()
+        {
+            foreach (float pos in crtAndDelPosLists[(int)E_CHUNK_CREATE_DEL.DEL])   //삭제할 청크
+            {
+                if (chunkOnMap.ContainsKey(pos))
+                {
+                    GameObject delChunk = chunkOnMap[pos];
+                    if (chunkOnMap.Remove(pos))
+                        MapAndObjPool.GetInstance().TurnInPoolObj(delChunk);
+
+                    else Debug.Log("청크 삭제 중 오류 001");
+                }
+                else Debug.Log("청크 삭제 중 오류 002");
+            }
+
+            foreach (float pos in crtAndDelPosLists[(int)E_CHUNK_CREATE_DEL.CREATE])    //생성할 청크
+            {
+                Vector3 createPos = new Vector3(0, 0, pos);
+                GameObject crtChunk = MapAndObjPool.GetInstance().GetChunkInPool();
+
+                if (crtChunk != null)
+                {
+                    crtChunk.transform.position = createPos;
+                    crtChunk.transform.rotation = Quaternion.identity;
+                    crtChunk.SetActive(true);
+                    chunkOnMap.Add(pos, crtChunk);
+                }
+                else Debug.Log("청크 풀 부족");
+            }
+        }
+
+        void CleanCrtDelLists()
+        {
+            for (int i = 0; i < (int)E_CHUNK_CREATE_DEL.MAX; i++)
+                crtAndDelPosLists[i].Clear();
+        }
+
         void CandidateReady()
         {
             for (int i = 0; i < showCandidates.Length; i++)
@@ -141,11 +152,36 @@ namespace hcp
                 showCandidates[i].alreadyIn = false;
             }
         }
-        void CandidateReadyForTurn(int readyForTurn)
+
+        void CandidateReadyForTurn(float nowPos,float turningPoint) //터닝포인트 회절길 만들어주면됨.
         {
-            for (int i = 0; i < readyForTurn; i++)
+            //3과 2가 기역자 청크에 종속적인 값들.
+            int frontShowChunk =wantToShowNumOfChunks - wantToShowNumOfChunksInBehind;    //앞쪽으로의 청크의 숫자
+            float dis = (turningPoint - nowPos)*marginDiv; //터닝포인트에서 현재위치 까지의 거리
+            //기역자 청크에 상당히 의존한 겂으로써 -4는 무시, -3부터 0 포지션 부터 청크 생성
+            //-2는 1번째 포지션 자리부터 청크 생성...
+
+            if ((-1 * (3 + wantToShowNumOfChunksInBehind)) >= dis //음수, 현재 위치가 터닝포인트보다 앞. 회전 포인트와 상관이 없어질때의 위치만큼 앞에 가있을때.
+                ||
+                dis >= (frontShowChunk + 2))    //양수, 현재위치가 충분히 터닝포인트보다 뒤에 있을때.
+            {
+                CandidateReady();
+                return;
+            }   
+            
+            //true = 청크가 삭제도 생성도 안되게 만듦.
+            for (int i = 0; i < showCandidates.Length; i++)
             {
                 showCandidates[i].alreadyIn = true;
+            }
+
+            float createStartPosition = dis + 3;    //기역자 청크를 넘어서 새로 만들때 포지션
+            float beHoldPosition = createStartPosition - 6;//이것 역시 기역자 청크에 의존한 값    기역자 청크 전에 남겨둬야한 청크 포지션
+           //dis+3 이 새로 생성해야할 청크포지션 시작점임.(alreadyIn을 false로 만들어야함. 체킹캔디데이트로 권한을 넘기는것.)
+            for (int i = 0; i < showCandidates.Length; i++)
+            {
+                if(showCandidates[i].pos >= createStartPosition || showCandidates[i].pos <=beHoldPosition)
+                showCandidates[i].alreadyIn = false;
             }
         }
     }

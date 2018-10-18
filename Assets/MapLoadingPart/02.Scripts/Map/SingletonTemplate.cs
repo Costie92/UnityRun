@@ -24,7 +24,7 @@ namespace hcp
                 Destroy(this.gameObject);
                 return;
             }
-            DontDestroyOnLoad(this.gameObject);
+          //  DontDestroyOnLoad(this.gameObject);
         }
     }
 }
