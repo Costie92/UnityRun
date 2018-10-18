@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine;
+
 
 public class UIManager : MonoBehaviour {
     private static UIManager _instance = null;
@@ -14,14 +16,20 @@ public class UIManager : MonoBehaviour {
             return _instance;
         }
     }
+    public static bool isPause;
     public GameObject[] Hps;
     public GameObject UI_Shield;
     public GameObject UI_Magnet;
     public GameObject UI_Invincible;
+    public GameObject PauseMenu;
+    public GameObject Result;
     public Text CoinText;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
+        isPause = false;
+        PauseMenu.SetActive(false);
+        Result.SetActive(false);
         CoinText.text = "0";
 
     }
@@ -49,4 +57,35 @@ public class UIManager : MonoBehaviour {
             }
         }
     }
+    public void OnClickPause()
+    {
+        isPause = true;
+        Time.timeScale = 0;
+        PauseMenu.SetActive(true);
+    }
+    public void OnClickResume()
+    {
+        isPause = false;
+        Time.timeScale = 1;
+        PauseMenu.SetActive(false);
+    }
+    public void OnClickQuit() {
+        isPause = true;
+        Time.timeScale = 0;
+        ShowResult();
+    }
+    public void OnClickExit() {
+        isPause = false;
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0);
+    }
+    public void OnClickRetry() {
+        isPause = false;
+        Time.timeScale = 1;
+        SceneManager.LoadScene(1);
+    }
+    public void ShowResult() {
+        Result.SetActive(true);
+    }
 }
+
