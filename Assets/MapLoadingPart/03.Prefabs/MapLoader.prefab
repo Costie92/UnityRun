@@ -1,0 +1,172 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1910096436515854}
+  m_IsPrefabAsset: 1
+--- !u!1 &1910096436515854
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4373320421441382}
+  - component: {fileID: 114018978866794948}
+  - component: {fileID: 114892640762163842}
+  - component: {fileID: 114706135252711190}
+  - component: {fileID: 114958854065119652}
+  - component: {fileID: 114816795236558376}
+  - component: {fileID: 114506045425093210}
+  - component: {fileID: 114855403772891608}
+  m_Layer: 0
+  m_Name: MapLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4373320421441382
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1910096436515854}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 31.073172, y: 431.8335, z: 499.5931}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114018978866794948
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1910096436515854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fd418d3d74624e4a982c9b9ca4e4f2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114506045425093210
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1910096436515854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e41cf6c60ff734d935b8a279682992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toLeftChunks: {fileID: 1136947583070796, guid: d9afcb8841b10bb43bc2aae92ee388ee,
+    type: 2}
+  toRightChunks: {fileID: 1633549812117858, guid: 29eebeeb6c01b464fb124b692f77d6c7,
+    type: 2}
+  whereToTurn: {fileID: 0}
+--- !u!114 &114706135252711190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1910096436515854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb18da50c881e7145b453a2e9a95dfc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunk: {fileID: 1853945241947306, guid: 549baa20170142c4d80b7d0ba2fd35b9, type: 2}
+  obstacleBall: {fileID: 1908247960883122, guid: ee5c9515f8a1c2544bdee057314a9b2e,
+    type: 2}
+  obstacleHuddle: {fileID: 1263427397763776, guid: 76febfcd3227f434389ffd8b9fc7b522,
+    type: 2}
+  obstacleUpperHuddle_1: {fileID: 1742318391388928, guid: 3ce726c1464135b489b97399defa3c99,
+    type: 2}
+  obstacleUpperHuddle_2: {fileID: 1109369816598114, guid: 87d8ea85791eca240a802e92ead3fd60,
+    type: 2}
+  obstacleUpperHuddle_3: {fileID: 1429672855115164, guid: 47e65472dea097843acb5bc34ebfe95d,
+    type: 2}
+  obstacleFire: {fileID: 1986836281195050, guid: 17c04370040159a4e99cce4920bf16a3,
+    type: 2}
+  item_HPPLUS: {fileID: 1040533653885940, guid: 06d83a98b203fcd4982ac2ff57f1b84b,
+    type: 2}
+  item_INVINCIBLE: {fileID: 1040533653885940, guid: 08d138fc21776274ebfd2fd4c874ebf4,
+    type: 2}
+  item_SHIELD: {fileID: 1040533653885940, guid: 8f3ef991c2b5f7046be6f031d23d4c07,
+    type: 2}
+  item_COIN: {fileID: 1040533653885940, guid: d370b134458e78d44a2080c376d5539f, type: 2}
+  item_MAGNET: {fileID: 1040533653885940, guid: cff209abeae286e4e923ba5f67b25240,
+    type: 2}
+  chunkPool: []
+  obsBallPool: []
+  obsHuddlePool: []
+  obsUpperHuddle_1_Pool: []
+  obsUpperHuddle_2_Pool: []
+  obsUpperHuddle_3_Pool: []
+  obsFirePool: []
+  itemHPPlusPool: []
+  itemInvinciblePool: []
+  itemShieldPool: []
+  itemCoinPool: []
+  itemMagnetPool: []
+--- !u!114 &114816795236558376
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1910096436515854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a560ac513009e347bf8a3cfca77c3a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunk: {fileID: 1853945241947306, guid: 549baa20170142c4d80b7d0ba2fd35b9, type: 2}
+  wantToShowNumOfChunks: 7
+  wantToShowNumOfChunksInBehind: 1
+  nowPos: 0
+  newPos: 0
+  turnedPoint: 0
+--- !u!114 &114855403772891608
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1910096436515854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f576b40204179f248b9a397582cccd39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114892640762163842
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1910096436515854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a677f8a01eeb0fa4f9305a268d8deb51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnProbability: 50
+--- !u!114 &114958854065119652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1910096436515854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fb1a5490a931034487a5988e69e6a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posList: []
