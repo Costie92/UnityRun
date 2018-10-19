@@ -43,7 +43,7 @@ namespace hcp
         private float chunkMarginDiv;
         public int wantToShowNumOfChunks = 7; //후방 하나, 나머지 앞의 청크들
         public int wantToShowNumOfChunksInBehind = 1;
-        public float nowPos = 0;    //z축 기준 현재는
+        public float nowPos = -1;    //z축 기준 현재는
         public float newPos = 0;
         public float turnedPoint = 0;
         Vector3 turnChunksPos;
@@ -58,7 +58,7 @@ namespace hcp
 
         public float GetChunkMargin() { return chunkMargin; }
 
-
+        float time;
 
         // Use this for initialization
         protected override void Awake()
@@ -69,6 +69,10 @@ namespace hcp
             chunkMarginDiv = 1 / chunkMargin;
             playerTr = GameObject.FindGameObjectWithTag("PLAYER").transform;
             mapTurnToUI = GameObject.Find("GameMgr").GetComponent<IMapTurnToUI>();
+
+            nowPos = -100;
+
+            time = Time.time;
         }
         private void Start()
         {
@@ -86,11 +90,11 @@ namespace hcp
             MapAndObjPool.GetInstance().itemShieldPoolInit(100);
             MapAndObjPool.GetInstance().itemCoinPoolInit(100);
             MapAndObjPool.GetInstance().itemMagnetPoolInit(100);
-
+            /*
             tempCOSTList=
             ChunkLoading.GetInstance().ChunkLoad(GetPosByChunkMargin());
             SetObjToNewChunks(E_OBJ_SPAWN_WAY.RANDOM);
-            
+            */
 
             StartCoroutine(checkPos()); //부하를 줄이기 위해 0.2초 단위로 체크
         }
@@ -162,7 +166,7 @@ namespace hcp
 
         void Update()
         {
-          //  newPos = GetPosByChunkMargin(); //코루틴으로 체크 부하를 줄임
+            // newPos = GetPosByChunkMargin(); //코루틴으로 체크 부하를 줄임
 
             if (newPos == nowPos)
                 return;//변화 없으면 리턴
@@ -171,7 +175,8 @@ namespace hcp
 
             if (false == IsTurnPlanOn())   //회전 상태여부 체크
             {
-                ChunkLoading.GetInstance().ChunkLoad(nowPos);
+                tempCOSTList =
+               ChunkLoading.GetInstance().ChunkLoad(nowPos);
                 SetObjToNewChunks(E_OBJ_SPAWN_WAY.RANDOM);
                 return;
             }
@@ -179,8 +184,9 @@ namespace hcp
             //회전 플래그 상태
             if (turnFlagSet.flag == false)  //초기화
                 InitOfTurnPlan();
-            
-            ChunkLoading.GetInstance().ChunkLoad(nowPos, turnFlagSet.turningPoint);
+
+            tempCOSTList =
+           ChunkLoading.GetInstance().ChunkLoad(nowPos, turnFlagSet.turningPoint);
             SetObjToNewChunks(E_OBJ_SPAWN_WAY.RANDOM);
 
             WhenTurningFinished();

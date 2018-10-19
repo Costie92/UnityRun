@@ -20,6 +20,8 @@ namespace hcp {
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+            if (DataOfMapObjMgr.chunkObjSTList != null)
+                toShowDic = DataOfMapObjMgr.chunkObjSTList;
             foreach (var n in toShowDic)
             {
                 foreach(var m in n.objs)

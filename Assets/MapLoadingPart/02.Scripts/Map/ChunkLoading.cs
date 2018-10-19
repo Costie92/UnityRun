@@ -54,14 +54,12 @@ namespace hcp
 
         private float margin;//청크의 z축 크기(실제 바닥면 개념 큐브등의 크기)
         private float marginDiv;
-        private int wantToShowNumOfChunks; //보여줄 청크의 총 수
-        private int wantToShowNumOfChunksInBehind ;//후방에 남겨둘 청크 수
 
         public List<float> posList;
 
         List<ChunkObjST> chunkObjSTList;
         
-        ShowCandidate[] showCandidates;
+        public ShowCandidate[] showCandidates;
 
         List<float>[] crtAndDelPosLists;
 
@@ -71,24 +69,25 @@ namespace hcp
         {
             base.Awake();
 
-            wantToShowNumOfChunks = MapObjManager.GetInstance().wantToShowNumOfChunks;
-            wantToShowNumOfChunksInBehind = MapObjManager.GetInstance().wantToShowNumOfChunksInBehind;
-            showCandidates = new ShowCandidate[wantToShowNumOfChunks];
-
-            for (int i = 0; i < showCandidates.Length; i++) //청크 후보 자리 초기화
-            {
-                showCandidates[i].pos = ((-1 * wantToShowNumOfChunksInBehind) + i);   //후방과 전방에 놓을 청크의 수 저장
-                showCandidates[i].alreadyIn = false;
-            }
-            margin = MapObjManager.GetInstance().GetChunkMargin();
-            if (margin == 0) ErrorManager.SpurtError();
-            marginDiv = 1 / margin;
-
             crtAndDelPosLists = new List<float>[(int)E_CHUNK_CREATE_DEL.MAX];
             for (int i = 0; i < (int)E_CHUNK_CREATE_DEL.MAX; i++)
             {
                 crtAndDelPosLists[i] = new List<float>();
             }
+        }
+
+        private void Start()
+        {
+            showCandidates = new ShowCandidate[MapObjManager.GetInstance().wantToShowNumOfChunks];
+
+            for (int i = 0; i < showCandidates.Length; i++) //청크 후보 자리 초기화
+            {
+                showCandidates[i].pos = ((-1 * MapObjManager.GetInstance().wantToShowNumOfChunksInBehind) + i);   //후방과 전방에 놓을 청크의 수 저장
+                showCandidates[i].alreadyIn = false;
+            }
+            margin = MapObjManager.GetInstance().GetChunkMargin();
+            if (margin == 0) ErrorManager.SpurtError();
+            marginDiv = 1 / margin;
 
             this.chunkObjSTList = DataOfMapObjMgr.chunkObjSTList;
         }
@@ -202,12 +201,12 @@ namespace hcp
         void CandidateReadyForTurn(float nowPos,float turningPoint) //터닝포인트 회절길 만들어주면됨.
         {
             //3과 2가 기역자 청크에 종속적인 값들.
-            int frontShowChunk =wantToShowNumOfChunks - wantToShowNumOfChunksInBehind;    //앞쪽으로의 청크의 숫자
+            int frontShowChunk = MapObjManager.GetInstance().wantToShowNumOfChunks - MapObjManager.GetInstance().wantToShowNumOfChunksInBehind;    //앞쪽으로의 청크의 숫자
             float dis = (turningPoint - nowPos)*marginDiv; //터닝포인트에서 현재위치 까지의 거리
             //기역자 청크에 상당히 의존한 겂으로써 -4는 무시, -3부터 0 포지션 부터 청크 생성
             //-2는 1번째 포지션 자리부터 청크 생성...
 
-            if ((-1 * (3 + wantToShowNumOfChunksInBehind)) >= dis //음수, 현재 위치가 터닝포인트보다 앞. 회전 포인트와 상관이 없어질때의 위치만큼 앞에 가있을때.
+            if ((-1 * (3 + MapObjManager.GetInstance().wantToShowNumOfChunksInBehind)) >= dis //음수, 현재 위치가 터닝포인트보다 앞. 회전 포인트와 상관이 없어질때의 위치만큼 앞에 가있을때.
                 ||
                 dis >= (frontShowChunk + 2))    //양수, 현재위치가 충분히 터닝포인트보다 뒤에 있을때.
             {

@@ -236,8 +236,8 @@ namespace hcp
 
         public void TurnInPoolObj(GameObject temp)
         {
-            temp.transform.position = Vector3.zero;
-            temp.transform.rotation = Quaternion.identity;
+            //temp.transform.position = Vector3.zero;
+            //temp.transform.rotation = Quaternion.identity;
             //오브젝트 풀링 경우
             temp.SetActive(false);//비활성화로 풀링에 반납
         }

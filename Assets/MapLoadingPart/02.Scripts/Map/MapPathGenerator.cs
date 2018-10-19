@@ -24,12 +24,13 @@ namespace hcp
         protected override void Awake()
         {
             base.Awake();
-            frontShowChunk = MapObjManager.GetInstance().wantToShowNumOfChunks 
-                - MapObjManager.GetInstance().wantToShowNumOfChunksInBehind;
+          
         }
 
         private void Start()
         {
+            frontShowChunk = MapObjManager.GetInstance().wantToShowNumOfChunks 
+                - MapObjManager.GetInstance().wantToShowNumOfChunksInBehind;
             margin = MapObjManager.GetInstance().GetChunkMargin();
         }
        
