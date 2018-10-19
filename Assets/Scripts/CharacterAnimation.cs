@@ -59,8 +59,9 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
             animator.Play("SLIDE00", -1, 0); // 슬라이드하는 애니메이션 실행
             this.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.25f, 0); // 캐릭터 콜라이더 중심 옮기기
             this.GetComponent<CapsuleCollider>().height = 0.5f; // 캐릭터 콜라이더 높이 줄이기
+            
         }
-        Invoke("resetCollider", 2.0f); // 2초후 캐릭터 콜라이더를 되돌림
+        Invoke("resetCollider", animator.GetCurrentAnimatorStateInfo(0).length); // 2초후 캐릭터 콜라이더를 되돌림
     }
 
     public void JumpAnimation() // 점프하기 (위방향키)
