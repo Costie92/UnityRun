@@ -15,11 +15,17 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
     public static float shieldTime = 0.0f;
     public static bool Magnet = false;
     public static float magnetTime = 0.0f;
-    bool iOverlap, sOverlap ,mOverlap = false ; // 방어막 겹쳤을때 확인 mOverlap(자석)은 문제없으므로 안쓰임
 
+    bool iOverlap, sOverlap, mOverlap = false; // 방어막 겹쳤을때 확인 mOverlap(자석)은 문제없으므로 안쓰임
+
+    float shieldCount, magnetCount = 0;
+    float invincibleCount = 0;
     // Use this for initialization
     void Start()
     {
+        InvokeRepeating("SCount", 0, 1.0f);
+        InvokeRepeating("MCount", 0, 1.0f);
+        InvokeRepeating("ICount", 0, 1.0f);
 
         HP = 3;
         Invincible = false;
@@ -28,6 +34,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
         shieldTime = 0.0f;
         Magnet = false;
         magnetTime = 0.0f;
+        shieldCount = 0; magnetCount = 0; invincibleCount = 0;
     }
 
     // Update is called once per frame
@@ -37,6 +44,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
         {
             HP = 0;
         }
+
         ShieldEvent();
         MagnetEvent();
         InvicibleEvent();
@@ -44,7 +52,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
         InvicibleEventOff();
     }
 
-    public void GetItem(ItemST itemST) //아이템얻었을때
+public void GetItem(ItemST itemST) //아이템얻었을때
     {
         switch (itemST.itemType)
         {
@@ -56,21 +64,19 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
                 Debug.Log("HP " + HP + " 개");
                 break;
             case E_ITEM.INVINCIBLE: //무적
+                invincibleCount = 0;
                 invincibleTime = 5;
-                Invincible = true;
-                StartCoroutine(InvincibleCoroutine());
                 Debug.Log("INVINCIBLE 먹음");
                 break;
             case E_ITEM.SHIELD: //방어막먹음
+                shieldCount = 0;
                 shieldTime = 10;
-                Shield = true;
-                StartCoroutine(ShieldCoroutine());
                 if (Shield == true)
                 {
                     sOverlap = true;
                     Invoke("ShieldEvent3", 1.0f);
                 }
-                if(Shield == false)
+                if (Shield == false)
                 {
                     ShieldEvent();
                 }
@@ -80,9 +86,8 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
                 Coin++; // 동전수 +1
                 break;
             case E_ITEM.MAGNET: //자석먹음
-                magnetTime = 5;
-                Magnet = true;
-                StartCoroutine(MagnetCoroutine());
+                magnetCount = 0;
+                magnetTime = 10;
                 MagnetEvent();
                 Debug.Log("MAGNET 먹음");
                 break;
@@ -129,11 +134,11 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
 
     void ShieldEvent()
     {
-        if(shieldTime > 0)
+        if (shieldTime > 0)
         {
             Shield = true;
         }
-        if(shieldTime <= 0)
+        if (shieldTime <= 0)
         {
             Shield = false;
         }
@@ -141,7 +146,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
 
     void ShieldEvent2()
     {
-            shieldTime = 0;
+        shieldTime = 0;
     }
 
     void ShieldEvent3()
@@ -197,7 +202,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
     {
         if (Invincible == false && Shield == true)
         {
-                Invoke("ShieldEvent2", 1.0f);
+            Invoke("ShieldEvent2", 1.0f);
         }
         if (Invincible == false && Shield == false)
         {
@@ -240,40 +245,36 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
         return false;
     }
 
-    IEnumerator InvincibleCoroutine()
+    void ICount()
     {
-        while (Invincible)
+        if (Invincible == true && invincibleCount <= 5)
         {
-            yield return new WaitForSeconds(invincibleTime);
-            invincibleTime = 0;
-            Invincible = false;
-            print(Invincible);
+            invincibleTime--;
+            print("무적시간 : " + invincibleTime + " 초 남음");
+            invincibleCount++;
         }
-        //yield return null;
     }
 
-    IEnumerator ShieldCoroutine()
+    void SCount()
     {
-        while (Shield)
+        if (Shield == true && shieldCount <= 10)
         {
-            yield return new WaitForSeconds(shieldTime);
-            shieldTime = 0;
-            Shield = false;
-            print(Shield);
+            shieldTime--;
+            print("방어막시간 : " + shieldTime + " 초 남음");
+            shieldCount++;
         }
-        //yield return null;
     }
 
-    IEnumerator MagnetCoroutine()
+    void MCount()
     {
-        while (Magnet)
+        if (Magnet == true && magnetCount <= 10)
         {
-            yield return new WaitForSeconds(magnetTime);
-            magnetTime = 0;
-            Magnet = false;
-            print(Magnet);
+            magnetTime--;
+            print("자석시간 : " + magnetTime + " 초 남음");
+            magnetCount++;
         }
     }
+
 }
 
 
