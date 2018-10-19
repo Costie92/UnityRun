@@ -20,6 +20,8 @@ namespace hcp
         public GameObject item_INVINCIBLE;
         public GameObject item_SHIELD;
         public GameObject item_COIN;
+        public GameObject item_COIN_Parabola;
+        public GameObject item_COIN_Straight;
         public GameObject item_MAGNET;
 
         public List<GameObject> chunkPool = new List<GameObject>();
@@ -35,6 +37,8 @@ namespace hcp
         public List<GameObject> itemInvinciblePool = new List<GameObject>();
         public List<GameObject> itemShieldPool = new List<GameObject>();
         public List<GameObject> itemCoinPool = new List<GameObject>();
+        public List<GameObject> itemCoin_StraightLine_Pool = new List<GameObject>();
+        public List<GameObject> itemCoin_Parabola_Pool = new List<GameObject>();
         public List<GameObject> itemMagnetPool = new List<GameObject>();
 
 
@@ -51,6 +55,8 @@ namespace hcp
         private int itemInvinciblePoolCapacity = 5;
         private int itemShieldPoolCapacity = 5;
         private int itemCoinPoolCapacity = 5;
+        private int itemCoin_StraightLine_Capacity = 5;
+        private int itemCoin_Parabola_Capacity = 5;
         private int itemMagnetPoolCapacity = 5;
 
 
@@ -167,6 +173,18 @@ namespace hcp
             PoolInit(item_COIN, itemCoinPool, itemCoinPoolCapacity, "itemCoinPoolParent", "ITEMCOIN_");
         }
 
+        public void itemCoin_StraightLine_PoolInit(int capacity1 = 5)
+        {
+            itemCoin_StraightLine_Capacity = capacity1;
+            PoolInit(item_COIN_Straight, itemCoin_StraightLine_Pool, itemCoin_StraightLine_Capacity, "itemCoin_StraightLine_PoolParent", "ITEMCOINSTRAIGHT_");
+        }
+
+        public void itemCoin_Parabola_PoolInit(int capacity1 = 5)
+        {
+            itemCoin_Parabola_Capacity = capacity1;
+            PoolInit(item_COIN_Parabola, itemCoin_Parabola_Pool, itemCoin_Parabola_Capacity, "itemCoin_Parabola_PoolParent", "ITEMCOINPARABOLA_");
+        }
+
         public void itemMagnetPoolInit(int capacity1 = 5)
         {
             itemMagnetPoolCapacity = capacity1;
@@ -228,6 +246,17 @@ namespace hcp
         {
             return GetInSthPool(itemCoinPool);
         }
+
+        public GameObject GetItemCoin_StraightLine_InPool()
+        {
+            return GetInSthPool(itemCoin_StraightLine_Pool);
+        }
+
+        public GameObject GetItemCoin_Parabola_InPool()
+        {
+            return GetInSthPool(itemCoin_Parabola_Pool);
+        }
+
 
         public GameObject GetItemMagnetInPool()
         {

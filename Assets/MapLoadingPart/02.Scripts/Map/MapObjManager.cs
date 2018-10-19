@@ -35,6 +35,7 @@ namespace hcp
     [RequireComponent(typeof(RandomObjGenerator))]
     [RequireComponent(typeof(TurnPartInCharge))]
     [RequireComponent(typeof(DataOfMapObjMgr))]
+    [RequireComponent(typeof(ObjFactory))]
     public class MapObjManager : SingletonTemplate<MapObjManager>
     {
         public GameObject chunk;    //청크
@@ -90,6 +91,8 @@ namespace hcp
             MapAndObjPool.GetInstance().itemShieldPoolInit(100);
             MapAndObjPool.GetInstance().itemCoinPoolInit(100);
             MapAndObjPool.GetInstance().itemMagnetPoolInit(100);
+            MapAndObjPool.GetInstance().itemCoin_Parabola_PoolInit(10);
+            MapAndObjPool.GetInstance().itemCoin_StraightLine_PoolInit(10);
             /*
             tempCOSTList=
             ChunkLoading.GetInstance().ChunkLoad(GetPosByChunkMargin());
