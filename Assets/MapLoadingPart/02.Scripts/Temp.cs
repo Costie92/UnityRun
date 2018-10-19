@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using hcp;
 public class Temp : MonoBehaviour ,IObjToCharactor{
+    public float moveSpeed=10f;
     public void BeenHitByObs(ObstacleST obstacleST)
     {
        // print("옵스타클 이벤트 받음.");
@@ -23,15 +24,19 @@ public class Temp : MonoBehaviour ,IObjToCharactor{
 	void Update () {
 		if(Input.GetKey("w"))
         {
-            this.transform.Translate(Vector3.forward*10f*Time.deltaTime);
+            this.transform.Translate(Vector3.forward* moveSpeed * Time.deltaTime);
         }
         if (Input.GetKey("a"))
         {
-            this.transform.Translate(Vector3.left * 10f * Time.deltaTime);
+            this.transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
         }
         if (Input.GetKey("d"))
         {
-            this.transform.Translate(Vector3.right * 10f * Time.deltaTime);
+            this.transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+        }
+        if (Input.GetKey("s"))
+        {
+            this.transform.Translate(Vector3.back * moveSpeed * Time.deltaTime);
         }
     }
 }

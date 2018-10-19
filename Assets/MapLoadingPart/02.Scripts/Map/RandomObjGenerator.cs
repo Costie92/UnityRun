@@ -64,8 +64,8 @@ namespace hcp
 
             for(int i=0;i<probs.Length;i++)
             sum+=probs[i];
-
-            float sumDiv = 100f / sum;
+            
+            float sumDiv = 100f / sum;  //0디바이드 체크
 
             float[] enumArr=new float[max];
 
@@ -162,15 +162,22 @@ namespace hcp
 
         void probReset()
         {
+            /*
             huddleProb = 25;
             ballProb = 25;
             upperHProb = 25;
             fireProb = 100 - (huddleProb + ballProb + upperHProb);
-            
+            */
+
+            huddleProb = 25;
+            ballProb = 25;
+            upperHProb = 25;
+            fireProb = 100 - (huddleProb + ballProb + upperHProb);
+
             itemHpPlusProb = 20;
             itemInvinclbleProb = 10;
             itemShieldProb = 20;
-            itemCoinProb = 40;
+            itemCoinProb = 0;   //잠깐 40에서 0으로 변경
             itemMagnetProb = 100 - (
             itemHpPlusProb +
             itemInvinclbleProb +

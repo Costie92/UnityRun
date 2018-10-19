@@ -24,6 +24,10 @@ namespace hcp
         RIGHT,
         NOT_TURN
     }
+    public enum E_OBJ_SPAWN_WAY
+    {
+        RANDOM=0,
+    }
 
     [RequireComponent(typeof(MapAndObjPool))]
     [RequireComponent(typeof(ChunkLoading))]
@@ -31,7 +35,6 @@ namespace hcp
     [RequireComponent(typeof(RandomObjGenerator))]
     [RequireComponent(typeof(TurnPartInCharge))]
     [RequireComponent(typeof(DataOfMapObjMgr))]
-    [RequireComponent(typeof(ObjInCharge))]
     public class MapObjManager : SingletonTemplate<MapObjManager>
     {
         public GameObject chunk;    //청크
@@ -51,6 +54,8 @@ namespace hcp
 
         WaitForSeconds ws = new WaitForSeconds(0.15f);
 
+        List<ChunkObjST> tempCOSTList = new List<ChunkObjST>();
+
         public float GetChunkMargin() { return chunkMargin; }
 
 
@@ -69,24 +74,36 @@ namespace hcp
         {
             MapAndObjPool.GetInstance().ChunkPoolInit(10);
 
-            MapAndObjPool.GetInstance().obsBallPoolInit(5);
-            MapAndObjPool.GetInstance().obsHuddlePoolInit(5);
-            MapAndObjPool.GetInstance().obsUpperHuddle_1_PoolInit();
-            MapAndObjPool.GetInstance().obsUpperHuddle_2_PoolInit();
-            MapAndObjPool.GetInstance().obsUpperHuddle_3_PoolInit();
-            MapAndObjPool.GetInstance().obsFirePoolInit();
+            MapAndObjPool.GetInstance().obsBallPoolInit(100);
+            MapAndObjPool.GetInstance().obsHuddlePoolInit(100);
+            MapAndObjPool.GetInstance().obsUpperHuddle_1_PoolInit(100);
+            MapAndObjPool.GetInstance().obsUpperHuddle_2_PoolInit(100);
+            MapAndObjPool.GetInstance().obsUpperHuddle_3_PoolInit(100);
+            MapAndObjPool.GetInstance().obsFirePoolInit(100);
 
-            MapAndObjPool.GetInstance().itemHPPlusPoolInit();
-            MapAndObjPool.GetInstance().itemInvinciblePoolInit();
-            MapAndObjPool.GetInstance().itemShieldPoolInit();
+            MapAndObjPool.GetInstance().itemHPPlusPoolInit(100);
+            MapAndObjPool.GetInstance().itemInvinciblePoolInit(100);
+            MapAndObjPool.GetInstance().itemShieldPoolInit(100);
             MapAndObjPool.GetInstance().itemCoinPoolInit(100);
-            MapAndObjPool.GetInstance().itemMagnetPoolInit();
+            MapAndObjPool.GetInstance().itemMagnetPoolInit(100);
+
+            tempCOSTList=
+            ChunkLoading.GetInstance().ChunkLoad(GetPosByChunkMargin());
+            SetObjToNewChunks(E_OBJ_SPAWN_WAY.RANDOM);
             
 
-            ChunkLoading.GetInstance().ChunkLoad(GetPosByChunkMargin());
-            ObjInCharge.GetInstance(). AdjustObjSpawn();
-
             StartCoroutine(checkPos()); //부하를 줄이기 위해 0.2초 단위로 체크
+        }
+
+        void SetObjToNewChunks(E_OBJ_SPAWN_WAY way)
+        {
+            //나중에 way 따라 분기하기
+            //나중에 오브젝트들 큐 받아와서 하는 것도 오버로딩 해서 따로 구현하기.
+            for (int i = 0; i < tempCOSTList.Count; i++)
+            {
+                tempCOSTList[i].ObjSpawn(way);
+            }
+            tempCOSTList.Clear();
         }
 
         //청크의 길이 단위로 플레이어의 위치값 체크
@@ -155,7 +172,7 @@ namespace hcp
             if (false == IsTurnPlanOn())   //회전 상태여부 체크
             {
                 ChunkLoading.GetInstance().ChunkLoad(nowPos);
-                ObjInCharge.GetInstance().AdjustObjSpawn();
+                SetObjToNewChunks(E_OBJ_SPAWN_WAY.RANDOM);
                 return;
             }
 
@@ -164,7 +181,7 @@ namespace hcp
                 InitOfTurnPlan();
             
             ChunkLoading.GetInstance().ChunkLoad(nowPos, turnFlagSet.turningPoint);
-            ObjInCharge.GetInstance().AdjustObjSpawn();
+            SetObjToNewChunks(E_OBJ_SPAWN_WAY.RANDOM);
 
             WhenTurningFinished();
         }

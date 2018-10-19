@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+using UnityEditor;
+
 namespace hcp
 {
     [System.Serializable]
@@ -12,6 +14,33 @@ namespace hcp
         DEL,
         MAX
     };
+    /*
+    [CustomEditor(typeof(ChunkLoading))]
+    public class ChunkInspector : Editor
+    {
+        List<float> toShowDic;
+
+        void OnEnable()
+        {
+            //Character 컴포넌트를 얻어오기
+            if (ChunkLoading.GetInstance().posList != null)
+                toShowDic = ChunkLoading.GetInstance().posList;
+        }
+
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            if (ChunkLoading.GetInstance().posList != null)
+                toShowDic = ChunkLoading.GetInstance().posList;
+            foreach (var n in toShowDic)
+            {
+                    EditorGUILayout.LabelField(n.ToString());
+
+            }
+        }
+    }
+    */
+
     public class ChunkLoading : SingletonTemplate<ChunkLoading>
     {
         [System.Serializable]
@@ -27,15 +56,20 @@ namespace hcp
         private float marginDiv;
         private int wantToShowNumOfChunks; //보여줄 청크의 총 수
         private int wantToShowNumOfChunksInBehind ;//후방에 남겨둘 청크 수
+
+        public List<float> posList;
+
+        List<ChunkObjST> chunkObjSTList;
         
-        public Dictionary<float, GameObject>        chunkOnMap;
         ShowCandidate[] showCandidates;
+
         List<float>[] crtAndDelPosLists;
+
+        List<ChunkObjST> rtChunkObjSTList = new List<ChunkObjST>();
 
         protected override void Awake()
         {
             base.Awake();
-            chunkOnMap = DataOfMapObjMgr.chunkOnMap;
 
             wantToShowNumOfChunks = MapObjManager.GetInstance().wantToShowNumOfChunks;
             wantToShowNumOfChunksInBehind = MapObjManager.GetInstance().wantToShowNumOfChunksInBehind;
@@ -47,6 +81,7 @@ namespace hcp
                 showCandidates[i].alreadyIn = false;
             }
             margin = MapObjManager.GetInstance().GetChunkMargin();
+            if (margin == 0) ErrorManager.SpurtError();
             marginDiv = 1 / margin;
 
             crtAndDelPosLists = new List<float>[(int)E_CHUNK_CREATE_DEL.MAX];
@@ -54,31 +89,44 @@ namespace hcp
             {
                 crtAndDelPosLists[i] = new List<float>();
             }
+
+            this.chunkObjSTList = DataOfMapObjMgr.chunkObjSTList;
         }
 
-        public void ChunkLoad(float nowPos)
+        public List<ChunkObjST> ChunkLoad(float nowPos)
         {
+            rtChunkObjSTList.Clear();
+
             CleanCrtDelLists();
             CandidateReady();
+            posList = DataOfMapObjMgr.GetInstance().GetPosList();
+            
 
             CandidateCheck(nowPos);   //후보군 체크
             ChunkCreateAndDel();
-        }
 
-        public void ChunkLoad(float nowPos, float turningPoint)
+            return rtChunkObjSTList;
+        }
+        
+        public List<ChunkObjST> ChunkLoad(float nowPos, float turningPoint)
         {
+            rtChunkObjSTList.Clear();
+
             CleanCrtDelLists();
             CandidateReadyForTurn(nowPos,turningPoint);
+            posList = DataOfMapObjMgr.GetInstance().GetPosList();
 
             CandidateCheck(nowPos);   //터닝 포인트 들어온 대로 후보군 체크
             ChunkCreateAndDel();
+
+            return rtChunkObjSTList;
         }
 
         void CandidateCheck(float nowPos)//청크리스트를 이용하여 생성과 삭제할 자리를 찾아냄.
         {
             bool checkFinished = false;
             
-            foreach (float item in chunkOnMap.Keys.ToList())   //생성과 삭제 관리
+            foreach (float item in posList)   //생성과 삭제 관리
             {
                 checkFinished = false;
                 for (int i = 0; i < showCandidates.Length; i++) //후보군
@@ -112,28 +160,26 @@ namespace hcp
         {
             foreach (float pos in crtAndDelPosLists[(int)E_CHUNK_CREATE_DEL.DEL])   //삭제할 청크
             {
-                if (chunkOnMap.ContainsKey(pos))
+                if (posList.Contains(pos))
                 {
-                    GameObject delChunk = chunkOnMap[pos];
-                    if (chunkOnMap.Remove(pos))
-                        MapAndObjPool.GetInstance().TurnInPoolObj(delChunk);
-
-                    else Debug.Log("청크 삭제 중 오류 001");
+                    DataOfMapObjMgr.GetInstance().TurnInChunkObjSTPool(pos);
                 }
-                else Debug.Log("청크 삭제 중 오류 002");
+                else Debug.Log("청크 삭제 중 오류 001");
             }
 
             foreach (float pos in crtAndDelPosLists[(int)E_CHUNK_CREATE_DEL.CREATE])    //생성할 청크
             {
                 Vector3 createPos = new Vector3(0, 0, pos);
                 GameObject crtChunk = MapAndObjPool.GetInstance().GetChunkInPool();
-
+                ChunkObjST temp;
                 if (crtChunk != null)
                 {
-                    crtChunk.transform.position = createPos;
-                    crtChunk.transform.rotation = Quaternion.identity;
+                    crtChunk.transform.SetPositionAndRotation(createPos, Quaternion.identity);
                     crtChunk.SetActive(true);
-                    chunkOnMap.Add(pos, crtChunk);
+                    temp = DataOfMapObjMgr.GetInstance().GetEmptyChunkObjSTFromPool(crtChunk,pos);
+                    if (temp != null)
+                        rtChunkObjSTList.Add(temp);
+                    else ErrorManager.SpurtError("청크자료구조 받아오던중 에러");
                 }
                 else Debug.Log("청크 풀 부족");
             }
