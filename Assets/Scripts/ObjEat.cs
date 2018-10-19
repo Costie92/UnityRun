@@ -225,6 +225,7 @@ public void GetItem(ItemST itemST) //아이템얻었을때
         }
         else
         {
+            if (HP == 1) HP--;
             CharacterAnimation.DieAnimation(); //죽은 애니메이션
             Invoke("GameOver", 1.0f); // 쓰러진뒤 2초뒤에 게임오버(게임이 정지되도록 만들어줌) 시켜주는 함수
             CharacterMove.runSpeed = 0;
