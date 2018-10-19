@@ -15,7 +15,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
     public static float shieldTime = 0.0f;
     public static bool Magnet = false;
     public static float magnetTime = 0.0f;
-
+    private UIManager UIMgr;
     bool iOverlap, sOverlap, mOverlap = false; // 방어막 겹쳤을때 확인 mOverlap(자석)은 문제없으므로 안쓰임
 
     float shieldCount, magnetCount = 0;
@@ -26,7 +26,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
         InvokeRepeating("SCount", 0, 1.0f);
         InvokeRepeating("MCount", 0, 1.0f);
         InvokeRepeating("ICount", 0, 1.0f);
-
+        UIMgr = GameObject.Find("GameMgr").GetComponent<UIManager>();
         HP = 3;
         Invincible = false;
         invincibleTime = 0.0f;
@@ -66,11 +66,13 @@ public void GetItem(ItemST itemST) //아이템얻었을때
             case E_ITEM.INVINCIBLE: //무적
                 invincibleCount = 0;
                 invincibleTime = 5;
+                UIMgr.UI_Invincible.GetComponentInChildren<ProgressCoolDown>().ItemTime = invincibleTime;
                 Debug.Log("INVINCIBLE 먹음");
                 break;
             case E_ITEM.SHIELD: //방어막먹음
                 shieldCount = 0;
                 shieldTime = 10;
+                UIMgr.UI_Shield.GetComponentInChildren<ProgressCoolDown>().ItemTime = shieldTime;
                 if (Shield == true)
                 {
                     sOverlap = true;
@@ -88,6 +90,7 @@ public void GetItem(ItemST itemST) //아이템얻었을때
             case E_ITEM.MAGNET: //자석먹음
                 magnetCount = 0;
                 magnetTime = 10;
+                UIMgr.UI_Magnet.GetComponentInChildren<ProgressCoolDown>().ItemTime = magnetTime;
                 MagnetEvent();
                 Debug.Log("MAGNET 먹음");
                 break;
