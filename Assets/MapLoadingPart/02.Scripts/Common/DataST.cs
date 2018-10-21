@@ -50,7 +50,7 @@ namespace hcp
         public List<GameObject> objs = new List<GameObject>();//스폰포인트 넘버 상관 없이 오브젝트만 다 관리
         //코인 라인도 프리팹 했으니 리스트 말고 배열을 쓰는것도 고려해볼것.
 
-        public void ObjSpawn(E_OBJ_SPAWN_WAY way)
+        public void ObjSpawn(E_OBJ_SPAWN_WAY way, E_SPAWN_OBJ_TYPE[] objTypeArr = null)
         {
             if (chunk == null)
             {
@@ -67,10 +67,16 @@ namespace hcp
                 case E_OBJ_SPAWN_WAY.RANDOM:
                             RandomObjGenerator.GetInstance().RandomObjGen(spg, ref objs);
                     break;
+                case E_OBJ_SPAWN_WAY.FIXED:
+                    if (objTypeArr == null || objTypeArr.Length > 3) ErrorManager.SpurtError("fixed obj gen error");
+                    FixedObjGenerator.FixedObjGen(spg,objTypeArr, ref objs);
+                    break;
 
                 default: break;
             }
         }
+
+
 
         public bool IsEmpty()
         {
@@ -78,7 +84,7 @@ namespace hcp
                 return true;
             else return false;
         }
-        
+        /*
         public void PutInObj(GameObject obj)
         {
             if (objs != null)
@@ -89,6 +95,7 @@ namespace hcp
             if (objList != null)
                 objs.AddRange(objList);
         }
+        */
         public void Reset()
         {
             position = -1;
@@ -121,10 +128,12 @@ namespace hcp
 
 
     [System.Serializable]
-    public class MapObjST   //얘는 저장용으로.
+    public class MapObjST   //얘는 저장용으로. 이걸 큐로 엮어서 저장해서 다시 불러오는 방식.
     {
-        public float? keyPos=null;
-        E_SPAWN_OBJ_TYPE[] spawnObjType=
+        public float pos=-1;
+        public float turningPoint=-1;
+        E_SPAWN_OBJ_TYPE[] spawnObjType
+            =
             { E_SPAWN_OBJ_TYPE.NOTHING, E_SPAWN_OBJ_TYPE.NOTHING, E_SPAWN_OBJ_TYPE.NOTHING,};
     };
 }

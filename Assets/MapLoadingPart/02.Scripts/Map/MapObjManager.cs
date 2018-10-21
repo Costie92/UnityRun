@@ -27,6 +27,7 @@ namespace hcp
     public enum E_OBJ_SPAWN_WAY
     {
         RANDOM=0,
+        FIXED,
     }
 
     [RequireComponent(typeof(MapAndObjPool))]
@@ -167,7 +168,8 @@ namespace hcp
             }
         }
 
-        void Update()
+        void Update()   //지금 랜덤 무한 생성 모드와 픽스드 모드를 어떻게 할지 결정해야하는데 고민이야.
+            //변수 하나 받아와서 여기서 그냥 분기할까 클래스를 나눌까...
         {
             // newPos = GetPosByChunkMargin(); //코루틴으로 체크 부하를 줄임
 
@@ -189,7 +191,7 @@ namespace hcp
                 InitOfTurnPlan();
 
             tempCOSTList =
-           ChunkLoading.GetInstance().ChunkLoad(nowPos, turnFlagSet.turningPoint);
+           ChunkLoading.GetInstance().ChunkLoad(nowPos, turnFlagSet.turningPoint);  //회전 있으면 이거 주면 됨
             SetObjToNewChunks(E_OBJ_SPAWN_WAY.RANDOM);
 
             WhenTurningFinished();

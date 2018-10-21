@@ -7,13 +7,7 @@ using UnityEditor;
 
 namespace hcp
 {
-    [System.Serializable]
-    public enum E_CHUNK_CREATE_DEL
-    {
-        CREATE=0,
-        DEL,
-        MAX
-    };
+  
     /*
     [CustomEditor(typeof(ChunkLoading))]
     public class ChunkInspector : Editor
@@ -44,6 +38,13 @@ namespace hcp
     public class ChunkLoading : SingletonTemplate<ChunkLoading>
     {
         [System.Serializable]
+        enum E_CHUNK_CREATE_DEL
+        {
+            CREATE=0,
+            DEL,
+            MAX
+        };
+        [System.Serializable]
         public struct ShowCandidate
         {
             public float pos;
@@ -56,13 +57,8 @@ namespace hcp
         private float marginDiv;
 
         public List<float> posList;
-
-        List<ChunkObjST> chunkObjSTList;
-        
         public ShowCandidate[] showCandidates;
-
         List<float>[] crtAndDelPosLists;
-
         List<ChunkObjST> rtChunkObjSTList = new List<ChunkObjST>();
 
         protected override void Awake()
@@ -88,8 +84,6 @@ namespace hcp
             margin = MapObjManager.GetInstance().GetChunkMargin();
             if (margin == 0) ErrorManager.SpurtError();
             marginDiv = 1 / margin;
-
-            this.chunkObjSTList = DataOfMapObjMgr.chunkObjSTList;
         }
 
         public List<ChunkObjST> ChunkLoad(float nowPos)
@@ -214,12 +208,7 @@ namespace hcp
                 return;
             }   
             
-            //true = 청크가 삭제도 생성도 안되게 만듦.
-            for (int i = 0; i < showCandidates.Length; i++)
-            {
-                showCandidates[i].alreadyIn = true;
-            }
-
+           
             float createStartPosition = dis + 3;    //기역자 청크를 넘어서 새로 만들때 포지션
             float beHoldPosition = createStartPosition - 6;//이것 역시 기역자 청크에 의존한 값    기역자 청크 전에 남겨둬야한 청크 포지션
            //dis+3 이 새로 생성해야할 청크포지션 시작점임.(alreadyIn을 false로 만들어야함. 체킹캔디데이트로 권한을 넘기는것.)
@@ -227,6 +216,7 @@ namespace hcp
             {
                 if(showCandidates[i].pos >= createStartPosition || showCandidates[i].pos <=beHoldPosition)
                 showCandidates[i].alreadyIn = false;
+                else showCandidates[i].alreadyIn = true; //true = 청크가 삭제도 생성도 안되게 만듦.
             }
         }
     }
