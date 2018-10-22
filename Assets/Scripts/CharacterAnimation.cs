@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 + 충돌판정을 담당
 {
-
+    private static CharacterAnimation _instance = null;
+    public static CharacterAnimation instance
+    {
+        get
+        {
+            if (_instance == null)
+                Debug.LogError("CharacterAnimation is NULL");
+            return _instance;
+        }
+    }
     public static Animator animator; // 애니메이션을 구현하기위해 쓴거
     public Rigidbody rigidbody;
-
+    private UIManager UIMgr;
     private float attacked = 20.0f; // 적과 부딪힌뒤에 밀려나는 정도
 
     // Use this for initialization
     void Start()
     {
+        UIMgr = GameObject.Find("GameMgr").GetComponent<UIManager>();
         animator = GetComponent<Animator>(); // 애니메이션을 구현하기위해 쓴거
         rigidbody = GetComponent<Rigidbody>();
     }
@@ -40,15 +50,15 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
         }
     }
     */
-    public static void DamageAnimation() // 캐릭터가 죽는모습을 보여주고 게임을 정지시킴
+    public void DamageAnimation() // 캐릭터가 죽는모습을 보여주고 게임을 정지시킴
     {
         animator.Play("DAMAGED00", -1, 0); // 뒤로 쓰러지는 애니메이션 실행
     }
 
-    public static void DieAnimation() // 캐릭터가 죽는모습을 보여주고 게임을 정지시킴
+    public void DieAnimation() // 캐릭터가 죽는모습을 보여주고 게임을 정지시킴
     {
         animator.Play("DAMAGED01", -1, 0); // 뒤로 쓰러지는 애니메이션 실행
-        //Invoke("GameOver", 2.0f); // 쓰러진뒤 2초뒤에 게임오버(게임이 정지되도록 만들어줌) 시켜주는 함수
+        Invoke("GameOver", animator.GetCurrentAnimatorStateInfo(0).length); // 쓰러진뒤 2초뒤에 게임오버(게임이 정지되도록 만들어줌) 시켜주는 함수
     }
 
     public void SlideAnimation() // 슬라이드 (아래방향키)
@@ -78,7 +88,7 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
 
     public void GameOver() // 캐릭터가 쓰러진상태로 유지시켜주는 함수
     {
-        Time.timeScale = 0; // 캐릭터 시간멈춤 (캐릭터가 쓰러진 모습 상태로 정지함)
+        UIMgr.ShowResult(); // 캐릭터 시간멈춤 (캐릭터가 쓰러진 모습 상태로 정지함)
     }
 
 }

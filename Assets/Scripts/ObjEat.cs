@@ -16,6 +16,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
     public static bool Magnet = false;
     public static float magnetTime = 0.0f;
     private UIManager UIMgr;
+    private CharacterAnimation cAnim;
     bool iOverlap, sOverlap, mOverlap = false; // 방어막 겹쳤을때 확인 mOverlap(자석)은 문제없으므로 안쓰임
 
     float shieldCount, magnetCount = 0;
@@ -26,6 +27,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
         InvokeRepeating("SCount", 0, 1.0f);
         InvokeRepeating("MCount", 0, 1.0f);
         InvokeRepeating("ICount", 0, 1.0f);
+        cAnim = this.GetComponent<CharacterAnimation>();
         UIMgr = GameObject.Find("GameMgr").GetComponent<UIManager>();
         HP = 3;
         Invincible = false;
@@ -221,7 +223,7 @@ public void GetItem(ItemST itemST) //아이템얻었을때
         if (HP > 1)
         {
             //this.transform.Translate(Vector3.back * attacked * Time.deltaTime); // 적에게 닿은후 캐릭터의 위치가 뒤로 밀림 attacked값을 바꾸면 밀린정도를 바꿀수있음
-            CharacterAnimation.DamageAnimation(); // 체력깎임 애니메이션 실행
+            cAnim.DamageAnimation(); // 체력깎임 애니메이션 실행
             HP--;
             CharacterMove.runSpeed = CharacterMove.runSpeed / 2.0f;
             Invoke("DamagedEvent3", 1.5f);
@@ -229,7 +231,7 @@ public void GetItem(ItemST itemST) //아이템얻었을때
         else
         {
             if (HP == 1) HP--;
-            CharacterAnimation.DieAnimation(); //죽은 애니메이션
+            cAnim.DieAnimation(); //죽은 애니메이션
             Invoke("GameOver", 1.0f); // 쓰러진뒤 2초뒤에 게임오버(게임이 정지되도록 만들어줌) 시켜주는 함수
             CharacterMove.runSpeed = 0;
         }

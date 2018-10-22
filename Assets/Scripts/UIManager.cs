@@ -26,12 +26,17 @@ public class UIManager : MonoBehaviour {
     public Text CoinText;
 
     // Use this for initialization
+    private void Awake()
+    {
+        UI_Shield = GameObject.Find("Shield");
+        UI_Magnet = GameObject.Find("Magnet");
+        UI_Invincible = GameObject.Find("Invincible");
+    }
     void Start() {
         isPause = false;
         PauseMenu.SetActive(false);
         Result.SetActive(false);
         CoinText.text = "0";
-
     }
 
     // Update is called once per frame
@@ -70,8 +75,6 @@ public class UIManager : MonoBehaviour {
         PauseMenu.SetActive(false);
     }
     public void OnClickQuit() {
-        isPause = true;
-        Time.timeScale = 0;
         ShowResult();
     }
     public void OnClickExit() {
@@ -85,6 +88,8 @@ public class UIManager : MonoBehaviour {
         SceneManager.LoadScene(1);
     }
     public void ShowResult() {
+        isPause = true;
+        Time.timeScale = 0;
         Result.SetActive(true);
         Result.transform.Find("ResultCoin").GetComponent<Text>().text = CoinText.text;
     }
