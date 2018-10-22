@@ -1752,9 +1752,9 @@ MonoBehaviour:
   - {fileID: 717534213}
   - {fileID: 388381692}
   - {fileID: 683703899}
-  UI_Shield: {fileID: 2086144273}
-  UI_Magnet: {fileID: 1455523670}
-  UI_Invincible: {fileID: 628833269}
+  UI_Shield: {fileID: 0}
+  UI_Magnet: {fileID: 0}
+  UI_Invincible: {fileID: 0}
   PauseMenu: {fileID: 1736674175}
   Result: {fileID: 87877119}
   CoinText: {fileID: 583239765}

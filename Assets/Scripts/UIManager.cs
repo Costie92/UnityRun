@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour {
     }
     void Start() {
         isPause = false;
+        Time.timeScale = 1;
         PauseMenu.SetActive(false);
         Result.SetActive(false);
         CoinText.text = "0";
