@@ -31,7 +31,6 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     public int turnRightControl = 0; // 오른쪽 컨트롤을 제어하기 위해 만든 변수
 
     public float jumpHeight = 100.0f;
-    public static bool enemyAttack = false;
     public static bool leftWall = false;
     public static bool rightWall = false;
 
@@ -53,7 +52,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     // Update is called once per frame
     void Update()
     {
-        if (enemyAttack == false) // 적에게 부딪히지 않았을경우
+        if (ObjEat.HP  != 0) // 적에게 부딪히지 않았을경우
         {
             Run();
         }
@@ -62,6 +61,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     public void Run() {
         this.transform.Translate(Vector3.forward * runSpeed * Time.deltaTime);
     }
+
     public void Move(bool isLeftDirection) // 좌우로 회전하거나 움직이는 이벤트를 담당하는 함수 turningPoint가 true일 경우와 false일경우로 나뉨
     {
         if (this.Character.transform.position.x > 2f)
@@ -201,62 +201,5 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
             CharacterMove.rightWall = false;
         }
     }
-
-    /*
-    void OnCollisionEnter(Collision collision) // 아이템과 닿았다는것을 확인
-    {
-         // SpeedUpItem태그(이름밑의 Tag)의 오브젝트와 충돌시 발생하는 이벤트
-        {
-            Destroy(collision.gameObject); // 아이템 제거
-            SpeedUpItem(); // 스피드업 아이템
-        }
-
-         // SpeedUpItem태그(이름밑의 Tag)의 오브젝트와 충돌시 발생하는 이벤트
-        {
-            shield = 1;
-            Destroy(collision.gameObject); // 아이템 제거
-            ShieldItem();
-            Invoke("ShieldOff", 6f);
-            //SpeedUpItem(); // 스피드업 아이템
-        }
-    }
-
-    void SpeedUpItem() // 스피드업 아이템 기능구현 함수
-    {
-        speedUpItem = true; // 스피드업 아이템에게 닿았다는것을 확인
-        Debug.Log("스피드업 아이템 먹음");
-        runSpeed *= 5f; // 달리기 5배
-        Invoke("SpeedRun", 3.5f); // 스피드업 기능을 3.5f시간만큼 지속
-    }
-
-    void SpeedRun() // 스피드업 기능
-    {
-        this.GetComponent<CapsuleCollider>().isTrigger = true; // 오브젝트 뚫고가기
-        this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY; // Rigidbody Y포지션 고정
-        // this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None; 
-        speedUpItem = false;
-        runSpeed = runSpeed / 5f;
-        Invoke("SpeedRunOff", 0.1f);
-    }
-
-    void SpeedRunOff() // 스피드업 기능
-    {
-        this.GetComponent<CapsuleCollider>().isTrigger = false; // 오브젝트 뚫기 해제
-        this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None; // Rigidbody 포지션 초기화
-    }
-
-    void ShieldItem() // 쉴드기능
-    {
-        Debug.Log("쉴드 아이템 먹음");
-        this.GetComponent<CapsuleCollider>().isTrigger = true;
-        this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY;
-    }
-
-    void ShieldOff()
-    {
-        this.GetComponent<CapsuleCollider>().isTrigger = false; // 오브젝트 뚫기 해제
-        this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None; // Rigidbody 포지션 초기화
-    }
-    */
 
 }

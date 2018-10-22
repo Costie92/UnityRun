@@ -9,6 +9,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
     Collision collision;
     public static int Coin = 0; // 동전수
     public static int HP = 3; // 체력 //처음3개 최대5개
+    public static bool unityChanDie = false;
     public static bool Invincible = false;
     public static float invincibleTime = 0.0f;
     public static bool Shield = false;
@@ -37,6 +38,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
         Magnet = false;
         magnetTime = 0.0f;
         shieldCount = 0; magnetCount = 0; invincibleCount = 0;
+        unityChanDie = false;
     }
 
     // Update is called once per frame
@@ -231,9 +233,14 @@ public void GetItem(ItemST itemST) //아이템얻었을때
         else
         {
             if (HP == 1) HP--;
-            cAnim.DieAnimation(); //죽은 애니메이션
-            Invoke("GameOver", 1.0f); // 쓰러진뒤 2초뒤에 게임오버(게임이 정지되도록 만들어줌) 시켜주는 함수
-            CharacterMove.runSpeed = 0;
+            if(unityChanDie == false)
+            {
+                cAnim.DieAnimation(); //죽은 애니메이션
+                this.GetComponent<CapsuleCollider>().isTrigger = true; // 오브젝트 뚫고가기
+                this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY; // Rigidbody Y포지션 고정
+                Invoke("GameOver", 1.0f); // 쓰러진뒤 2초뒤에 게임오버(게임이 정지되도록 만들어줌) 시켜주는 함수
+                CharacterMove.runSpeed = 0;
+            }
         }
     }
 
@@ -247,6 +254,7 @@ public void GetItem(ItemST itemST) //아이템얻었을때
     public void GameOver() // 캐릭터가 쓰러진상태로 유지시켜주는 함수
     {
         Time.timeScale = 0; // 캐릭터 시간멈춤 (캐릭터가 쓰러진 모습 상태로 정지함)
+        unityChanDie = true;
     }
 
     public bool GetMagnetState()
