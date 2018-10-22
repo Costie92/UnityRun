@@ -7,9 +7,13 @@ public class ProgressCoolDown : MonoBehaviour {
     public Image CoolDown;
     public float ItemTime;
     public float MaxtTime;
-	// Use this for initialization
-	void Start () {
-        ItemTime = MaxtTime;
+    // Use this for initialization
+    private void Awake()
+    {
+        CoolDown = this.GetComponent<Image>();
+    }
+    void Start () {
+
     }
 	
 	// Update is called once per frame

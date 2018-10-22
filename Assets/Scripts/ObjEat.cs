@@ -66,12 +66,14 @@ public void GetItem(ItemST itemST) //아이템얻었을때
             case E_ITEM.INVINCIBLE: //무적
                 invincibleCount = 0;
                 invincibleTime = 5;
+                UIMgr.UI_Invincible.GetComponentInChildren<ProgressCoolDown>().MaxtTime = invincibleTime;
                 UIMgr.UI_Invincible.GetComponentInChildren<ProgressCoolDown>().ItemTime = invincibleTime;
                 Debug.Log("INVINCIBLE 먹음");
                 break;
             case E_ITEM.SHIELD: //방어막먹음
                 shieldCount = 0;
                 shieldTime = 10;
+                UIMgr.UI_Shield.GetComponentInChildren<ProgressCoolDown>().MaxtTime = shieldTime;
                 UIMgr.UI_Shield.GetComponentInChildren<ProgressCoolDown>().ItemTime = shieldTime;
                 if (Shield == true)
                 {
@@ -90,6 +92,7 @@ public void GetItem(ItemST itemST) //아이템얻었을때
             case E_ITEM.MAGNET: //자석먹음
                 magnetCount = 0;
                 magnetTime = 10;
+                UIMgr.UI_Magnet.GetComponentInChildren<ProgressCoolDown>().MaxtTime = magnetTime;
                 UIMgr.UI_Magnet.GetComponentInChildren<ProgressCoolDown>().ItemTime = magnetTime;
                 MagnetEvent();
                 Debug.Log("MAGNET 먹음");

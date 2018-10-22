@@ -86,6 +86,7 @@ public class UIManager : MonoBehaviour {
     }
     public void ShowResult() {
         Result.SetActive(true);
+        Result.transform.Find("ResultCoin").GetComponent<Text>().text = CoinText.text;
     }
 }
 
