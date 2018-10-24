@@ -76,8 +76,14 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
 
     public void JumpAnimation() // 점프하기 (위방향키)
     {
-        Debug.Log("점프하기");
-        animator.Play("JUMP00", -1, 0); // 점프하는 애니메이션 실행
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00")) // 점프 애니메이션이 실행중이 아닐때 (중복해서 슬라이드 애니메이션이 실행하는것을 막아주는 조건)
+        {
+            Debug.Log("점프하기");
+            animator.Play("JUMP00", -1, 0); // 점프하는 애니메이션 실행
+            this.GetComponent<CapsuleCollider>().center = new Vector3(0, 1.5f, 0); // 캐릭터 콜라이더 중심 옮기기
+            this.GetComponent<CapsuleCollider>().height = 0.5f; // 캐릭터 콜라이더 높이 줄이기
+        }
+        Invoke("resetCollider", 1.0f); // 1초후 캐릭터 콜라이더를 되돌림
     }
 
     public void resetCollider() // 캐릭터 콜라이더 되돌리기

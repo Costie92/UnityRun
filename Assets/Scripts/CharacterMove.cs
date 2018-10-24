@@ -19,21 +19,19 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
 
     private CharacterAnimation cAnim;
     public bool turningPoint = true; // 방향전환해야할 시점일경우 true 아닐경우에는 false
+    public bool Loop = true; // while문 작동하시키기 위해 만듬 (별의미는 없음)
     public int horizontalLocation = 0;
     public static float runSpeed = 6.5f; // 캐릭터가 앞으로 달려가는 스피드
-
-    public bool Loop = true; // while문 작동하시키기 위해 만듬 (별의미는 없음)
     public float rotateY = 0; // 캐릭터가 회전하는 각도
-    // public float positionX = 0; // 캐릭터가 이동하는 좌표
     public int rotateLeftMax = 0; // 왼쪽으로 반복해서 움직이도록 할때 이용하려고 만든 변수
     public int rotateRightMax = 0; // 오른쪽으로 반복해서 움직이도록 할때 이용하려고 만든 변수
     public int turnLeftControl = 0; // 왼쪽 컨트롤을 제어하기 위해 만든 변수
     public int turnRightControl = 0; // 오른쪽 컨트롤을 제어하기 위해 만든 변수
+    public float jumpHeight = 65.0f;
+    public float speedUpdate = 1.2f;
 
-    public float jumpHeight = 100.0f;
     public static bool leftWall = false;
     public static bool rightWall = false;
-
     public static bool speedUpItem = false;
     public static int shield = 0;
 
@@ -59,7 +57,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
 
     }
     public void Run() {
-        this.transform.Translate(Vector3.forward * runSpeed * Time.deltaTime);
+        this.transform.Translate(Vector3.forward * runSpeed * speedUpdate *Time.deltaTime);
     }
 
     public void Move(bool isLeftDirection) // 좌우로 회전하거나 움직이는 이벤트를 담당하는 함수 turningPoint가 true일 경우와 false일경우로 나뉨
@@ -119,11 +117,14 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
         }
     }
     public void SlideDown() {
-        cAnim.SlideAnimation();
+        if (ObjEat.Invincible == false)
+        {
+            cAnim.SlideAnimation();
+        }
     }
     public void Jump() // 점프
     {
-        if (!CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00"))
+        if (!CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00") && ObjEat.Invincible == false)
         {
             cAnim.JumpAnimation();
             rigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse); // * 뒤 숫자를 조절하여 뛰는높이 조정가능
