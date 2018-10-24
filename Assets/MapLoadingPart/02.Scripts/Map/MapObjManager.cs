@@ -5,54 +5,21 @@ using UnityEngine;
 
 namespace hcp
 {
-    [System.Serializable]
-    public struct flagInTurning
-    {
-        public bool flag;
-        public float turningPoint;
-
-        public void Reset()
-        {
-            flag = false;
-            turningPoint = 0;
-        }
-    }
-    [System.Serializable]
-    public enum E_WhichTurn
-    {
-        LEFT = 0,
-        RIGHT,
-        NOT_TURN
-    }
-    public enum E_OBJ_SPAWN_WAY
-    {
-        RANDOM=0,
-        FIXED,
-    }
-
-    [RequireComponent(typeof(MapAndObjPool))]
-    [RequireComponent(typeof(ChunkLoading))]
-    [RequireComponent(typeof(MapPathGenerator))]
-    [RequireComponent(typeof(RandomObjGenerator))]
-    [RequireComponent(typeof(TurnPartInCharge))]
-    [RequireComponent(typeof(DataOfMapObjMgr))]
-    [RequireComponent(typeof(ObjFactory))]
     public class MapObjManager : SingletonTemplate<MapObjManager>
     {
         public GameObject chunk;    //청크
         private Transform playerTr;
         private float chunkMargin;
         private float chunkMarginDiv;
-        public int wantToShowNumOfChunks = 7; //후방 하나, 나머지 앞의 청크들
-        public int wantToShowNumOfChunksInBehind = 1;
+
         public float nowPos = -1;    //z축 기준 현재는
         public float newPos = 0;
-        public float turnedPoint = 0;
-        Vector3 turnChunksPos;
-        flagInTurning turnFlagSet;
-        E_WhichTurn whichTurn = E_WhichTurn.NOT_TURN;
+
+        StageTurnPointSet turnSet;
 
         IMapTurnToUI mapTurnToUI;
+
+        E_STAGE whatStage;
 
         WaitForSeconds ws = new WaitForSeconds(0.15f);
 
@@ -60,13 +27,12 @@ namespace hcp
 
         public float GetChunkMargin() { return chunkMargin; }
 
-        float time;
+        bool stageRemain;
 
         // Use this for initialization
         protected override void Awake()
         {
             base.Awake();
-            turnFlagSet.Reset();
             chunkMargin = chunk.GetComponentInChildren<Renderer>().bounds.size.z;
             chunkMarginDiv = 1 / chunkMargin;
             playerTr = GameObject.FindGameObjectWithTag("PLAYER").transform;
@@ -74,10 +40,16 @@ namespace hcp
 
             nowPos = -100;
 
-            time = Time.time;
+            turnSet = new StageTurnPointSet(-1,E_WhichTurn.NOT_TURN);
+            turnSet.DisableThisSet();
+            stageRemain = true;
         }
         private void Start()
         {
+            
+            whatStage = StageManager.GetInstance().StageNum;    //현재 이게 돈디스트로이라 start에서만 체크하는데
+            //돈디스트로이를 키게 되면 그에 해당하는 초기화 필수.
+
             MapAndObjPool.GetInstance().ChunkPoolInit(10);
 
             MapAndObjPool.GetInstance().obsBallPoolInit(100);
@@ -94,24 +66,25 @@ namespace hcp
             MapAndObjPool.GetInstance().itemMagnetPoolInit(100);
             MapAndObjPool.GetInstance().itemCoin_Parabola_PoolInit(10);
             MapAndObjPool.GetInstance().itemCoin_StraightLine_PoolInit(10);
-            /*
-            tempCOSTList=
-            ChunkLoading.GetInstance().ChunkLoad(GetPosByChunkMargin());
-            SetObjToNewChunks(E_OBJ_SPAWN_WAY.RANDOM);
-            */
 
             StartCoroutine(checkPos()); //부하를 줄이기 위해 0.2초 단위로 체크
         }
-
-        void SetObjToNewChunks(E_OBJ_SPAWN_WAY way)
+        bool isStage()
         {
-            //나중에 way 따라 분기하기
-            //나중에 오브젝트들 큐 받아와서 하는 것도 오버로딩 해서 따로 구현하기.
-            for (int i = 0; i < tempCOSTList.Count; i++)
+            if (whatStage == E_STAGE.INFINITY)
+                return false;
+            else return true;
+        }
+
+
+        void SetObjToNewChunks(List<ChunkObjST> genedCOSTList)
+        {
+            for (int i = 0; i < genedCOSTList.Count; i++)   //새로 생긴 청크들 모두에게
             {
-                tempCOSTList[i].ObjSpawn(way);
+                if(genedCOSTList[i].position >= (2*chunkMargin) )
+                genedCOSTList[i].ObjSpawn(whatStage);  //오브젝트 스폰
             }
-            tempCOSTList.Clear();
+            genedCOSTList.Clear();
         }
 
         //청크의 길이 단위로 플레이어의 위치값 체크
@@ -123,40 +96,20 @@ namespace hcp
             float tempPos = temp * chunkMargin;
             return tempPos;
         }
+        
 
-        bool IsTurnPlanOn()
+        void InitOfTurnPlan(StageTurnPointSet turnSet)
         {
-            if (turnFlagSet.flag == true) return true;
-            if (nowPos > 10 * chunkMargin && turnFlagSet.flag == false)   //회전 여부 체크
-            {
-                turnFlagSet.turningPoint = MapPathGenerator.GetInstance().WillTurn(nowPos, turnedPoint, out whichTurn, out turnChunksPos);
-                if (turnFlagSet.turningPoint > 0)
-                    return true;
-                else return false;
-            }
-            else return false;
-        }
-
-        void InitOfTurnPlan()
-        {
-            if (turnFlagSet.turningPoint > 0 && whichTurn != E_WhichTurn.NOT_TURN) //터닝이 나왔으면
-            {
-                if (turnFlagSet.flag == false) //터닝 준비 초기화
-                {
                     //터닝청크 생성
-                    TurnPartInCharge.GetInstance().GenerateTurnChunks(whichTurn, turnChunksPos, turnFlagSet.turningPoint);
-
-                    turnedPoint = turnFlagSet.turningPoint;
-                    turnFlagSet.flag = true;
+                    TurnPartInCharge.GetInstance().GenerateTurnChunks(turnSet.whichTurn, 
+                        turnSet.ConvertTurnPointToRealTurnPoint(chunkMargin));
 
                     //ui 쪽에 터닝포인트와 방향 알려줌
                     if (mapTurnToUI != null)
                     {
-                        mapTurnToUI.SetTurningPointToUI(turnFlagSet.turningPoint);
-                        mapTurnToUI.SetWhichTurnToUI(whichTurn);
+                        mapTurnToUI.SetTurningPointToUI(turnSet.ConvertTurnPointToRealTurnPoint(chunkMargin));
+                        mapTurnToUI.SetWhichTurnToUI(turnSet.whichTurn);
                     }
-                }
-            }
         }
 
         IEnumerator checkPos()  //부하를 줄이는 코루틴
@@ -173,48 +126,76 @@ namespace hcp
         {
             // newPos = GetPosByChunkMargin(); //코루틴으로 체크 부하를 줄임
 
+
+            if (isStage()&&stageRemain == false)   //스테이지에서 더 생산 할 게 없음. 종료. 필요.
+            {
+                return;
+            }
+
             if (newPos == nowPos)
                 return;//변화 없으면 리턴
             
             nowPos = newPos;
 
-            if (false == IsTurnPlanOn())   //회전 상태여부 체크
+            if (isStage()&&StageST.AllQueIsDeqed() && turnSet.IsDisabled() )    //회전도 다돌고 옵젝큐도 뭐도 없고 끝
             {
-                tempCOSTList =
-               ChunkLoading.GetInstance().ChunkLoad(nowPos);
-                SetObjToNewChunks(E_OBJ_SPAWN_WAY.RANDOM);
+                Debug.Log("스테이지 종료."+nowPos);
+                stageRemain = false;
                 return;
             }
 
-            //회전 플래그 상태
-            if (turnFlagSet.flag == false)  //초기화
-                InitOfTurnPlan();
+            if (turnSet.IsDisabled() )    //회전이 끝났을때.
+            {
+                Debug.Log("맵턴큐 젠 시작");
+                turnSet = MapPathGenerator.TurningGen(whatStage, nowPos, chunkMarginDiv , ref turnSet);
+            }
 
-            tempCOSTList =
-           ChunkLoading.GetInstance().ChunkLoad(nowPos, turnFlagSet.turningPoint);  //회전 있으면 이거 주면 됨
-            SetObjToNewChunks(E_OBJ_SPAWN_WAY.RANDOM);
+            if (false ==  turnSet.IsDisabled()  && turnSet.Init == false )
+            {
+                InitOfTurnPlan(turnSet);
+                //터닝 초기화 부
+                turnSet.Init = true;
+            }
+            
+
+            if (turnSet.IsDisabled() == false)
+            {
+                tempCOSTList =
+                       ChunkLoading.GetInstance().ChunkLoad(nowPos, turnSet.ConvertTurnPointToRealTurnPoint(chunkMargin));
+                SetObjToNewChunks(tempCOSTList);
+            }
+            else {  //옵젝큐만 남았거나 하는 상황.
+                tempCOSTList =
+                       ChunkLoading.GetInstance().ChunkLoad(nowPos);
+                SetObjToNewChunks(tempCOSTList);
+            }
 
             WhenTurningFinished();
         }
-
+        
         void WhenTurningFinished()
         {
-                if ((nowPos >= (turnFlagSet.turningPoint + ( (3 + 1) * chunkMargin) ))&& turnFlagSet.flag )
+            if ((nowPos >= (turnSet.ConvertTurnPointToRealTurnPoint(chunkMargin) + ( (3 + 1) * chunkMargin) )))
                 //포지션이 완전히 기역자 청크를 지나침.터닝 프로세스 완료. 터닝 초기화! 
                 //3은 굉장히 기역자 청크에 종속적인 숫자고. 1은 기역자 청크가 갑자기 없어지면 화면이 이상해서 넣은것
-                {
-                    print("터닝 피니쉬드!");
-                    whichTurn = E_WhichTurn.NOT_TURN;
-                    turnFlagSet.Reset();
-                    TurnPartInCharge.GetInstance().Reset();
-                    //ui 쪽에 터닝포인트와 방향 리셋
+            {
+                print("터닝 피니쉬드!");
+
+                //turnSet = null; //지금 ==null 체크가 다음 업데이트 프레임 넘어가면서 if 구문에서 걸리지를 않음.
+                //if (turnSet == null) Debug.Log("널이 되었다 드디어");
+
+                turnSet.DisableThisSet();
+
+                //print(turnSet.Init.ToString()+ turnSet.turningPoint.ToString()+ turnSet.whichTurn.ToString());
+                TurnPartInCharge.GetInstance().Reset();
+
+                //ui 쪽에 터닝포인트와 방향 리셋
                     if (mapTurnToUI != null)
                     {
-                        mapTurnToUI.SetTurningPointToUI(turnFlagSet.turningPoint);
-                        mapTurnToUI.SetWhichTurnToUI(whichTurn);
+                        mapTurnToUI.SetTurningPointToUI(0);
+                        mapTurnToUI.SetWhichTurnToUI(E_WhichTurn.NOT_TURN);
                     }
                 }
         }
-
     }
 }

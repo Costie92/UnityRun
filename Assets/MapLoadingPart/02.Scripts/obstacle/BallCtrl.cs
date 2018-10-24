@@ -18,7 +18,10 @@ namespace hcp
         {
             base.Awake();
             obsST.obstacleType = E_OBSTACLE.BALL;
-            margin = MapObjManager.GetInstance().GetChunkMargin();
+        }
+        private void Start()
+        {
+             margin = MapObjManager.GetInstance().GetChunkMargin();
             posMargin = margin * 1.7f;
         }
         protected override void OnEnable()

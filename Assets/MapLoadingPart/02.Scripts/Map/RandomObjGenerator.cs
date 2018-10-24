@@ -44,10 +44,12 @@ namespace hcp
 
         NOTHING;
 
+        int resetProbSum;
+
         protected override void Awake()
         {
             base.Awake();
-            MakeProbArray();
+            ProbArrayReset();
         }
         
         
@@ -80,7 +82,7 @@ namespace hcp
             return E_SPAWN_OBJ_TYPE.NOTHING;
         }
         
-        void MakeProbArray()
+        void ProbArrayReset()
         {
             HPPLUS = 1;
             INVINCIBLE = 1;
@@ -98,6 +100,8 @@ namespace hcp
             FIRE = 1;
 
             NOTHING = 1;
+
+            
         }
         
         E_SPAWN_OBJ_TYPE GambleObjType(int spawnPointNum,bool  uppered,bool ballSpawned)
@@ -158,49 +162,45 @@ namespace hcp
 
         //마그넷이 뜨면 코인의 확률을 더 올려준다든지,
         //!!!볼은 절대 연속으로 세번 나오거나 하면 안돼!!!!!
-        public void RandomObjGen(Transform spawnPointGroup, ref List<GameObject> objs)
+        //이제 타입 배열만 뱉도록 하게.
+        public StageObjArr RandomObjGen()
         {
             int upperFlag = 0;
             bool uppered = false;
             bool ballSpawned = false;
 
-            E_SPAWN_OBJ_TYPE typeOfObj;
-            GameObject spawned;
-            Transform spawnPoint;
-            for (int i = 0; i < spawnPointGroup.childCount; i++)
+            StageObjArr soa = new StageObjArr();
+
+            for (int i = 0; i < soa.spawnObjType.Length; i++)
             {
                 if (upperFlag-- > 0)
                     continue;
-
-                spawnPoint = spawnPointGroup.GetChild(i);
-                typeOfObj = GambleObjType(i,uppered: uppered, ballSpawned: ballSpawned);
+                
+                soa.spawnObjType[i] = GambleObjType(i,uppered: uppered, ballSpawned: ballSpawned);
                 if (ballSpawned)
                 {
                     ballSpawned = false;
                 }
-                if (typeOfObj.Equals(E_SPAWN_OBJ_TYPE.BALL))
+                if (soa.spawnObjType[i].Equals(E_SPAWN_OBJ_TYPE.BALL))
                 {
                     ballSpawned = true;
                 }
-                if(typeOfObj.Equals(E_SPAWN_OBJ_TYPE.UPPER_HUDDLE_1))
+                if(soa.spawnObjType[i].Equals(E_SPAWN_OBJ_TYPE.UPPER_HUDDLE_1))
                 {
                     uppered = true;
                 }
-                if (typeOfObj.Equals(E_SPAWN_OBJ_TYPE.UPPER_HUDDLE_2))
+                if (soa.spawnObjType[i].Equals(E_SPAWN_OBJ_TYPE.UPPER_HUDDLE_2))
                 {
                     upperFlag = 1;
                     uppered = true;
                 }
-                if (typeOfObj.Equals(E_SPAWN_OBJ_TYPE.UPPER_HUDDLE_3))
+                if (soa.spawnObjType[i].Equals(E_SPAWN_OBJ_TYPE.UPPER_HUDDLE_3))
                 {
                     upperFlag = 2;
                     uppered = true;
                 }
-
-                spawned = ObjFactory.ObjSpawnFactory(typeOfObj, spawnPoint);
-                if(spawned!=null)
-                    objs.Add(spawned);
             }
+            return soa;
         }
     }
 }

@@ -89,7 +89,6 @@ namespace hcp
                 temp.name = poolobjname + i.ToString("00");
                 temp.SetActive(false);  //활성화 여부로 풀링 제공 
                 list.Add(temp);
-                if (ChunkLoading.debugLog) Debug.Log(list[i].name + "풀에서 확인");
             }
         }
         GameObject GetInSthPool(List<GameObject> list)

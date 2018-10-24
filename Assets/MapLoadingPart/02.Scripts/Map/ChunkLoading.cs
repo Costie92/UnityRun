@@ -3,38 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-using UnityEditor;
 
 namespace hcp
 {
-  
-    /*
-    [CustomEditor(typeof(ChunkLoading))]
-    public class ChunkInspector : Editor
-    {
-        List<float> toShowDic;
-
-        void OnEnable()
-        {
-            //Character 컴포넌트를 얻어오기
-            if (ChunkLoading.GetInstance().posList != null)
-                toShowDic = ChunkLoading.GetInstance().posList;
-        }
-
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            if (ChunkLoading.GetInstance().posList != null)
-                toShowDic = ChunkLoading.GetInstance().posList;
-            foreach (var n in toShowDic)
-            {
-                    EditorGUILayout.LabelField(n.ToString());
-
-            }
-        }
-    }
-    */
-
     public class ChunkLoading : SingletonTemplate<ChunkLoading>
     {
         [System.Serializable]
@@ -45,19 +16,17 @@ namespace hcp
             MAX
         };
         [System.Serializable]
-        public struct ShowCandidate
+        private struct ShowCandidate
         {
             public float pos;
             public bool alreadyIn;
         }
-
-        public static bool debugLog = false;
-
+        
         private float margin;//청크의 z축 크기(실제 바닥면 개념 큐브등의 크기)
         private float marginDiv;
 
         public List<float> posList;
-        public ShowCandidate[] showCandidates;
+        ShowCandidate[] showCandidates;
         List<float>[] crtAndDelPosLists;
         List<ChunkObjST> rtChunkObjSTList = new List<ChunkObjST>();
 
@@ -74,11 +43,11 @@ namespace hcp
 
         private void Start()
         {
-            showCandidates = new ShowCandidate[MapObjManager.GetInstance().wantToShowNumOfChunks];
+            showCandidates = new ShowCandidate[Constants.wantToShowNumOfChunks];
 
             for (int i = 0; i < showCandidates.Length; i++) //청크 후보 자리 초기화
             {
-                showCandidates[i].pos = ((-1 * MapObjManager.GetInstance().wantToShowNumOfChunksInBehind) + i);   //후방과 전방에 놓을 청크의 수 저장
+                showCandidates[i].pos = ((-1 * Constants.wantToShowNumOfChunksInBehind) + i);   //후방과 전방에 놓을 청크의 수 저장
                 showCandidates[i].alreadyIn = false;
             }
             margin = MapObjManager.GetInstance().GetChunkMargin();
@@ -195,12 +164,12 @@ namespace hcp
         void CandidateReadyForTurn(float nowPos,float turningPoint) //터닝포인트 회절길 만들어주면됨.
         {
             //3과 2가 기역자 청크에 종속적인 값들.
-            int frontShowChunk = MapObjManager.GetInstance().wantToShowNumOfChunks - MapObjManager.GetInstance().wantToShowNumOfChunksInBehind;    //앞쪽으로의 청크의 숫자
+            int frontShowChunk =Constants.frontShowChunks;    //앞쪽으로의 청크의 숫자
             float dis = (turningPoint - nowPos)*marginDiv; //터닝포인트에서 현재위치 까지의 거리
             //기역자 청크에 상당히 의존한 겂으로써 -4는 무시, -3부터 0 포지션 부터 청크 생성
             //-2는 1번째 포지션 자리부터 청크 생성...
 
-            if ((-1 * (3 + MapObjManager.GetInstance().wantToShowNumOfChunksInBehind)) >= dis //음수, 현재 위치가 터닝포인트보다 앞. 회전 포인트와 상관이 없어질때의 위치만큼 앞에 가있을때.
+            if ((-1 * (3 + Constants.wantToShowNumOfChunksInBehind)) >= dis //음수, 현재 위치가 터닝포인트보다 앞. 회전 포인트와 상관이 없어질때의 위치만큼 앞에 가있을때.
                 ||
                 dis >= (frontShowChunk + 2))    //양수, 현재위치가 충분히 터닝포인트보다 뒤에 있을때.
             {

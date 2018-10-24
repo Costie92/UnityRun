@@ -48,8 +48,9 @@ namespace hcp
         }
 
 
-        public void GenerateTurnChunks(E_WhichTurn whichTurn, Vector3 pos,float turningPoint)
+        public void GenerateTurnChunks(E_WhichTurn whichTurn,float turningPoint)
         {
+            Vector3 pos = new Vector3(0f, 0f, turningPoint - (2 * MapObjManager.GetInstance().GetChunkMargin()));
             this.whichTurn = whichTurn;
             this.turningPoint = turningPoint;
             if(whichTurn==E_WhichTurn.LEFT)

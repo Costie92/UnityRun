@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEditor;
 
 namespace hcp {
+#if UNITY_EDITOR
     [CustomEditor(typeof(DataOfMapObjMgr))]
-    public class ObjInChageInspector : Editor
+    public class DataOfMapObjMgrInspector : Editor
     {
         List<ChunkObjST> toShowDic;
 
@@ -30,8 +31,8 @@ namespace hcp {
             }
         }
     }
+#endif
 
-    
 
 
     public class DataOfMapObjMgr : SingletonTemplate<DataOfMapObjMgr> {
@@ -79,7 +80,7 @@ namespace hcp {
 
         }
 
-        public void ChunkObjSTPoolInit(int capacity =10)
+        public void ChunkObjSTPoolInit(int capacity =Constants.wantToShowNumOfChunks+2)
         {
             for (int i = 0; i < capacity; i++)
             {
@@ -126,15 +127,14 @@ namespace hcp {
             return null;
         }
 
-
-
-        public static Queue<MapObjST> MapObjSTQue = new Queue<MapObjST>();   //맵 옵젝 저장구조.
-
-        public static Queue<float> TurningPointQue = new Queue<float>();   //저장되있는걸 가져와서 터닝포인트큐와 맵옵젝큐에 넣음
+        
 
         protected override void Awake()
         {
             base.Awake();
+            chunkObjSTList.Clear();
+            chunkObjSTPool.Clear();
+
             ChunkObjSTPoolInit();
         }
 
