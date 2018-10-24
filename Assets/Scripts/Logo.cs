@@ -16,7 +16,6 @@ public class Logo : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        
        if (Input.GetMouseButtonDown(0)) // 마우스가 눌린 경우 아무키나 터치된 것으로 간주한다.
         {
             Mask.gameObject.SetActive(true); // 페이드아웃용 흰색 패널을 활성화시킨다.
@@ -25,7 +24,7 @@ public class Logo : MonoBehaviour {
     }
     void Complete()
     {
-        SceneManager.LoadScene(1); // 빌드셋팅에서 1번에 설정된 Scene을 불러온다.
+        SceneManager.LoadScene(2); // 빌드셋팅에서 2번에 설정된 Scene을 불러온다.
     }
     void TextComplete() {
         if (StartText.GetComponent<Text>().color.a == 0.0f)

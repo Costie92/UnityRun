@@ -34,17 +34,25 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
     // Use this for initialization
     void Awake () {
         _instance = this;
-        cMove = GameObject.FindWithTag("PLAYER").GetComponent<CharacterMove>();
-        unitychan = GameObject.FindWithTag("PLAYER");
         TapCount = 0;
-        Screen.SetResolution(1920, 1080, false);
+        //Screen.SetResolution(1920, 1080, false);
         height = Screen.height;
         width = Screen.width;
     }
-
+    void Start() {
+        cMove = GameObject.FindWithTag("PLAYER").GetComponent<CharacterMove>();
+        unitychan = GameObject.FindWithTag("PLAYER");
+    }
     // Update is called once per frame
     void Update()
     {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+        }
         if (ObjEat.Invincible)
         {
             SwipeToTurn();
