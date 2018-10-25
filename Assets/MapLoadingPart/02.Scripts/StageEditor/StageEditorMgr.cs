@@ -83,9 +83,20 @@ namespace hcp {
             //포워드 백워드 맞춰서 처리해줄 필요 있음.
             //백워드 면 이렇게 바로 포지션을 조정해주는 게 맞는데
             //포워드 경우면 회전 청크 구간을 쩜프해줘야할 필요가 있어.
-            if (tp > this.position) //포워드 구간임!
+            if (tp > this.position) //포워드로 불려진 구간임!
             {
-                //쩜프했을때 -1 구간의 청크가 널이어야만함 *****
+                position = tp + 5;  //쩜프 (턴 청크 구간 다음의 포지션)
+                //쩜프했을때 -1 구간의 청크가 안보여야만함 *****
+                for (int i = 1; i < candidates.Length; i++)
+                {
+                    StageEditorST sest =
+                        MakeChunk(candidates[i], position);
+                    if (sest.IsTurnChunks())                     //회전 청크가 나오면 그만만듦
+                    {
+                       
+                        break;
+                    }
+                }
             }
             
 
