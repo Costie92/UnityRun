@@ -30,7 +30,8 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
     private int TapCount;
     private Vector2 ButtonDownMousePos = new Vector2(0,0);
     public float MaxDubbleTapTime;
-    public static event SwipeScreen swipeScreen;
+    public event SwipeScreen swipeScreen;
+    public static bool isTurn;
     // Use this for initialization
     void Awake () {
         _instance = this;
@@ -38,14 +39,19 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
         //Screen.SetResolution(1920, 1080, false);
         height = Screen.height;
         width = Screen.width;
+        isTurn = false;
     }
     void Start() {
+        
         cMove = GameObject.FindWithTag("PLAYER").GetComponent<CharacterMove>();
         unitychan = GameObject.FindWithTag("PLAYER");
     }
     // Update is called once per frame
     void Update()
     {
+        if (turningpoint == 0) {
+            isTurn = false;
+        }
         if (Application.platform == RuntimePlatform.Android)
         {
             if (Input.GetKey(KeyCode.Escape))
@@ -133,8 +139,10 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
         }
     }
     public void SwipeToTurn() {
-        if (turningpoint != 0 && unitychan.transform.position.z > turningpoint)
+        //한번만부르게 바꾸기
+        if (!isTurn && turningpoint != 0 && unitychan.transform.position.z > turningpoint)
         {
+            isTurn = true;
             swipeScreen(turningpoint, whichTurn);
         }
     }
