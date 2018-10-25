@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour {
     public GameObject PauseMenu;
     public GameObject Result;
     public Text CoinText;
+    private TouchScreenKeyboard keyboard;
 
     // Use this for initialization
     private void Awake()
@@ -68,6 +69,8 @@ public class UIManager : MonoBehaviour {
         isPause = true;
         Time.timeScale = 0;
         PauseMenu.SetActive(true);
+        //keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
+
     }
     public void OnClickResume()
     {

@@ -8,6 +8,7 @@ namespace hcp
     {
         public float moveSpeed = 0.1f;
         Vector3 n = new Vector3(15, 0, 0);
+        private float speed;
         bool playerFound = false;
         float margin;
         float posMargin;
@@ -21,13 +22,14 @@ namespace hcp
         }
         private void Start()
         {
-             margin = MapObjManager.GetInstance().GetChunkMargin();
+            speed = 50.0f;
+            margin = MapObjManager.GetInstance().GetChunkMargin();
             posMargin = margin * 1.7f;
         }
         protected override void OnEnable()
         {
             base.OnEnable();
-            StartCoroutine( checkPlayerPos());
+            StartCoroutine(checkPlayerPos());
             playerFound = false;
             transform.position = transform.position + Vector3.up * 10.0f;
         }
@@ -38,8 +40,8 @@ namespace hcp
             {
                 if (Kaboom())
                 {
-                    childModel.transform.Rotate(n, Space.Self);
-                    transform.Translate(Vector3.forward * moveSpeed, Space.Self);
+                    childModel.transform.Rotate(n * speed * Time.deltaTime, Space.Self);
+                    transform.Translate(Vector3.forward * moveSpeed * speed * Time.deltaTime, Space.Self);
                 }
             }
         }
@@ -48,7 +50,7 @@ namespace hcp
         {
             if (transform.position.y > 0)
             {
-               
+
                 transform.Translate(0f, -1f, 0f);
                 return false;
             }
@@ -68,7 +70,7 @@ namespace hcp
         }
         public override void FromChildOnTriggerEnter(GameObject child, Collider other)
         {
-            if (other.gameObject.CompareTag("PLAYER")&&!obsST.beenHit)
+            if (other.gameObject.CompareTag("PLAYER") && !obsST.beenHit)
             {
                 obsST.beenHit = true;
                 objToCharactor.BeenHitByObs(obsST);

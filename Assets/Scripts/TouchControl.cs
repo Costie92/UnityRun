@@ -68,7 +68,7 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (Input.mousePosition.y > (height / 2))
+                if (Input.mousePosition.y > (height / 2.5))
                 {
                     ButtonDownMousePos = Input.mousePosition;
                     TapCount = 1;
@@ -82,7 +82,7 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
                 //하단 부분 클릭 했을 경우
                 if (TapCount == 0)
                 {
-                    if (MousePosY < (height / 2))
+                    if (MousePosY < (height / 2.5))
                     {
                         //좌측으로 이동
                         if (MousePosX < (width / 2))
