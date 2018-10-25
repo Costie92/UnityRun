@@ -5264,7 +5264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 541234efc1db3e5479378cf23edbc3c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 0}
 --- !u!114 &114235178974927282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5277,14 +5276,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turningPoint: 0
-  horizontalLocation: 0
   Loop: 1
+  horizontalLocation: 0
   rotateY: 0
   rotateLeftMax: 0
   rotateRightMax: 0
   turnLeftControl: 0
   turnRightControl: 0
-  jumpHeight: 100
+  jumpHeight: 65
+  speedUpdate: 1.2
 --- !u!114 &114352394337181926
 MonoBehaviour:
   m_ObjectHideFlags: 1
