@@ -7,7 +7,8 @@ namespace hcp
     [System.Serializable]
     public enum E_STAGE
     {
-        STAGE_1 = 0,
+        NONE=0,
+        STAGE_1,
         STAGE_2,
 
         INFINITY,

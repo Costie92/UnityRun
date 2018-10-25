@@ -10,6 +10,7 @@ namespace hcp
         public static Queue<StageObjArr> objQueue = new Queue<StageObjArr>();//스테이지 에서 쓰이는 큐
         static float lastTurningPoint=0;
         
+        
         public static void EnqueStageObjs(E_SPAWN_OBJ_TYPE obj1st, E_SPAWN_OBJ_TYPE obj2nd, E_SPAWN_OBJ_TYPE obj3rd)
         {
             StageObjArr tempObjQue = new StageObjArr(obj1st, obj2nd, obj3rd);

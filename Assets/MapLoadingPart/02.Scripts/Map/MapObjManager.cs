@@ -5,6 +5,11 @@ using UnityEngine;
 
 namespace hcp
 {
+    [RequireComponent(typeof(MapAndObjPool))]
+    [RequireComponent(typeof(ChunkLoading))]
+    [RequireComponent(typeof(TurnPartInCharge))]
+    [RequireComponent(typeof(DataOfMapObjMgr))]
+    [RequireComponent(typeof(RandomObjGenerator))]
     public class MapObjManager : SingletonTemplate<MapObjManager>
     {
         public GameObject chunk;    //청크
@@ -47,23 +52,22 @@ namespace hcp
         private void Start()
         {
             
-            whatStage = StageManager.GetInstance().StageNum;    //현재 이게 돈디스트로이라 start에서만 체크하는데
-            //돈디스트로이를 키게 되면 그에 해당하는 초기화 필수.
+            whatStage = StageManager.stageNum;    
 
             MapAndObjPool.GetInstance().ChunkPoolInit(10);
 
-            MapAndObjPool.GetInstance().obsBallPoolInit(100);
-            MapAndObjPool.GetInstance().obsHuddlePoolInit(100);
-            MapAndObjPool.GetInstance().obsUpperHuddle_1_PoolInit(100);
-            MapAndObjPool.GetInstance().obsUpperHuddle_2_PoolInit(100);
-            MapAndObjPool.GetInstance().obsUpperHuddle_3_PoolInit(100);
-            MapAndObjPool.GetInstance().obsFirePoolInit(100);
+            MapAndObjPool.GetInstance().obsBallPoolInit(10);
+            MapAndObjPool.GetInstance().obsHuddlePoolInit(10);
+            MapAndObjPool.GetInstance().obsUpperHuddle_1_PoolInit(10);
+            MapAndObjPool.GetInstance().obsUpperHuddle_2_PoolInit(10);
+            MapAndObjPool.GetInstance().obsUpperHuddle_3_PoolInit(10);
+            MapAndObjPool.GetInstance().obsFirePoolInit(10);
 
-            MapAndObjPool.GetInstance().itemHPPlusPoolInit(100);
-            MapAndObjPool.GetInstance().itemInvinciblePoolInit(100);
-            MapAndObjPool.GetInstance().itemShieldPoolInit(100);
-            MapAndObjPool.GetInstance().itemCoinPoolInit(100);
-            MapAndObjPool.GetInstance().itemMagnetPoolInit(100);
+            MapAndObjPool.GetInstance().itemHPPlusPoolInit(10);
+            MapAndObjPool.GetInstance().itemInvinciblePoolInit(10);
+            MapAndObjPool.GetInstance().itemShieldPoolInit(10);
+            MapAndObjPool.GetInstance().itemCoinPoolInit(10);
+            MapAndObjPool.GetInstance().itemMagnetPoolInit(10);
             MapAndObjPool.GetInstance().itemCoin_Parabola_PoolInit(10);
             MapAndObjPool.GetInstance().itemCoin_StraightLine_PoolInit(10);
 
@@ -71,7 +75,7 @@ namespace hcp
         }
         bool isStage()
         {
-            if (whatStage == E_STAGE.INFINITY)
+            if (whatStage == E_STAGE.INFINITY || whatStage == E_STAGE.NONE)
                 return false;
             else return true;
         }
@@ -81,7 +85,7 @@ namespace hcp
         {
             for (int i = 0; i < genedCOSTList.Count; i++)   //새로 생긴 청크들 모두에게
             {
-                if(genedCOSTList[i].position >= (2*chunkMargin) )
+                if(genedCOSTList[i].position >= (Constants.firstObjSpawn*chunkMargin) )
                 genedCOSTList[i].ObjSpawn(whatStage);  //오브젝트 스폰
             }
             genedCOSTList.Clear();
@@ -139,7 +143,7 @@ namespace hcp
 
             if (isStage()&&StageST.AllQueIsDeqed() && turnSet.IsDisabled() )    //회전도 다돌고 옵젝큐도 뭐도 없고 끝
             {
-                Debug.Log("스테이지 종료."+nowPos);
+                Debug.Log("스테이지 종료."+nowPos);   //프론트 청크 -1 만큼 청크가 앞에 있응 상황에서 선언됨
                 stageRemain = false;
                 return;
             }

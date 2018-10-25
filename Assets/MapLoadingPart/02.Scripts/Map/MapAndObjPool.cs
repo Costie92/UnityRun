@@ -9,6 +9,9 @@ namespace hcp
     {
         public GameObject chunk;
 
+        public GameObject turnLeftChunks;   //스테이지 에디터를 위해서. 스테이지 등에서 절대 사용하지 말것!
+        public GameObject turnRightChunks;  //스테이지 에디터를 위해서. 스테이지 등에서 절대 사용하지 말것!
+
         public GameObject obstacleBall;
         public GameObject obstacleHuddle;
         public GameObject obstacleUpperHuddle_1;
@@ -25,6 +28,9 @@ namespace hcp
         public GameObject item_MAGNET;
 
         public List<GameObject> chunkPool = new List<GameObject>();
+
+        public List<GameObject> turnLeftChunksPool = new List<GameObject>();//스테이지 에디터를 위해서. 스테이지 등에서 절대 사용하지 말것!
+        public List<GameObject> turnRightChunksPool = new List<GameObject>();//스테이지 에디터를 위해서. 스테이지 등에서 절대 사용하지 말것!
 
         public List<GameObject> obsBallPool = new List<GameObject>();
         public List<GameObject> obsHuddlePool = new List<GameObject>();
@@ -43,6 +49,9 @@ namespace hcp
 
 
         private int chunkPoolCapacity = 10;
+
+        private int turnLeftChunksPoolCapacity = 10;//스테이지 에디터를 위해서. 스테이지 등에서 절대 사용하지 말것!
+        private int turnRightChunksPoolCapacity = 10;//스테이지 에디터를 위해서. 스테이지 등에서 절대 사용하지 말것!
 
         private int obsBallPoolCapacity = 5;
         private int obsHuddlePoolCapacity = 5;
@@ -109,6 +118,18 @@ namespace hcp
         {
             chunkPoolCapacity = capacity1;
             PoolInit(chunk, chunkPool, chunkPoolCapacity, "chunkPoolParent", "CHUNK_");
+        }
+
+        public void TurnLeftChunksPoolInit(int capacity1 = 3)//스테이지 에디터를 위해서. 스테이지 등에서 절대 사용하지 말것!
+        {
+            turnLeftChunksPoolCapacity = capacity1;
+            PoolInit(turnLeftChunks, turnLeftChunksPool, turnLeftChunksPoolCapacity, "turnLeftChunksPoolParent", "TURN_LEFT_CHUNK_");
+        }
+
+        public void TurnRightChunksPoolInit(int capacity1 = 3)//스테이지 에디터를 위해서. 스테이지 등에서 절대 사용하지 말것!
+        {
+            turnRightChunksPoolCapacity = capacity1;
+            PoolInit(turnRightChunks, turnRightChunksPool, turnRightChunksPoolCapacity, "turnRightChunksPoolParent", "TURN_RIGHT_CHUNK_");
         }
 
 
@@ -194,6 +215,16 @@ namespace hcp
         public GameObject GetChunkInPool()
         {
             return GetInSthPool(chunkPool);
+        }
+
+        public GameObject GetTurnLeftChunksInPool() //스테이지 에디터를 위해서. 스테이지 등에서 절대 사용하지 말것!
+        {
+            return GetInSthPool(turnLeftChunksPool);
+        }
+
+        public GameObject GetTurnRightChunksInPool() //스테이지 에디터를 위해서. 스테이지 등에서 절대 사용하지 말것!
+        {
+            return GetInSthPool(turnRightChunksPool);
         }
 
         public GameObject GetObsBallInPool()

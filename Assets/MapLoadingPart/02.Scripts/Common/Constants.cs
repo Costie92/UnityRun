@@ -15,5 +15,6 @@ namespace hcp
         //+ 전 턴청크 삭제 텀이 4 (턴청크 종속적 3 + 1(어색하지 않게))
         //삭제 후 다시 받아올때 +1   =16
 
+        public const int firstObjSpawn = 2;
     }
 }

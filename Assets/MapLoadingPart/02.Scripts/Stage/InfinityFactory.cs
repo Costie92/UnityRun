@@ -14,7 +14,7 @@ namespace hcp {
 
         private void Start()
         {
-            if (StageManager.GetInstance().StageNum == E_STAGE.INFINITY)
+            if (StageManager.stageNum == E_STAGE.INFINITY)
                 InfinityStageMaking();
             else ErrorManager.SpurtError("스테이지 넘버 오류! 인피니티여야함.");
             StartCoroutine(EnqueForInfinity());

@@ -30,7 +30,7 @@ namespace hcp
         }
         private void Start()
         {
-            TouchControl.swipeScreen += new SwipeScreen(TurnCheck);  //델리게이트 인스턴스에 이쪽의 콜백 메소드 체인 걸어둠.
+            TouchControl.instance.swipeScreen += new SwipeScreen(TurnCheck);  //델리게이트 인스턴스에 이쪽의 콜백 메소드 체인 걸어둠.
         }
         void TurnCheck(float turningPoint, E_WhichTurn whichTurn)
         {

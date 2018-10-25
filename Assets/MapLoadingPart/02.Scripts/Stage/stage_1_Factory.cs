@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 namespace hcp {
     public class stage_1_Factory : SingletonTemplate<stage_1_Factory> {
         
@@ -11,10 +13,14 @@ namespace hcp {
         }
         private void Start()
         {
-            if (StageManager.GetInstance().StageNum == E_STAGE.STAGE_1)
+            //모킹중
+            StageManager.stageNum = E_STAGE.STAGE_1;
+            if (StageManager.stageNum == E_STAGE.STAGE_1)
                 Stage_1_Making();
             else ErrorManager.SpurtError("스테이지 넘버링 오류! 스테이지_1이여야만함!");
         }
+    
+
         void Stage_1_Making()
         {
             StageST.InitForStageLoading();

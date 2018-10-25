@@ -50,29 +50,8 @@ namespace hcp {
 
 #endif
     
-    public class StageManager :SingletonTemplate<StageManager>{
+    public static class StageManager{
 
-        private E_STAGE stageNum;
-
-        public E_STAGE StageNum
-        {
-            get
-            {
-                return (E_STAGE)stageNum ;
-            }
-            set {
-                if (value < E_STAGE.STAGE_1 || value >= E_STAGE.E_STAGEMAX) return;
-                stageNum = value;
-            }
-        }
-        protected override void Awake()
-        {
-            base.Awake();
-            DontDestroyOnLoad(this.gameObject);
-            //저 스테이지 넘버로 맵 로딩하는 걸 분기
-            //
-            //모킹중
-            stageNum = E_STAGE.STAGE_1; //모킹 데이터임 나중에 ui 단에서 받아와야함
-        }
+        public static E_STAGE stageNum;
     }
 }
