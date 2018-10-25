@@ -19,6 +19,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
     private UIManager UIMgr;
     private CharacterAnimation cAnim;
     bool iOverlap, sOverlap, mOverlap = false; // 방어막 겹쳤을때 확인 mOverlap(자석)은 문제없으므로 안쓰임
+    bool smallInvincible = false;
 
     float shieldCount, magnetCount = 0;
     float invincibleCount = 0;
@@ -200,12 +201,32 @@ public void GetItem(ItemST itemST) //아이템얻었을때
 
     void InvicibleEventOff() // 무적아닌상태
     {
-        if (Invincible == false)
+        if (Invincible == false && smallInvincible == false)
         {
             CharacterMove.runSpeed = 6.5f;
             this.GetComponent<CapsuleCollider>().isTrigger = false; // 오브젝트 뚫기 해제
             this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation; // Rigidbody 포지션 초기화
         }
+    }
+
+    void SmallInvicibleEvent()
+    {
+        SmallInvicibleEventOn();
+        Invoke("SmallInvicibleEventOff", 2.0f);
+    }
+
+    void SmallInvicibleEventOn()
+    {
+        smallInvincible = true;
+        this.GetComponent<CapsuleCollider>().isTrigger = true; // 오브젝트 뚫고가기
+        this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY; // Rigidbody Y포지션 고정
+    }
+
+    void SmallInvicibleEventOff()
+    {
+        this.GetComponent<CapsuleCollider>().isTrigger = false; // 오브젝트 뚫기 해제
+        this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation; // Rigidbody 포지션 초기화
+        smallInvincible = false;
     }
 
     void DamagedEvent() // 장애물과 닿을때 이벤트
@@ -216,8 +237,10 @@ public void GetItem(ItemST itemST) //아이템얻었을때
         }
         if (Invincible == false && Shield == false)
         {
+            if (smallInvincible == false)
             DamagedEvent2();
         }
+        print("무적" + smallInvincible);
     }
 
     void DamagedEvent2() // 적과 충돌시 발생하는 애니메이션
@@ -227,6 +250,7 @@ public void GetItem(ItemST itemST) //아이템얻었을때
             //this.transform.Translate(Vector3.back * attacked * Time.deltaTime); // 적에게 닿은후 캐릭터의 위치가 뒤로 밀림 attacked값을 바꾸면 밀린정도를 바꿀수있음
             cAnim.DamageAnimation(); // 체력깎임 애니메이션 실행
             HP--;
+            SmallInvicibleEvent();
             CharacterMove.runSpeed = CharacterMove.runSpeed / 2.0f;
             Invoke("DamagedEvent3", 1.5f);
         }
