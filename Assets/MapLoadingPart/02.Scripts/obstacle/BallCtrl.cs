@@ -50,7 +50,6 @@ namespace hcp
         {
             if (transform.position.y > 0)
             {
-
                 transform.Translate(0f, -1f, 0f);
                 return false;
             }

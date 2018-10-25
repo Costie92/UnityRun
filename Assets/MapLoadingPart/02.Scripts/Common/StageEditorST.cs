@@ -4,18 +4,22 @@ using UnityEngine;
 
 namespace hcp
 {
+    [System.Serializable]
     public class StageEditorST
     {
         public int pos;     //회전 청크일때 나중에 직렬화 할때 꼭 터닝포인트로 넣어주는거 잊지말기!
-        public GameObject floorChunk;
-        public bool isNowShowed=false;
         public E_WhichTurn whichTurn;
+        public StageObjArr soa = new StageObjArr();    //스폰 타입 저장
+
+        [System.NonSerialized]  //이거 나중에 직렬화 저장할때 꼭 해주기
+        public GameObject floorChunk;
+        [System.NonSerialized]  //이거 나중에 직렬화 저장할때 꼭 해주기
+        public bool isNowShowed=false;
+        [System.NonSerialized]  //이거 나중에 직렬화 저장할때 꼭 해주기
         public List<GameObject> objs = new List<GameObject>();
-
-        StageObjArr soa = new StageObjArr();    //스폰 타입 저장
-
+        [System.NonSerialized]  //이거 나중에 직렬화 저장할때 꼭 해주기
         Vector3 bornPos = new Vector3(0, 0, 0);
-
+        [System.NonSerialized]  //이거 나중에 직렬화 저장할때 꼭 해주기
         Transform spg;
 
         public void showThisToEditor(int standardPos, float chunkMargin)
@@ -80,7 +84,11 @@ namespace hcp
         {
             if (floorChunk == null) ErrorManager.SpurtError("생성도 안됐는데 오브젝트를 바꾸려함.");
 
-            if (whichTurn != E_WhichTurn.NOT_TURN) ErrorManager.SpurtError("회전 청크인데 오브젝트를 체인지 하려고함.");
+            if (whichTurn != E_WhichTurn.NOT_TURN)
+            {
+                ErrorManager.SpurtError("회전 청크인데 오브젝트를 체인지 하려고함.");
+                return;
+            }
 
             for (int i = 0; i < objs.Count; i++)
             {
