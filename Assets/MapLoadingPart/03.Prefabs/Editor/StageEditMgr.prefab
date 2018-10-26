@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1329578047257178}
+  m_IsPrefabAsset: 1
+--- !u!1 &1329578047257178
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4777960885970478}
+  - component: {fileID: 114850231504129050}
+  - component: {fileID: 114781244954151660}
+  - component: {fileID: 114016540674899208}
+  m_Layer: 0
+  m_Name: StageEditMgr
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4777960885970478
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1329578047257178}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.888389, y: -39.470875, z: 48.94264}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114016540674899208
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1329578047257178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54f32e9fe4858341845db063587a393, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114781244954151660
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1329578047257178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb18da50c881e7145b453a2e9a95dfc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunk: {fileID: 1853945241947306, guid: 549baa20170142c4d80b7d0ba2fd35b9, type: 2}
+  turnLeftChunks: {fileID: 1136947583070796, guid: d9afcb8841b10bb43bc2aae92ee388ee,
+    type: 2}
+  turnRightChunks: {fileID: 1633549812117858, guid: 29eebeeb6c01b464fb124b692f77d6c7,
+    type: 2}
+  obstacleBall: {fileID: 1682004442767320, guid: 3d2e7862553a2af4ca20f8141a2d1ca3,
+    type: 2}
+  obstacleHuddle: {fileID: 1735716730126710, guid: 3a7eb6ff86cba8e4886fc25a53d0ecc6,
+    type: 2}
+  obstacleUpperHuddle_1: {fileID: 1712375982457858, guid: 3b7fc5b5f8c3f4c418889a16d0e07d49,
+    type: 2}
+  obstacleUpperHuddle_2: {fileID: 1852057980509052, guid: 067e85a9fdeef324fb2fe2d232685017,
+    type: 2}
+  obstacleUpperHuddle_3: {fileID: 1636723580031230, guid: 90584896efceddb42a665507b7f10a1a,
+    type: 2}
+  obstacleFire: {fileID: 1103904742744944, guid: 7c44a42406878b44d8cb86b56bfcda8e,
+    type: 2}
+  item_HPPLUS: {fileID: 1040533653885940, guid: 06d83a98b203fcd4982ac2ff57f1b84b,
+    type: 2}
+  item_INVINCIBLE: {fileID: 1040533653885940, guid: 08d138fc21776274ebfd2fd4c874ebf4,
+    type: 2}
+  item_SHIELD: {fileID: 1040533653885940, guid: 8f3ef991c2b5f7046be6f031d23d4c07,
+    type: 2}
+  item_COIN: {fileID: 1040533653885940, guid: d370b134458e78d44a2080c376d5539f, type: 2}
+  item_COIN_Parabola: {fileID: 1855603753154600, guid: bd4a1d90b000dce42b921c10c38b1e45,
+    type: 2}
+  item_COIN_Straight: {fileID: 1221434400342004, guid: d79b85473ca5d0c42934005356dbe3b0,
+    type: 2}
+  item_MAGNET: {fileID: 1040533653885940, guid: cff209abeae286e4e923ba5f67b25240,
+    type: 2}
+  chunkPool: []
+  turnLeftChunksPool: []
+  turnRightChunksPool: []
+  obsBallPool: []
+  obsHuddlePool: []
+  obsUpperHuddle_1_Pool: []
+  obsUpperHuddle_2_Pool: []
+  obsUpperHuddle_3_Pool: []
+  obsFirePool: []
+  itemHPPlusPool: []
+  itemInvinciblePool: []
+  itemShieldPool: []
+  itemCoinPool: []
+  itemCoin_StraightLine_Pool: []
+  itemCoin_Parabola_Pool: []
+  itemMagnetPool: []
+--- !u!114 &114850231504129050
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1329578047257178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afcf4713ab306a9459dc4e6ec041689a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunk: {fileID: 1853945241947306, guid: 549baa20170142c4d80b7d0ba2fd35b9, type: 2}
+  EditSTList: []

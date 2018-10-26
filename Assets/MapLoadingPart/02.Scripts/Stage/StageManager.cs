@@ -53,5 +53,7 @@ namespace hcp {
     public static class StageManager{
 
         public static E_STAGE stageNum;
+
+        public static string fileNameForEdit;
     }
 }

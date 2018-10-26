@@ -6,7 +6,7 @@ namespace hcp
 {
     public abstract class ItemCtrl : MonoBehaviour
     {
-        IObjToCharactor objToCharactor;
+        protected IObjToCharactor objToCharactor;
         MeshRenderer childModelRenderer;
         
         protected ItemST itemST;

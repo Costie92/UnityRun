@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.SceneManagement;
+
+using System.Linq;
+
 namespace hcp {
     public class StageEditorMgr : SingletonTemplate<StageEditorMgr> {
 
@@ -33,6 +37,12 @@ namespace hcp {
             chunkMargin = chunk.GetComponentInChildren<Renderer>().bounds.size.z;
             position = Constants.firstObjSpawn;
             StartCoroutine( BringToWorkspace());
+
+
+
+            ClearAndShowChunks();
+
+            canWork = true;
         }
         
 
@@ -49,55 +59,33 @@ namespace hcp {
 
         // Update is called once per frame
         void Update() {
-            if (!canWork) return;
+            if (!canWork)
+            {
+                return;
+            }
             
             //ui단에서 호출 후 맨 마지막에 position 값 읽어서 텍스트 처리 할것!
-
-            if (Input.GetKeyDown ("w"))
-            {
-                MoveForward();
-            }
-            if (Input.GetKeyDown("s"))
-            {
-                MoveBackward();
-            }
-            if (Input.GetKeyDown("a"))
-            {
-                ChangeFloorChunk(E_WhichTurn.LEFT);
-            }
-            if (Input.GetKeyDown("d"))
-            {
-                ChangeFloorChunk(E_WhichTurn.NOT_TURN);
-            }
-            if (Input.GetKeyDown("r"))
-            {
-                ChangeFloorChunk(E_WhichTurn.RIGHT);
-            }
-            if (Input.GetKeyDown("1"))
-            {
-                ChangeObjThisChunk(0, E_SPAWN_OBJ_TYPE.BALL);
-            }
-            if (Input.GetKeyDown("9"))
-            {
-                ChangeObjThisChunk(0, E_SPAWN_OBJ_TYPE.FIRE);
-            }
-            if (Input.GetKeyDown("2"))
-            {
-                ChangeObjThisChunk(1, E_SPAWN_OBJ_TYPE.COIN);
-            }
-            if (Input.GetKeyDown("3"))
-            {
-                ChangeObjThisChunk(2, E_SPAWN_OBJ_TYPE.HUDDLE);
-            }
-            if (Input.GetKeyDown("m"))
-            {
-                StageDataMgr sdm = new StageDataMgr();
-                sdm.SaveData(EditSTList);
-            }
+            
             if (Input.GetKeyDown("l"))
             {
-                StageDataMgr sdm = new StageDataMgr();
-                sdm.LoadData();
+                DisappearAllChunks();
+                var list = 
+                StageDataMgr.GetInstance().LoadData("1.dat");
+
+                EditSTList.Clear();
+                foreach (var n in list)
+                {
+                    StageEditorST sest = new StageEditorST(n.pos, n.whichTurn, n.soa);
+                    EditSTList.Add(sest);
+                }
+
+
+                ClearAndShowChunks();
+            }
+            if (Input.GetKeyDown("p"))
+            {
+                ForcedEditFinishedAtThisPoint();    
+                canWork = false;
             }
 
 
@@ -105,6 +93,72 @@ namespace hcp {
             //  DisappearAllChunks();
             //이제 실제 에디팅 로직
 
+        }
+
+        public void EditorIsDone()
+        {
+            //리스트 바로 저장하고 씬로드해주기(메인화면으로?)
+            ReadyForSaving();
+            StageDataMgr.GetInstance().SaveData(EditSTList, "1.dat");
+
+            SceneManager.LoadScene("StageSelect"); 
+
+        }
+
+        public void ForcedEditFinishedAtThisPoint()//현재 시점 까지만 에디팅을 하는 경우.
+            //이거 부르고 무조건 에디터 종료 시켜야함.
+        {
+           
+            int lastPos = position;
+
+            var list = from EditST in EditSTList
+                       where EditST.pos <= lastPos
+                       orderby EditST.pos
+                       select EditST;
+            
+            EditSTList = list.ToList<StageEditorST>() ;
+
+            if (EditSTList == null)
+                ErrorManager.SpurtError("에디팅 종료 중 오류!!");
+        }
+
+        void ReadyForSaving()   //중간 공백등에 모두 조정.
+        {
+            SortEditSTList();
+
+            int nowPosEdit = EditSTList[0].pos;
+            if (nowPosEdit != Constants.firstObjSpawn) ErrorManager.SpurtError("초기 시작 위치가 2가 아님.");
+            int lastPos = EditSTList[EditSTList.Count - 1].pos;
+            StageEditorST sest;
+
+            while (nowPosEdit < lastPos)
+            {
+                sest = FindEditSTByPos(nowPosEdit);
+
+                if (sest.IsTurnChunks())    //턴청크 면
+                {
+                    ModerateListForTurnChunks(nowPosEdit);
+                    nowPosEdit += 5;
+
+                    sest = FindEditSTByPos(nowPosEdit); //다음 점프 포인트에도 청크가 없다면 만들어줌.
+                    if (nowPosEdit < lastPos && sest == null)
+                    {
+                        StageEditorST newSest = new StageEditorST(nowPosEdit, E_WhichTurn.NOT_TURN);
+                        EditSTList.Add(newSest);
+                    }
+                }
+                else //턴청크가 아닐때
+                {
+                    sest = FindEditSTByPos(nowPosEdit + 1);
+                    if (sest == null)
+                    {
+                        StageEditorST newSest = new StageEditorST(nowPosEdit + 1, E_WhichTurn.NOT_TURN);
+                        EditSTList.Add(newSest);
+                    }
+                    nowPosEdit++;
+                }
+            }
+            SortEditSTList();
         }
         void ClearAndShowChunks()
         {
@@ -193,10 +247,6 @@ namespace hcp {
             }
             startingBlock.transform.position = new Vector3(0,0, backPoint);
 
-
-            ClearAndShowChunks();
-
-            canWork = true;
         }
 
         void MapObjPoolingGeneration()
