@@ -105,7 +105,9 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
                 //좌로 스와이프
                 if (TapCount == 1)
                 {
-                    if (ButtonDownMousePos.x - MousePosX > (width / 5))
+                    float MoveXLength = ButtonDownMousePos.x - MousePosX;
+                    float MoveYLength = ButtonDownMousePos.y - MousePosY;
+                    if (MoveXLength > (width / 5))
                     {
                         SetWhichTurnToUI(E_WhichTurn.LEFT);
                         print("Swipe Left");
@@ -114,21 +116,21 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
 
                     }
                     //우로 스와이프
-                    else if (MousePosX - ButtonDownMousePos.x > (width / 5))
+                    else if (-MoveXLength > (width / 5))
                     {
                         SetWhichTurnToUI(E_WhichTurn.RIGHT);
                         print("Swipe Right");
                         SwipeToTurn();
                     }
                     //위로 스와이프
-                    else if (MousePosY - ButtonDownMousePos.y > (height / 10))
+                    else if (-MoveYLength > (height / 10))
                     {
                         cMove.Jump();
                         print("Swipe Up");
 
                     }
                     //아래로 스와이프
-                    else if (ButtonDownMousePos.y - MousePosY > (height / 10))
+                    else if (MoveYLength > (height / 10))
                     {
                         cMove.SlideDown();
                         print("Swipe Down");
