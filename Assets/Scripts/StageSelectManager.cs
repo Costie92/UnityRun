@@ -8,12 +8,10 @@ namespace hcp
 {
     public class StageSelectManager : MonoBehaviour
     {
-
-        StageManager SManager;
         // Use this for initialization
         void Start()
         {
-            SManager = GameObject.Find("StageManager").GetComponent<StageManager>();
+
         }
 
         // Update is called once per frame
@@ -26,11 +24,11 @@ namespace hcp
             switch (int.Parse(btn.GetComponentInChildren<Text>().text))
             {
                 case 1: 
-                    SManager.StageNum = E_STAGE.STAGE_1;
+                    StageManager.stageNum = E_STAGE.STAGE_1;
                     SceneManager.LoadScene("STAGE_1");
                     break;
                 case 2:
-                    SManager.StageNum = E_STAGE.STAGE_2;
+                    StageManager.stageNum = E_STAGE.STAGE_2;
                     SceneManager.LoadScene(2);
                     break;
             }
