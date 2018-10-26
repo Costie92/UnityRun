@@ -24,7 +24,7 @@ public class Logo : MonoBehaviour {
     }
     void Complete()
     {
-        SceneManager.LoadScene(2); // 빌드셋팅에서 2번에 설정된 Scene을 불러온다.
+        SceneManager.LoadScene("StageSelect"); // 빌드셋팅에서 StageSelect Scene을 불러온다.
     }
     void TextComplete() {
         if (StartText.GetComponent<Text>().color.a == 0.0f)
