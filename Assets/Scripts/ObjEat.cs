@@ -16,10 +16,10 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
     public static float shieldTime = 0.0f;
     public static bool Magnet = false;
     public static float magnetTime = 0.0f;
+    public static bool HitInvincible = false;
     private UIManager UIMgr;
     private CharacterAnimation cAnim;
     bool iOverlap, sOverlap, mOverlap = false; // 방어막 겹쳤을때 확인 mOverlap(자석)은 문제없으므로 안쓰임
-    bool smallInvincible = false;
 
     float shieldCount, magnetCount = 0;
     float invincibleCount = 0;
@@ -201,7 +201,7 @@ public void GetItem(ItemST itemST) //아이템얻었을때
 
     void InvicibleEventOff() // 무적아닌상태
     {
-        if (Invincible == false && smallInvincible == false)
+        if (Invincible == false && HitInvincible == false)
         {
             CharacterMove.runSpeed = 6.5f;
             this.GetComponent<CapsuleCollider>().isTrigger = false; // 오브젝트 뚫기 해제
@@ -209,24 +209,24 @@ public void GetItem(ItemST itemST) //아이템얻었을때
         }
     }
 
-    void SmallInvicibleEvent()
+    void HitInvicibleEvent()
     {
-        SmallInvicibleEventOn();
-        Invoke("SmallInvicibleEventOff", 2.0f);
+        HitInvicibleEventOn();
+        Invoke("HitInvicibleEventOff", 1.5f);
     }
 
-    void SmallInvicibleEventOn()
+    void HitInvicibleEventOn()
     {
-        smallInvincible = true;
+        HitInvincible = true;
         this.GetComponent<CapsuleCollider>().isTrigger = true; // 오브젝트 뚫고가기
         this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY; // Rigidbody Y포지션 고정
     }
 
-    void SmallInvicibleEventOff()
+    void HitInvicibleEventOff()
     {
         this.GetComponent<CapsuleCollider>().isTrigger = false; // 오브젝트 뚫기 해제
         this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation; // Rigidbody 포지션 초기화
-        smallInvincible = false;
+        HitInvincible = false;
     }
 
     void DamagedEvent() // 장애물과 닿을때 이벤트
@@ -237,10 +237,10 @@ public void GetItem(ItemST itemST) //아이템얻었을때
         }
         if (Invincible == false && Shield == false)
         {
-            if (smallInvincible == false)
+            if (HitInvincible == false)
             DamagedEvent2();
         }
-        print("무적" + smallInvincible);
+        print("무적" + HitInvincible);
     }
 
     void DamagedEvent2() // 적과 충돌시 발생하는 애니메이션
@@ -250,7 +250,7 @@ public void GetItem(ItemST itemST) //아이템얻었을때
             //this.transform.Translate(Vector3.back * attacked * Time.deltaTime); // 적에게 닿은후 캐릭터의 위치가 뒤로 밀림 attacked값을 바꾸면 밀린정도를 바꿀수있음
             cAnim.DamageAnimation(); // 체력깎임 애니메이션 실행
             HP--;
-            SmallInvicibleEvent();
+            HitInvicibleEvent();
             CharacterMove.runSpeed = CharacterMove.runSpeed / 2.0f;
             Invoke("DamagedEvent3", 1.5f);
         }
@@ -317,5 +317,3 @@ public void GetItem(ItemST itemST) //아이템얻었을때
     }
 
 }
-
-

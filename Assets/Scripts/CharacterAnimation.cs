@@ -15,7 +15,6 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
         }
     }
     public static Animator animator; // 애니메이션을 구현하기위해 쓴거
-    public Rigidbody rigidbody;
     private UIManager UIMgr;
     private float attacked = 20.0f; // 적과 부딪힌뒤에 밀려나는 정도
 
@@ -24,7 +23,6 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
     {
         UIMgr = GameObject.Find("GameMgr").GetComponent<UIManager>();
         animator = GetComponent<Animator>(); // 애니메이션을 구현하기위해 쓴거
-        rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -103,7 +101,12 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
         }
     }
 
-public void GameOver() // 캐릭터가 쓰러진상태로 유지시켜주는 함수
+    public void RunAnimation()
+    {
+        animator.Play("RUN00_F", -1, 0);
+    }
+
+    public void GameOver() // 캐릭터가 쓰러진상태로 유지시켜주는 함수
     {
         UIMgr.ShowResult(); // 캐릭터 시간멈춤 (캐릭터가 쓰러진 모습 상태로 정지함)
     }

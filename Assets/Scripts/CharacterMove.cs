@@ -35,6 +35,8 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     public static bool speedUpItem = false;
     public static int shield = 0;
 
+    float temp = 0;
+
     Rigidbody rigidbody;
     Collision collision;
 
@@ -45,6 +47,9 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
         cAnim = GetComponent<CharacterAnimation>();
         _instance = this;
         rigidbody = GetComponent<Rigidbody>();
+
+        speedUpdate = 1.2f;
+        temp = 0;
     }
 
     // Update is called once per frame
@@ -54,10 +59,22 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
         {
             Run();
         }
+        InvokeRepeating("GoFast",10.0f,10.0f);
 
+        if (Input.GetKeyDown(KeyCode.DownArrow)) // 오른쪽 방향키 (1회)누르면
+        {
+            JumpDown();
+        }
+        CharacterStop();
     }
+
     public void Run() {
         this.transform.Translate(Vector3.forward * runSpeed * speedUpdate *Time.deltaTime);
+    }
+
+    public void GoFast()
+    {
+        if(speedUpdate < 3.0f) speedUpdate = speedUpdate + 0.1f * Time.deltaTime;
     }
 
     public void Move(bool isLeftDirection) // 좌우로 회전하거나 움직이는 이벤트를 담당하는 함수 turningPoint가 true일 경우와 false일경우로 나뉨
@@ -131,6 +148,17 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
         }
     }
 
+    public void JumpDown()
+    {
+        if (Input.GetKeyDown(KeyCode.DownArrow)) // 오른쪽 방향키 (1회)누르면
+        {
+            if (CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00") && ObjEat.Invincible == false)
+            {
+                rigidbody.AddForce(Vector3.up * -100, ForceMode.Impulse);
+            }
+        }
+    }
+
     IEnumerator LeftSlide() // 왼쪽으로 부드럽게 움직이도록 해주는 함수 (회전하는 각도와 좌표이동할때의 움직임)
     {
         while (Loop == true && rotateLeftMax < 15) // 회전과 이동을 15번 반복해서 실행시켜줌 단 회전할때와 이동할때는 각각 분리해서 실행함
@@ -201,6 +229,28 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
         {
             CharacterMove.rightWall = false;
         }
+    }
+
+    void OnCollisionEnter(Collision collision) // 땅과 닿았을때
+    {
+        this.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.75f, 0); // 캐릭터 콜라이더 중심 옮기기
+        this.GetComponent<CapsuleCollider>().height = 1.5f; // 캐릭터 콜라이더 높이 바꾸기
+        cAnim.RunAnimation();
+    }
+
+    void CharacterStop()
+    {
+        if (ObjEat.HitInvincible == true)
+        {
+            temp = runSpeed;
+            runSpeed = 0;
+            Invoke("runStart",1.0f);
+        }
+    }
+
+    void runStart()
+    {
+        runSpeed = temp;
     }
 
 }
