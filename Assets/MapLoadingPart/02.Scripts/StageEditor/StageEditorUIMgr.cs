@@ -30,13 +30,22 @@ namespace hcp
             ChunkSelectPalette = mainCanvas.transform.Find("ChunkSelect").gameObject;
             basicBtnGrp = mainCanvas.transform.Find("BasicBtnGroup").gameObject;
             WarningEditorExitAtThisPos = mainCanvas.transform.Find("WarningEditorExitAtThisPos").gameObject;
-            ShowReset();
+
+            WarningEditorExitAtThisPos.SetActive(false);
+            ObjSelectPalette.SetActive(false);
+            ChunkSelectPalette.SetActive(false);
+            basicBtnGrp.SetActive(false);
+            nowChangeObjNum = -1;
         }
+
+
+
+
          public void ChangePosText()
         {
             posValue.text = sem.Position.ToString();
         }
-        void ShowReset()
+        public void ShowReset()
         {
             WarningEditorExitAtThisPos.SetActive(false);
             ObjSelectPalette.SetActive(false);

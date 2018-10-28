@@ -20,6 +20,28 @@ public class StageDataMgr  : SingletonTemplate<StageDataMgr>{
         myDif = new DirectoryInfo(editStageDataPath);
     }
 
+    public List<StageEditorST> CheckTheStage(string fileName)
+    {
+        if (!myDif.Exists)  myDif.Create();
+
+        string filePath = editStageDataPath + "/" + fileName;
+        FileStream fs;
+        if (File.Exists(filePath))    //파일이 있으면 수정모드.
+        {
+            fs = File.Open(filePath, FileMode.Open);
+            BinaryFormatter bf = new BinaryFormatter();
+            List<StageEditorST> list = bf.Deserialize(fs) as List<StageEditorST>;
+            fs.Close();
+            return list;
+        }
+
+        else
+        {   //파일이 없음
+            return null;
+        }
+    }
+
+
 
     public void SaveData( List<StageEditorST> list ,string stageName)//확장자까지 이름에 넣기.
     {

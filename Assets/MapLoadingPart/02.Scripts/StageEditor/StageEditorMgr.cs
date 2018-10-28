@@ -11,7 +11,6 @@ namespace hcp {
 
         int[] candidates = {  -1, 0, 1, 2, 3, 4, 5 };    //7개 보여줌. 하나는 뒤에꺼.
         
-
         private int position=0;
         public int Position
         {
@@ -28,21 +27,27 @@ namespace hcp {
         bool canWork;
 
         public List<StageEditorST> EditSTList = new List<StageEditorST>();
-        
+
+        protected override void Awake()
+        {
+            base.Awake();
+            chunkMargin = chunk.GetComponentInChildren<Renderer>().bounds.size.z;
+            startingBlock = GameObject.Find("StartingBlock");
+            position = Constants.firstObjSpawn;
+            canWork = false;
+        }
+
 
         void Start() {
+            EditSTList = 
+            StageDataMgr.GetInstance().CheckTheStage(StageManager.fileNameForEdit); 
+            
             MapObjPoolingGeneration();
-            canWork = false;
-            startingBlock = GameObject.Find("StartingBlock");
-            chunkMargin = chunk.GetComponentInChildren<Renderer>().bounds.size.z;
-            position = Constants.firstObjSpawn;
             StartCoroutine( BringToWorkspace());
-
-
-
+            
             ClearAndShowChunks();
-
             canWork = true;
+            StageEditorUIMgr.GetInstance().ShowReset();
         }
         
 
