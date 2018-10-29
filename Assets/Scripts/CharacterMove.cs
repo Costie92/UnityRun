@@ -235,7 +235,10 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     {
         this.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.75f, 0); // 캐릭터 콜라이더 중심 옮기기
         this.GetComponent<CapsuleCollider>().height = 1.5f; // 캐릭터 콜라이더 높이 바꾸기
-        cAnim.RunAnimation();
+        if (!CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("RUN00_F") && !CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("SLIDE00"))
+        {
+            cAnim.RunAnimation();
+        }
     }
 
     void CharacterStop()
