@@ -29,9 +29,16 @@ public class UIManager : MonoBehaviour {
     // Use this for initialization
     private void Awake()
     {
+        Hps = new GameObject[5];
+        for (int i = 0; i < 5; i++) {
+            Hps[i] = GameObject.Find("Hps").transform.GetChild(i).gameObject;
+        }
         UI_Shield = GameObject.Find("Shield");
         UI_Magnet = GameObject.Find("Magnet");
         UI_Invincible = GameObject.Find("Invincible");
+        PauseMenu = GameObject.Find("PauseMenu");
+        Result = GameObject.Find("Result");
+        CoinText = GameObject.Find("CoinCount").GetComponent<Text>();
     }
     void Start() {
         isPause = false;
