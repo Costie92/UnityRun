@@ -22,6 +22,11 @@ namespace hcp
         [System.NonSerialized]  //이거 나중에 직렬화 저장할때 꼭 해주기
         Transform spg;
 
+        public int GetRealTurningPoint()
+        {
+            return pos + 2; //턴청크에 종속적인 값 2
+        }
+
         public void showThisToEditor(int standardPos, float chunkMargin)
         {
             bornPos.z = (pos - standardPos) * chunkMargin;  //이렇게 하면 기준 점기준으로 현재 pos가 가리키는 위치를 얻을 수 있어.
