@@ -9,14 +9,14 @@ using hcp;
 
 public class StageDataMgr  : SingletonTemplate<StageDataMgr>{
 
-    public static string editStageDataPath;
+    public string editStageDataPath;
 
     DirectoryInfo myDif;
     protected override void Awake()
     {
         base.Awake();
 
-        editStageDataPath = Application.persistentDataPath + "/EditedStageData";
+        editStageDataPath = Constants.editStageDataPath;
         myDif = new DirectoryInfo(editStageDataPath);
     }
 
@@ -87,8 +87,8 @@ public class StageDataMgr  : SingletonTemplate<StageDataMgr>{
 
     public static bool IsFileExist(string fileName)
     {
-        if (! Directory.Exists(editStageDataPath)) return false;
-        if (!File.Exists(editStageDataPath + "/" + fileName)) return false;
+        if (! Directory.Exists(Constants.editStageDataPath)) return false;
+        if (!File.Exists(Constants.editStageDataPath + "/" + fileName)) return false;
         return true;
     }
 }

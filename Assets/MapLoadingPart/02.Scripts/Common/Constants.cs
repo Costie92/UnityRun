@@ -17,6 +17,8 @@ namespace hcp
 
         public const int firstObjSpawn = 2;
 
+        public static string editStageDataPath = Application.persistentDataPath + "/EditedStageData";
+
         public const string stageSelectSceneName = "StageSelect";
 
         public const string editStage_1_fileName = "editStage_1.dat";
