@@ -85,9 +85,9 @@ public class StageDataMgr  : SingletonTemplate<StageDataMgr>{
         return list;
     }
 
-    public bool IsFileExist(string fileName)
+    public static bool IsFileExist(string fileName)
     {
-        if (!myDif.Exists) return false;
+        if (! Directory.Exists(editStageDataPath)) return false;
         if (!File.Exists(editStageDataPath + "/" + fileName)) return false;
         return true;
     }
