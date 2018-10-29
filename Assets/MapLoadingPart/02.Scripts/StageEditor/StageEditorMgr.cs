@@ -24,9 +24,7 @@ namespace hcp {
         public GameObject chunk;
         GameObject startingBlock;
 
-        bool canWork;
-
-        public List<StageEditorST> EditSTList = new List<StageEditorST>();
+        public List<StageEditorST> EditSTList;
 
         protected override void Awake()
         {
@@ -34,11 +32,11 @@ namespace hcp {
             chunkMargin = chunk.GetComponentInChildren<Renderer>().bounds.size.z;
             startingBlock = GameObject.Find("StartingBlock");
             position = Constants.firstObjSpawn;
-            canWork = false;
         }
 
 
         void Start() {
+            if (StageManager.fileNameForEdit == null) ErrorManager.SpurtError("파일 이름이 없음!");
             EditSTList = 
             StageDataMgr.GetInstance().CheckTheStage(StageManager.fileNameForEdit); 
             
@@ -46,8 +44,6 @@ namespace hcp {
             StartCoroutine( BringToWorkspace());
             
             ClearAndShowChunks();
-            canWork = true;
-            StageEditorUIMgr.GetInstance().ShowReset();
         }
         
 
@@ -62,58 +58,20 @@ namespace hcp {
                 );
         }
 
-        // Update is called once per frame
-        void Update() {
-            if (!canWork)
-            {
-                return;
-            }
-            
-            //ui단에서 호출 후 맨 마지막에 position 값 읽어서 텍스트 처리 할것!
-            
-            if (Input.GetKeyDown("l"))
-            {
-                DisappearAllChunks();
-                var list = 
-                StageDataMgr.GetInstance().LoadData("1.dat");
-
-                EditSTList.Clear();
-                foreach (var n in list)
-                {
-                    StageEditorST sest = new StageEditorST(n.pos, n.whichTurn, n.soa);
-                    EditSTList.Add(sest);
-                }
-
-
-                ClearAndShowChunks();
-            }
-            if (Input.GetKeyDown("p"))
-            {
-                ForcedEditFinishedAtThisPoint();    
-                canWork = false;
-            }
-
-
-            //   ShowChunks();
-            //  DisappearAllChunks();
-            //이제 실제 에디팅 로직
-
-        }
-
-        public void EditorIsDone()
+        public void EditorIsDone()  //에디터 저장후 씬 로드 해버림.
         {
             //리스트 바로 저장하고 씬로드해주기(메인화면으로?)
             ReadyForSaving();
-            StageDataMgr.GetInstance().SaveData(EditSTList, "1.dat");
 
-            SceneManager.LoadScene("StageSelect"); 
-
+            //스테이지 저장.
+            StageDataMgr.GetInstance().SaveData(EditSTList, StageManager.fileNameForEdit);
+            
+            SceneManager.LoadScene(Constants.stageSelectSceneName); 
         }
 
         public void ForcedEditFinishedAtThisPoint()//현재 시점 까지만 에디팅을 하는 경우.
             //이거 부르고 무조건 에디터 종료 시켜야함.
         {
-           
             int lastPos = position;
 
             var list = from EditST in EditSTList
@@ -165,6 +123,7 @@ namespace hcp {
             }
             SortEditSTList();
         }
+
         void ClearAndShowChunks()
         {
             DisappearAllChunks();
@@ -244,14 +203,15 @@ namespace hcp {
         
         IEnumerator BringToWorkspace() //에디터 시작할때 스무스하게 이동하는 느낌 유도
         {
-            float backPoint = -Constants.firstObjSpawn * chunkMargin;
+            float backPoint = -Constants.firstObjSpawn * 10;
             while (startingBlock.transform.position.z - 0.1f > backPoint)
             {
                 startingBlock.transform.position = Vector3.Lerp(startingBlock.transform.position, new Vector3(0, 0, backPoint), Time.deltaTime * 2.0f);
                 yield return new WaitForSeconds(0.01f);
             }
             startingBlock.transform.position = new Vector3(0,0, backPoint);
-
+            StageEditorUIMgr.GetInstance().ShowReset();
+            StageEditorUIMgr.GetInstance().ChangePosText();
         }
 
         void MapObjPoolingGeneration()

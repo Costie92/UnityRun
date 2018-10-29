@@ -37,7 +37,7 @@ public class StageDataMgr  : SingletonTemplate<StageDataMgr>{
 
         else
         {   //파일이 없음
-            return null;
+            return new List<StageEditorST>();
         }
     }
 
@@ -51,17 +51,13 @@ public class StageDataMgr  : SingletonTemplate<StageDataMgr>{
             myDif.Create();
         }
        
-        
         FileStream fs = File.Create(editStageDataPath +"/" +stageName);
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(fs, list);
-        //StreamWriter sw = new StreamWriter(fs);
 
-        // sw.Write(list[0]);
-
-        // sw.Close();
         fs.Close();
     }
+
     public List<StageEditorST> LoadData(string stageName)
     {
         FileStream fs;
@@ -76,7 +72,6 @@ public class StageDataMgr  : SingletonTemplate<StageDataMgr>{
             ErrorManager.SpurtError("파일이 없어");
             return null;
         }
-
 
         BinaryFormatter bf = new BinaryFormatter();
         List<StageEditorST> list =  bf.Deserialize(fs) as List<StageEditorST>;

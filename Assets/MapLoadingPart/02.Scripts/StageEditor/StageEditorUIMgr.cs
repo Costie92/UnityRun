@@ -9,21 +9,17 @@ namespace hcp
     {
         StageEditorMgr sem;
         Text posValue;
-        GameObject mainCanvas;
-        GameObject ObjSelectPalette;
-        GameObject ChunkSelectPalette;
-        GameObject basicBtnGrp;
-        GameObject WarningEditorExitAtThisPos;
+        public GameObject mainCanvas;
+        public GameObject ObjSelectPalette;
+        public GameObject ChunkSelectPalette;
+        public GameObject basicBtnGrp;
+        public GameObject WarningEditorExitAtThisPos;
         int nowChangeObjNum = -1;
 
         protected override void Awake()
         {
             base.Awake();
-          
-        }
-        private void Start()
-        {
-            sem = GameObject.Find("StageEditMgr").GetComponent<StageEditorMgr>();
+            
             mainCanvas = GameObject.Find("Canvas");
             posValue = mainCanvas.transform.Find("PosValueText").GetComponent<Text>();
             ObjSelectPalette = mainCanvas.transform.Find("ObjSelect").gameObject;
@@ -36,6 +32,10 @@ namespace hcp
             ChunkSelectPalette.SetActive(false);
             basicBtnGrp.SetActive(false);
             nowChangeObjNum = -1;
+        }
+        private void Start()
+        {
+            sem = GameObject.Find("StageEditMgr").GetComponent<StageEditorMgr>();
         }
 
 
