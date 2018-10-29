@@ -75,7 +75,7 @@ namespace hcp
         }
         bool isStage()
         {
-            if (whatStage == E_STAGE.INFINITY || whatStage == E_STAGE.NONE)
+            if (whatStage == E_STAGE.INFINITY || whatStage == E_STAGE.NONE || whatStage==E_STAGE.E_STAGEMAX)
                 return false;
             else return true;
         }
@@ -83,6 +83,15 @@ namespace hcp
 
         void SetObjToNewChunks(List<ChunkObjST> genedCOSTList)
         {
+            genedCOSTList.Sort(
+                  delegate (ChunkObjST x, ChunkObjST y)
+                  {
+                      int compareDate = x.position.CompareTo(y.position);
+                      return compareDate;
+                  }
+                );
+
+
             for (int i = 0; i < genedCOSTList.Count; i++)   //새로 생긴 청크들 모두에게
             {
                 if(genedCOSTList[i].position >= (Constants.firstObjSpawn*chunkMargin) )
