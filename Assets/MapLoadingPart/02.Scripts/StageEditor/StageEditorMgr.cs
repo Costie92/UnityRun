@@ -37,8 +37,17 @@ namespace hcp {
 
         void Start() {
             if (StageManager.fileNameForEdit == null) ErrorManager.SpurtError("파일 이름이 없음!");
-            EditSTList = 
-            StageDataMgr.GetInstance().CheckTheStage(StageManager.fileNameForEdit); 
+                List<StageEditorST> list = 
+            StageDataMgr.GetInstance().CheckTheStage(StageManager.fileNameForEdit);
+
+            EditSTList = new List<StageEditorST>();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                StageEditorST sest = new StageEditorST(list[i].pos,list[i].whichTurn,list[i].soa);
+                EditSTList.Add(sest);
+            }
+
             
             MapObjPoolingGeneration();
             StartCoroutine( BringToWorkspace());
