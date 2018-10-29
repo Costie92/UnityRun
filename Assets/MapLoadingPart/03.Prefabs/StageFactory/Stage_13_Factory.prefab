@@ -19,9 +19,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4093869842914334}
-  - component: {fileID: 114447910096046906}
+  - component: {fileID: 114860315484803830}
   m_Layer: 0
-  m_Name: Stage_1_Factory
+  m_Name: Stage_13_Factory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114447910096046906
+--- !u!114 &114860315484803830
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,6 +48,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1297530024510352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 519b1e3b6c25d034c9d44746d6d3ae75, type: 3}
+  m_Script: {fileID: 11500000, guid: f771947e86b32ee4d97ebd663f9b78cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

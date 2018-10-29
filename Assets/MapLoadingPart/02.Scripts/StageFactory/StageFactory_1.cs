@@ -5,11 +5,10 @@ using UnityEngine;
 
 
 namespace hcp {
-    public class stage_1_Factory : SingletonTemplate<stage_1_Factory> {
+    public class StageFactory_1 :MonoBehaviour  {
         
-        protected override void Awake()
+        void Awake()
         {
-            base.Awake();
             StageST.InitForStageLoading();
         }
         private void Start()

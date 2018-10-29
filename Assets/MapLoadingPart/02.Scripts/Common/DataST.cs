@@ -8,8 +8,23 @@ namespace hcp
     public enum E_STAGE
     {
         NONE=0,
+
         STAGE_1,
         STAGE_2,
+        STAGE_3,
+        STAGE_4,
+        STAGE_5,
+        STAGE_6,
+        STAGE_7,
+        STAGE_8,
+        STAGE_9,
+        STAGE_10,
+        STAGE_11,
+        STAGE_12,
+        STAGE_13,
+        STAGE_14,
+        STAGE_15,
+        STAGE_16,
 
         INFINITY,
         E_STAGEMAX
