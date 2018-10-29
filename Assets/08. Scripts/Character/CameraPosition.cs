@@ -10,7 +10,7 @@ public class CameraPosition : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        this.UnityChan = GameObject.Find("unitychan");
+        this.UnityChan = GameObject.FindGameObjectWithTag("PLAYER");
     }
 
     // Update is called once per frame
