@@ -90,3 +90,8 @@ MonoBehaviour:
   PauseMenu: {fileID: 0}
   Result: {fileID: 0}
   CoinText: {fileID: 0}
+  Btn_Pause: {fileID: 0}
+  Btn_Resume: {fileID: 0}
+  Btn_Quit: {fileID: 0}
+  Btn_Retry: {fileID: 0}
+  Btn_Exit: {fileID: 0}
