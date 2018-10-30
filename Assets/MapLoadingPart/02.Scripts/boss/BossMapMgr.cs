@@ -21,12 +21,7 @@ namespace hcp
         {
             base.Awake();
             chunkMargin = chunk.GetComponent<Renderer>().bounds.size.z;
-
-            for (int i = 0; i < Constants.wantToShowNumOfChunks; i++)
-            {
-                BossMapST bst = new BossMapST();
-                mapSTList.Add(bst);
-            }
+            
         }
         private void Start()
         {
@@ -63,23 +58,28 @@ namespace hcp
 
         void InitMapST()
         {
+            BossMapST bst;
             float startPoint = -1*Constants.wantToShowNumOfChunksInBehind;
             for (int i = 0; i < Constants.wantToShowNumOfChunks; i++)
             {
+                bst = new BossMapST();
+                
                 GameObject chunk = 
                 MapAndObjPool.GetInstance().GetChunkInPool();
+
                 if (chunk == null) ErrorManager.SpurtError("청크가 널임");
                 if (startPoint == 0)
                     chunk.transform.position = Vector3.zero;
                 else
                     chunk.transform.position = Vector3.forward* startPoint * chunkMargin;
 
-                mapSTList[i].chunk = chunk;
-                mapSTList[i].chunk.SetActive(true);
+                bst.chunk = chunk;
+                bst.chunk.SetActive(true);
                 startPoint++;
+
+                mapSTList.Add(bst);
             }
         }
-
     }
 
 
