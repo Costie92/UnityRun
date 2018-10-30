@@ -7,57 +7,44 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
 { // ,IObjToCharactor
 
     Collision collision;
+
     public static int Coin = 0; // 동전수
     public static int HP = 3; // 체력 //처음3개 최대5개
-    public static bool unityChanDie = false;
-    public static bool Invincible = false;
-    public static float invincibleTime = 0.0f;
-    public static bool Shield = false;
-    public static float shieldTime = 0.0f;
-    public static bool Magnet = false;
-    public static float magnetTime = 0.0f;
-    public static bool HitInvincible = false;
+    public static bool unityChanDie, HitInvincible = false; // 캐릭터가 죽거나 장애물에 피격된 상태확인
+    public static bool Invincible, Shield, Magnet = false; // 무적, 방어막, 자석 상태확인
+    public static float invincibleTime, shieldTime, magnetTime = 0.0f; // 무적, 방어막, 자석 지속시간확인
+
     private UIManager UIMgr;
     private CharacterAnimation cAnim;
-    bool iOverlap, sOverlap, mOverlap = false; // 방어막 겹쳤을때 확인 mOverlap(자석)은 문제없으므로 안쓰임
+    private bool iOverlap, sOverlap = false; // 방어막 겹쳤을때 확인
+    private float invincibleCount, shieldCount, magnetCount = 0;
 
-    float shieldCount, magnetCount = 0;
-    float invincibleCount = 0;
-    // Use this for initialization
     void Start()
     {
-        InvokeRepeating("SCount", 0, 1.0f);
-        InvokeRepeating("MCount", 0, 1.0f);
-        InvokeRepeating("ICount", 0, 1.0f);
         cAnim = this.GetComponent<CharacterAnimation>();
         UIMgr = GameObject.Find("GameMgr").GetComponent<UIManager>();
-        HP = 3;
-        Invincible = false;
-        invincibleTime = 0.0f;
-        Shield = false;
-        shieldTime = 0.0f;
-        Magnet = false;
-        magnetTime = 0.0f;
-        shieldCount = 0; magnetCount = 0; invincibleCount = 0;
-        unityChanDie = false;
+        ItemState(); // 캐릭터, 아이템 상태 초기화 함수
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (HP < 0)
-        {
-            HP = 0;
-        }
-
-        ShieldEvent();
-        MagnetEvent();
-        InvicibleEvent();
-        InvicibleEventOn();
-        InvicibleEventOff();
+        if (HP < 0) HP = 0;
+        ShieldPower();
+        MagnetPower();
+        InvinciblePower();
     }
 
-public void GetItem(ItemST itemST) //아이템얻었을때
+    void ItemState() // 캐릭터, 아이템 상태 초기화 함수
+    {
+        HP = 3;
+        unityChanDie = false; // 캐릭터 생사 유무 초기화
+        InvokeRepeating("ICount", 0, 1.0f); InvokeRepeating("SCount", 0, 1.0f); InvokeRepeating("MCount", 0, 1.0f); // 아이템 카운트 초기화
+        Invincible = false; Shield = false; Magnet = false; // 아이템 상태 초기화
+        invincibleTime = 0.0f; shieldTime = 0.0f; magnetTime = 0.0f; // 아이템 지속시간 초기화
+        shieldCount = 0; magnetCount = 0; invincibleCount = 0; // 아이템 시간 초기화
+    }
+
+    public void GetItem(ItemST itemST) //아이템얻었을때
     {
         switch (itemST.itemType)
         {
@@ -83,7 +70,7 @@ public void GetItem(ItemST itemST) //아이템얻었을때
                 if (Shield == true)
                 {
                     sOverlap = true;
-                    Invoke("ShieldEvent3", 1.0f);
+                    Invoke("ShieldEventOn", 1.0f);
                 }
                 if (Shield == false)
                 {
@@ -143,53 +130,52 @@ public void GetItem(ItemST itemST) //아이템얻었을때
         }
     }
 
-    void ShieldEvent()
+    void ShieldPower()
     {
-        if (shieldTime > 0)
-        {
-            Shield = true;
-        }
-        if (shieldTime <= 0)
-        {
-            Shield = false;
-        }
+        ShieldEvent();
     }
 
-    void ShieldEvent2()
+    void ShieldEvent()
+    {
+        if (shieldTime > 0) Shield = true;
+        if (shieldTime <= 0) Shield = false;
+    }
+
+    void ShieldEventOff()
     {
         shieldTime = 0;
     }
 
-    void ShieldEvent3()
+    void ShieldEventOn()
     {
         shieldTime = 9;
     }
 
+    void MagnetPower()
+    {
+        MagnetEvent();
+    }
+
     void MagnetEvent()
     {
-        if (magnetTime > 0)
-        {
-            Magnet = true;
-        }
-        if (magnetTime <= 0)
-        {
-            Magnet = false;
-        }
+        if (magnetTime > 0) Magnet = true;
+        if (magnetTime <= 0) Magnet = false;
     }
 
-    void InvicibleEvent()
+    void InvinciblePower()
     {
-        if (invincibleTime > 0)
-        {
-            Invincible = true;
-        }
-        if (invincibleTime <= 0)
-        {
-            Invincible = false;
-        }
+        InvincibleEvent();
+        InvincibleEventOn();
+        InvincibleEventOff();
     }
 
-    void InvicibleEventOn() // 무적상태
+    void InvincibleEvent()
+    {
+        if (invincibleTime > 0) Invincible = true;
+        if (invincibleTime <= 0) Invincible = false;
+    }
+
+    void InvincibleEventOn() // 무적상태
     {
         if (Invincible == true)
         {
@@ -199,7 +185,7 @@ public void GetItem(ItemST itemST) //아이템얻었을때
         }
     }
 
-    void InvicibleEventOff() // 무적아닌상태
+    void InvincibleEventOff() // 무적아닌상태
     {
         if (Invincible == false && HitInvincible == false)
         {
@@ -209,20 +195,20 @@ public void GetItem(ItemST itemST) //아이템얻었을때
         }
     }
 
-    void HitInvicibleEvent()
+    void HitInvincibleEvent() // 장애물에 맞았을때 무적, 무적해제
     {
-        HitInvicibleEventOn();
-        Invoke("HitInvicibleEventOff", 1.5f);
+        HitInvincibleEventOn();
+        Invoke("HitInvincibleEventOff", 1.5f); // 1.5초간 무적
     }
 
-    void HitInvicibleEventOn()
+    void HitInvincibleEventOn() // 장애물에 맞았을때 무적
     {
         HitInvincible = true;
         this.GetComponent<CapsuleCollider>().isTrigger = true; // 오브젝트 뚫고가기
         this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY; // Rigidbody Y포지션 고정
     }
 
-    void HitInvicibleEventOff()
+    void HitInvincibleEventOff() // 장애물에 맞았을때 무적해제
     {
         this.GetComponent<CapsuleCollider>().isTrigger = false; // 오브젝트 뚫기 해제
         this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation; // Rigidbody 포지션 초기화
@@ -233,25 +219,25 @@ public void GetItem(ItemST itemST) //아이템얻었을때
     {
         if (Invincible == false && Shield == true)
         {
-            Invoke("ShieldEvent2", 1.0f);
+            Invoke("ShieldEventOff", 1.0f); // 방어막 제거
         }
         if (Invincible == false && Shield == false)
         {
-            if (HitInvincible == false)
-            DamagedEvent2();
+            if (HitInvincible == false) 
+            DamagedEvent2(); // 데미지입음
         }
         print("무적" + HitInvincible);
     }
 
-    void DamagedEvent2() // 적과 충돌시 발생하는 애니메이션
+    void DamagedEvent2() // 장애물에 부딪힐시 발생하는 이벤트
     {
         if (HP > 1)
         {
             //this.transform.Translate(Vector3.back * attacked * Time.deltaTime); // 적에게 닿은후 캐릭터의 위치가 뒤로 밀림 attacked값을 바꾸면 밀린정도를 바꿀수있음
             cAnim.DamageAnimation(); // 체력깎임 애니메이션 실행
             HP--;
-            HitInvicibleEvent();
-            CharacterMove.runSpeed = CharacterMove.runSpeed / 2.0f;
+            HitInvincibleEvent(); // 일시무적상태 돌입
+            CharacterMove.runSpeed = CharacterMove.runSpeed / 2.0f; // 이동속도 줄어듬
             Invoke("DamagedEvent3", 1.5f);
         }
         else
@@ -277,7 +263,6 @@ public void GetItem(ItemST itemST) //아이템얻었을때
 
     public void GameOver() // 캐릭터가 쓰러진상태로 유지시켜주는 함수
     {
-        Time.timeScale = 0; // 캐릭터 시간멈춤 (캐릭터가 쓰러진 모습 상태로 정지함)
         unityChanDie = true;
     }
 
@@ -286,32 +271,29 @@ public void GetItem(ItemST itemST) //아이템얻었을때
         return false;
     }
 
-    void ICount()
+    void ICount() // 무적시간
     {
         if (Invincible == true && invincibleCount <= 5)
         {
             invincibleTime--;
-            print("무적시간 : " + invincibleTime + " 초 남음");
             invincibleCount++;
         }
     }
 
-    void SCount()
+    void SCount() // 방어막시간
     {
         if (Shield == true && shieldCount <= 10)
         {
             shieldTime--;
-            print("방어막시간 : " + shieldTime + " 초 남음");
             shieldCount++;
         }
     }
 
-    void MCount()
+    void MCount() // 자석시간
     {
         if (Magnet == true && magnetCount <= 10)
         {
             magnetTime--;
-            print("자석시간 : " + magnetTime + " 초 남음");
             magnetCount++;
         }
     }

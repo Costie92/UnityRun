@@ -15,35 +15,21 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
         }
     }
 
-    GameObject Character;
-
     private CharacterAnimation cAnim;
-    public bool turningPoint = true; // 방향전환해야할 시점일경우 true 아닐경우에는 false
-    public bool Loop = true; // while문 작동하시키기 위해 만듬 (별의미는 없음)
-    public int horizontalLocation = 0;
-    public static float runSpeed = 6.5f; // 캐릭터가 앞으로 달려가는 스피드
-    public float rotateY = 0; // 캐릭터가 회전하는 각도
-    public int rotateLeftMax = 0; // 왼쪽으로 반복해서 움직이도록 할때 이용하려고 만든 변수
-    public int rotateRightMax = 0; // 오른쪽으로 반복해서 움직이도록 할때 이용하려고 만든 변수
-    public int turnLeftControl = 0; // 왼쪽 컨트롤을 제어하기 위해 만든 변수
-    public int turnRightControl = 0; // 오른쪽 컨트롤을 제어하기 위해 만든 변수
-    public float jumpHeight = 65.0f;
-    public float speedUpdate = 1.2f;
-
-    public static bool leftWall = false;
-    public static bool rightWall = false;
-    public static bool speedUpItem = false;
     public static int shield = 0;
-
-    float temp = 0;
+    public static float runSpeed = 6.5f; // 캐릭터가 앞으로 달려가는 스피드
+    public static float speedUpdate = 1.2f;
+    public bool turningPoint = true; // 방향전환해야할 시점일경우 true 아닐경우에는 false
+    private int rotateLeftMax, rotateRightMax, rotateUpMax, rotateDownMax, turnLeftControl, turnRightControl = 0; // 왼쪽, 오른쪽으로 반복해서 움직이도록 할때 이용하려고 만든 변수 // 높이를 제어하기 위한 변수 // 왼쪽, 오른쪽 컨트롤을 제어하기 위해 만든 변수
+    private float rotateY, temp = 0; // 캐릭터가 회전하는 각도 // 달리기 속도를 잠시 저장해주기 위해 필요한것
 
     Rigidbody rigidbody;
     Collision collision;
+    GameObject Character;
 
-    // Use this for initialization
     void Start()
     {
-        Character = GameObject.Find("unitychan");
+        Character = GameObject.FindWithTag("PLAYER");
         cAnim = GetComponent<CharacterAnimation>();
         _instance = this;
         rigidbody = GetComponent<Rigidbody>();
@@ -52,206 +38,91 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
         temp = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (ObjEat.HP  != 0) // 적에게 부딪히지 않았을경우
         {
             Run();
         }
-        InvokeRepeating("GoFast",10.0f,10.0f);
-
-        if (Input.GetKeyDown(KeyCode.DownArrow)) // 오른쪽 방향키 (1회)누르면
-        {
-            JumpDown();
-        }
+        InvokeRepeating("GoFast",60.0f,60.0f);
+        JumpDown();
         CharacterStop();
     }
 
-    public void Run() {
-        this.transform.Translate(Vector3.forward * runSpeed * speedUpdate *Time.deltaTime);
+    public void Run() // 캐릭터가 앞을향해 달리는 함수 (속도조절포함)
+    {
+        this.transform.Translate(Vector3.forward * runSpeed * speedUpdate * Time.deltaTime); // runSpeed는 일반달리기 속도, speedUpdate는 가속
     }
 
-    public void GoFast()
+    public void GoFast() // 시간이 지날때마다 이동속도 증가
     {
-        if(speedUpdate < 3.0f) speedUpdate = speedUpdate + 0.1f * Time.deltaTime;
+        if(speedUpdate < 2.0f) speedUpdate = speedUpdate + 0.05f * Time.deltaTime; // 가속도 설정 최대 2배속이 넘으면 중지
     }
 
-    public void Move(bool isLeftDirection) // 좌우로 회전하거나 움직이는 이벤트를 담당하는 함수 turningPoint가 true일 경우와 false일경우로 나뉨
+    public void Move(bool isLeftDirection) // 캐릭터 이동
     {
-        if (this.Character.transform.position.x > 2f)
+        if (this.Character.transform.position.x > 2f) // 왼쪽이동 한계치 설정
         {
-            if (isLeftDirection && rotateLeftMax == 0) // 왼쪽키 눌렀을때
-            {
-                /*
-                    if (turnLeftControl == 1) // 왼쪽 움직임을 1번에 1번씩만 하도록 제한해주는 조건
-                    {
-                        rotateLeftMax = 0;
-                        turnLeftControl = 0;
-                    }
-                    StartCoroutine(LeftSlide()); // 왼쪽으로 좌표를 부드럽게 이동하도록 하는 함수
-                */
-                // this.transform.Translate(-positionX, 0.0f, 0.0f);  // x축으로 -positionX값 만큼 이동시켜줌
-                this.transform.Translate(-0.1f, 0.0f, 0.0f);  // 누른만큼 이동
-            }
+            if (isLeftDirection && rotateLeftMax == 0) this.transform.Translate(-0.1f, 0.0f, 0.0f); // 왼쪽키 눌렀을때 // 누른만큼 이동
         }
-        if (this.Character.transform.position.x < 8f)
+        if (this.Character.transform.position.x < 8f) // 오른쪽이동 한계치 설정
         {
-            if (!isLeftDirection && rotateRightMax == 0) // 오른쪽키 눌렀을때
-            {
-                /*
-                if (turnRightControl == 1) // 오른쪽 움직임을 1번에 1번씩만 하도록 제한해주는 조건
-                {
-                    rotateRightMax = 0;
-                    turnRightControl = 0;
-                }
-                StartCoroutine(RightSlide()); // 오른쪽으로 좌표를 부드럽게 이동하도록 하는 함수
-                */
-                //  this.transform.Translate(positionX, 0.0f, 0.0f);  // x축으로 positionX값 만큼 이동시켜줌
-                this.transform.Translate(0.1f, 0.0f, 0.0f);  // 누른만큼 이동
-            }
+            if (!isLeftDirection && rotateRightMax == 0) this.transform.Translate(0.1f, 0.0f, 0.0f); // 오른쪽키 눌렀을때 // 누른만큼 이동
         }
     }
-    public void Slide(bool isLeftDirection)
+
+    public void SlideDown() // 캐릭터가 장애물 아래로 지나가기
     {
-        if (isLeftDirection && rotateLeftMax == 0) // 왼쪽으로 슬라이드 눌렀을때 (갈림길)
-        {
-            if (turnLeftControl == 1) // 왼쪽 움직임을 1번에 1번씩만 하도록 제한해주는 조건
-            {
-                rotateLeftMax = 0;
-                turnLeftControl = 0;
-            }
-            StartCoroutine(LeftSlide()); // 왼쪽으로 90도를 자연스럽게 회전하도록 하는 함수
-        }
-        if (!isLeftDirection && rotateRightMax == 0)  // 오른쪽으로 슬라이드 눌렀을때 (갈림길)
-        {
-            if (turnRightControl == 1) // 오른쪽 움직임을 1번에 1번씩만 하도록 제한해주는 조건
-            {
-                rotateRightMax = 0;
-                turnRightControl = 0;
-            }
-            StartCoroutine(RightSlide()); // 왼쪽으로 90도를 자연스럽게 회전하도록 하는 함수
-        }
+        if (ObjEat.Invincible == false) cAnim.SlideAnimation(); // 무적상태가 아닐때 애니메이션 실행
     }
-    public void SlideDown() {
-        if (ObjEat.Invincible == false)
-        {
-            cAnim.SlideAnimation();
-        }
-    }
+
     public void Jump() // 점프
     {
-        if (!CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00") && ObjEat.Invincible == false)
+        if (!CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00") && ObjEat.Invincible == false) // 점프상태가 아닐때, 무적상태가 아닐때
         {
-            cAnim.JumpAnimation();
-            rigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse); // * 뒤 숫자를 조절하여 뛰는높이 조정가능
+            cAnim.JumpAnimation(); // 점프애니메이션
+            rigidbody.velocity = new Vector3(0, 6.0f * speedUpdate, 0); // 캐릭터가 위로 올라감
         }
     }
 
-    public void JumpDown()
+    public void JumpDown() // 점프취소 (강제로 점프를 취소함)
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow)) // 오른쪽 방향키 (1회)누르면
+        if (Character.transform.position.y > 2.5f) // 캐릭터가 2.5위치 위로 올라갈경우
+        {
+            rigidbody.AddForce(Vector3.down * 40 * speedUpdate, ForceMode.Impulse); // 캐릭터에게 아래로 힘을 가해줌
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow)) // 아래 방향키 (1회)누르면
         {
             if (CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00") && ObjEat.Invincible == false)
             {
-                rigidbody.AddForce(Vector3.up * -100, ForceMode.Impulse);
+                rigidbody.AddForce(Vector3.down * 120 * speedUpdate, ForceMode.Impulse); // 캐릭터에게 아래로 힘을 가해줌
+                this.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.75f, 0); // 캐릭터 콜라이더 중심 옮기기
+                this.GetComponent<CapsuleCollider>().height = 1.5f; // 캐릭터 콜라이더 높이 바꾸기
             }
         }
     }
-
-    IEnumerator LeftSlide() // 왼쪽으로 부드럽게 움직이도록 해주는 함수 (회전하는 각도와 좌표이동할때의 움직임)
-    {
-        while (Loop == true && rotateLeftMax < 15) // 회전과 이동을 15번 반복해서 실행시켜줌 단 회전할때와 이동할때는 각각 분리해서 실행함
-        {
-            rotateY = +6.0f; // y축으로 회전하는 각도
-                             // positionX = +0.1f; // x축으로 이동하는 좌표
-
-            this.transform.Rotate(0.0f, -rotateY, 0.0f); // y축으로 -rotateY값 만큼 회전시켜줌
-            /*
-            if (turningPoint == false) // 회전할때가 아닐때 // 이동할때
-            {
-                this.transform.Translate(-positionX, 0.0f, 0.0f); // x축으로 -positionX값 만큼 이동시켜줌
-            }
-            */
-            yield return new WaitForSeconds(0.0001f); // 자연스럽게 캐릭터가 이동하는것처럼 보이기위해 ()안의 시간만큼 정지해서 멈춰있는 모습을 보여줌
-            rotateLeftMax++; // 반복카운트 +1
-        }
-        if (rotateLeftMax == 15) // 회전과 이동의 반복문이 끝날경우
-        {
-            rotateLeftMax = 0; // 왼쪽 반복카운트 0으로 초기화
-            turnLeftControl = 1;
-        }
-    }
-
-    IEnumerator RightSlide() // 오른쪽으로 부드럽게 움직이도록 해주는 함수 (회전하는 각도와 좌표이동할때의 움직임)
-    {
-        while (Loop == true && rotateRightMax < 15)  // 회전과 이동을 15번 반복해서 실행시켜줌 단 회전할때와 이동할때는 각각 분리해서 실행함
-        {
-            rotateY = +6.0f; // y축으로 회전하는 각도
-                             // positionX = +0.1f; // x축으로 이동하는 좌표
-
-            this.transform.Rotate(0.0f, rotateY, 0.0f); // y축으로 rotateY값 만큼 회전시켜줌
-
-            /*
-            if (turningPoint == false) // 회전할때가 아닐때 // 이동할때
-            {
-                this.transform.Translate(positionX, 0.0f, 0.0f);  // x축으로 -positionX값 만큼 이동시켜줌
-            }
-            */
-            yield return new WaitForSeconds(0.0001f); // 자연스럽게 캐릭터가 이동하는것처럼 보이기위해 ()안의 시간만큼 정지해서 멈춰있는 모습을 보여줌
-            rotateRightMax++; // 반복카운트 +1
-        }
-        if (rotateRightMax == 15) // 회전과 이동의 반복문이 끝날경우
-        {
-            rotateRightMax = 0; // 오른쪽 반복카운트 0으로 초기화
-            turnRightControl = 1;
-        }
-    }
-
-    void OnCollisionStay(Collision collision) // 벽과 충돌시 발생하는 이벤트
-    {
-        if (collision.gameObject.tag == "LeftWall") // LeftWall태그(이름밑의 Tag)의 오브젝트와 충돌시 발생하는 이벤트
-        {
-            CharacterMove.leftWall = true; // 왼쪽에게 닿았다는것을 확인
-            Debug.Log("왼쪽벽과 닿음");
-        }
-        else
-        {
-            CharacterMove.leftWall = false;
-        }
-
-        if (collision.gameObject.tag == "RightWall") // RightWall태그(이름밑의 Tag)의 오브젝트와 충돌시 발생하는 이벤트
-        {
-            CharacterMove.rightWall = true; // 오른쪽에게 닿았다는것을 확인
-            Debug.Log("오른쪽벽과 닿음");
-        }
-        else
-        {
-            CharacterMove.rightWall = false;
-        }
-    }
-
-    void OnCollisionEnter(Collision collision) // 땅과 닿았을때
+    
+    void OnCollisionEnter(Collision collision) // 땅과 닿았을때 걷기(점프 취소 구현을 위해 만든 함수)
     {
         this.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.75f, 0); // 캐릭터 콜라이더 중심 옮기기
         this.GetComponent<CapsuleCollider>().height = 1.5f; // 캐릭터 콜라이더 높이 바꾸기
-        if (!CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("RUN00_F") && !CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("SLIDE00"))
+        if (!CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("RUN00_F") && !CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("SLIDE00")) // 다른 애니메이션과 겹쳐서 실행되지 않도록 해주는 조건
         {
-            cAnim.RunAnimation();
+            cAnim.RunAnimation(); // 캐릭터가 걷는 애니메이션을함
         }
     }
 
-    void CharacterStop()
+    void CharacterStop() // 피격시 잠시 캐릭터멈춤
     {
-        if (ObjEat.HitInvincible == true)
+        if (ObjEat.HitInvincible == true) // 피격시
         {
             temp = runSpeed;
-            runSpeed = 0;
-            Invoke("runStart",1.0f);
+            runSpeed = 0; // 캐릭터가 멈춤
+            Invoke("runStart",1.0f); // 1.0f시간동안 멈춤
         }
     }
 
-    void runStart()
+    void runStart() // 피격시 줄어들었던 달리기 스피드를 복구시켜주는 함수
     {
         runSpeed = temp;
     }

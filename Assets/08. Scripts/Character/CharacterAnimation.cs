@@ -16,7 +16,6 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
     }
     public static Animator animator; // 애니메이션을 구현하기위해 쓴거
     private UIManager UIMgr;
-    private float attacked = 20.0f; // 적과 부딪힌뒤에 밀려나는 정도
 
     // Use this for initialization
     void Start()
@@ -29,25 +28,9 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
     void Update()
     {
         InvincibleRunAnimation();
+        animator.SetFloat("JumpSpeed", 1.2f * CharacterMove.speedUpdate); // 애니메이션 스피드 1.2f배로
     }
-
-    /* ObjEat으로 옮김
-    void OnCollisionEnter(Collision collision) // 오브젝트와 충돌시 발생하는 이벤트
-    {
-        Debug.Log("캐릭터와 오브젝트가 닿음");
-        if (collision.gameObject.tag == "Enemy") // Enemy태그(이름밑의 Tag)의 오브젝트와 충돌시 발생하는 이벤트
-        {
-            CharacterMove.shield--;
-            if (CharacterMove.speedUpItem == false)
-            {
-                CharacterMove.enemyAttack = true; // 적에게 닿았다는것을 확인
-                Debug.Log("적과 닿음");
-                this.transform.Translate(Vector3.back * attacked * Time.deltaTime); // 적에게 닿은후 캐릭터의 위치가 뒤로 밀림 attacked값을 바꾸면 밀린정도를 바꿀수있음
-                DieAnimation(); // 죽는 애니메이션 실행
-            }
-        }
-    }
-    */
+    
     public void DamageAnimation() // 캐릭터가 죽는모습을 보여주고 게임을 정지시킴
     {
         animator.Play("DAMAGED00", -1, 0); // 뒤로 쓰러지는 애니메이션 실행
@@ -89,6 +72,7 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
         this.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.75f, 0); // 캐릭터 콜라이더 중심 옮기기
         this.GetComponent<CapsuleCollider>().height = 1.5f; // 캐릭터 콜라이더 높이 바꾸기
     }
+
     void InvincibleRunAnimation()
     {
         if(ObjEat.Invincible == true)
@@ -103,7 +87,10 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
 
     public void RunAnimation()
     {
-        animator.Play("RUN00_F", -1, 0);
+        if(ObjEat.HP != 0)
+        {
+            animator.Play("RUN00_F", -1, 0);
+        }
     }
 
     public void GameOver() // 캐릭터가 쓰러진상태로 유지시켜주는 함수
