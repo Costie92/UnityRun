@@ -35,6 +35,8 @@ namespace hcp
             //패턴 따라 넣어주는 처리.
             mapSTList.MoveAllInList(moveSpeed);
             BossChunkLoading();
+            ServeBossPattern(); //꼭 새롭게 생긴(이동한) 청크에 오브젝트를 소환시킬 게 아니라
+            //플레이어 기준으로 몇 미터 앞에 떨어져있는 청크에 소환한다든지 하는 조작이 가능한 방향이 더 나은듯
         }
 
         void BossChunkLoading()
@@ -45,13 +47,21 @@ namespace hcp
             bst.TurnInObjs();
             bst.MoveChunk(mapSTList.GetNewCreatePoint(chunkMargin));
 
-            ServeBossPattern(bst);
         }
 
-        void ServeBossPattern(BossMapST newOne)
+        void ServeBossPattern()
         {
             //큐로 받은 패턴을 뽑아서
             //맞게 넣어줌
+
+            //그런데 문제가 되는게 보스가 파이어볼 쏘는 건 보스 쪽에서 끝나는 시간을 알 수가 있음
+            //브레스나 메테오도 보스 쪽에서 끝낼 시간을 알아야함
+            //콜백 메소드로 이쪽 메소드를 보스 패턴쪽에서 호출하게?
+            //플레이어 몇 미터 앞에 있는 청크의 몇 라인에 불을 생성한다든지 하는 식으로.
+            //이게 좋은듯
+
+            //그러면 보스가 패턴 실행이 끝났다는 걸 이쪽이 알아야하고
+            //또 브레스나 메테오를 언제 실행할 건지를 알아내서 그에 맞게 청크에 불 오브젝트를 소환해줄 수 있어야함.
 
         }
 
@@ -71,7 +81,7 @@ namespace hcp
                 if (startPoint == 0)
                     chunk.transform.position = Vector3.zero;
                 else
-                    chunk.transform.position = Vector3.forward* startPoint * chunkMargin;
+                    chunk.transform.position = Vector3.forward*( startPoint * chunkMargin);
 
                 bst.chunk = chunk;
                 bst.chunk.SetActive(true);
@@ -82,7 +92,7 @@ namespace hcp
         }
     }
 
-
+    
     public static class MyExtendMethodForListBossMapST
     {
         public static void MoveAllInList(this List<BossMapST> list , float moveSpeed)
@@ -132,7 +142,7 @@ namespace hcp
         }
         public bool IsShouldBeRemoved(float chunkMargin)
         {
-            if (chunk.transform.position.z <= -1 * ((Constants.wantToShowNumOfChunksInBehind +1) * chunkMargin))
+            if (chunk.transform.position.z < -1 * ((Constants.wantToShowNumOfChunksInBehind+1) * chunkMargin))
                 return true;
             else return false;
         }
