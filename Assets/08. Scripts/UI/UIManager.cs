@@ -4,8 +4,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-
-public class UIManager : MonoBehaviour {
+public class UIManager : MonoBehaviour
+{
     private static UIManager _instance = null;
     public static UIManager instance
     {
@@ -25,12 +25,17 @@ public class UIManager : MonoBehaviour {
     public GameObject Result;
     public Text CoinText;
     private TouchScreenKeyboard keyboard;
-
+    public Button Btn_Pause;
+    public Button Btn_Resume;
+    public Button Btn_Quit;
+    public Button Btn_Retry;
+    public Button Btn_Exit;
     // Use this for initialization
     private void Awake()
     {
         Hps = new GameObject[5];
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             Hps[i] = GameObject.Find("Hps").transform.GetChild(i).gameObject;
         }
         UI_Shield = GameObject.Find("Shield");
@@ -39,8 +44,20 @@ public class UIManager : MonoBehaviour {
         PauseMenu = GameObject.Find("PauseMenu");
         Result = GameObject.Find("Result");
         CoinText = GameObject.Find("CoinCount").GetComponent<Text>();
+        Btn_Pause = GameObject.Find("Btn_Pause").GetComponent<Button>();
+        Btn_Resume = GameObject.Find("Btn_Resume").GetComponent<Button>();
+        Btn_Quit = GameObject.Find("Btn_Quit").GetComponent<Button>();
+        Btn_Retry = GameObject.Find("Btn_Retry").GetComponent<Button>();
+        Btn_Exit = GameObject.Find("Btn_Exit").GetComponent<Button>();
+        Btn_Pause.onClick.AddListener(() => OnClickPause());
+        Btn_Resume.onClick.AddListener(() => OnClickResume());
+        Btn_Quit.onClick.AddListener(() => OnClickQuit());
+        Btn_Retry.onClick.AddListener(() => OnClickRetry());
+        Btn_Exit.onClick.AddListener(() => OnClickExit());
     }
-    void Start() {
+    void Start()
+    {
+        print(hcp.StageManager.stageNum.ToString());
         isPause = false;
         Time.timeScale = 1;
         PauseMenu.SetActive(false);
@@ -58,7 +75,8 @@ public class UIManager : MonoBehaviour {
         UI_Magnet.SetActive(ObjEat.Magnet);
     }
 
-    public void DisplayHp() {
+    void DisplayHp()
+    {
         if (ObjEat.HP >= 0)
         {
             for (int i = 0; i < ObjEat.HP; i++)
@@ -71,38 +89,48 @@ public class UIManager : MonoBehaviour {
             }
         }
     }
-    public void OnClickPause()
+    void OnClickPause()
     {
         isPause = true;
-        Time.timeScale = 0;
         PauseMenu.SetActive(true);
+        Time.timeScale = 0;
         //keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
 
     }
-    public void OnClickResume()
+    void OnClickResume()
     {
         isPause = false;
-        Time.timeScale = 1;
         PauseMenu.SetActive(false);
+        Time.timeScale = 1;
     }
-    public void OnClickQuit() {
+    void OnClickQuit()
+    {
         ShowResult();
     }
-    public void OnClickExit() {
+    void OnClickExit()
+    {
         isPause = false;
         Time.timeScale = 1;
         SceneManager.LoadScene("StageSelect");
     }
-    public void OnClickRetry() {
+    void OnClickRetry()
+    {
         isPause = false;
         Time.timeScale = 1;
-        SceneManager.LoadScene(1);
+        if (hcp.StageManager.stageNum == hcp.E_STAGE.NONE)
+        {
+            SceneManager.LoadScene(hcp.StageManager.fileNameForEdit);
+        }
+        else
+        {
+            SceneManager.LoadScene(hcp.StageManager.stageNum.ToString());
+        }
     }
-    public void ShowResult() {
+    public void ShowResult()
+    {
         isPause = true;
-        Time.timeScale = 0;
         Result.SetActive(true);
         Result.transform.Find("ResultCoin").GetComponent<Text>().text = CoinText.text;
+        Time.timeScale = 0;
     }
 }
-
