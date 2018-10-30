@@ -75,7 +75,7 @@ namespace hcp
         }
         bool isStage()
         {
-            if (whatStage == E_STAGE.INFINITY || whatStage == E_STAGE.NONE || whatStage==E_STAGE.E_STAGEMAX)
+            if (whatStage == E_STAGE.INFINITY)
                 return false;
             else return true;
         }
