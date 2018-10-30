@@ -13,6 +13,7 @@ namespace hcp {
         }
         void EditedStageMaking()
         {
+            StageST.InitForStageLoading();
             if (editedList == null) ErrorManager.SpurtError("파일이 없음");
 
             editedList.Sort(
