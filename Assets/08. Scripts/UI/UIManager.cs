@@ -119,7 +119,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
         if (hcp.StageManager.stageNum == hcp.E_STAGE.NONE)
         {
-            SceneManager.LoadScene(hcp.StageManager.fileNameForEdit);
+            SceneManager.LoadScene(hcp.Constants.editedStageSceneName);
         }
         else
         {
