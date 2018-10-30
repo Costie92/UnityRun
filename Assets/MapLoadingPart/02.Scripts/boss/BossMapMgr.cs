@@ -142,7 +142,7 @@ namespace hcp
         }
         public bool IsShouldBeRemoved(float chunkMargin)
         {
-            if (chunk.transform.position.z < -1 * ((Constants.wantToShowNumOfChunksInBehind+1) * chunkMargin))
+            if (chunk.transform.position.z <= -1 * ((Constants.wantToShowNumOfChunksInBehind+1) * chunkMargin))
                 return true;
             else return false;
         }
