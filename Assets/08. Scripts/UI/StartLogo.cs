@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-public class Logo : MonoBehaviour {
+public class StartLogo : MonoBehaviour {
     public RectTransform Mask;
     public RectTransform StartText;
     private TouchControl cMove;
