@@ -20,7 +20,6 @@ namespace hcp
             particle = transform.GetChild(1).gameObject.GetComponent<ParticleSystem>();
         }
         
-
         private void OnEnable()
         {
             transform.LookAt(playerTr.position+Vector3.up*2f);
