@@ -6,7 +6,8 @@ namespace hcp
 {
     public class BossMeteorBall : MonoBehaviour
     {
-        ObstacleST obsST;
+        public ParticleSystem particle;
+        ObstacleST obsST = new ObstacleST();
         IObjToCharactor objToCharactor;
 
         private void Awake()
@@ -14,6 +15,7 @@ namespace hcp
             obsST.obstacleType = E_OBSTACLE.BOSS_METEOR;
             obsST.beenHit = true;
             objToCharactor = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<IObjToCharactor>();
+            particle = transform.GetChild(1).gameObject.GetComponent<ParticleSystem>();
         }
         private void OnTriggerEnter(Collider other)
         {

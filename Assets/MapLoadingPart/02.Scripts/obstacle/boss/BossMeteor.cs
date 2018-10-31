@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace hcp {
     public class BossMeteor : MonoBehaviour {
-        ParticleSystem[] particles;
+        public ParticleSystem[] particles ;
 
         GameObject meteor;
 
         Transform playerTr;
         private void Awake()
         {
-
+            particles = new ParticleSystem[4];
             Transform pg = transform.GetChild(0);
             for (int i = 0; i < pg.childCount; i++)
             {

@@ -53,8 +53,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4375609108084496}
-  - component: {fileID: 114287086398576622}
-  - component: {fileID: 114153023904182158}
   m_Layer: 8
   m_Name: WallOfFire
   m_TagString: Untagged
@@ -208,41 +206,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.4, y: 1, z: 10}
   m_Center: {x: -1.2, y: 0.5, z: 0}
---- !u!114 &114153023904182158
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1193618688414354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b986ebeafa7e224e810d950d54baf03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AudioSource: {fileID: 0}
-  StartTime: 3
-  StopTime: 2
-  Duration: 1e+9
-  ForceAmount: 0
-  ForceRadius: 0
-  IsProjectile: 0
-  ManualParticleSystems: []
---- !u!114 &114287086398576622
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1193618688414354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b85cb039b6d149f46b051488d2465561, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Seed: 100
-  IntensityModifier: 2
-  IntensityMaxRange:
-    Minimum: 0
-    Maximum: 8
 --- !u!114 &114730684186819154
 MonoBehaviour:
   m_ObjectHideFlags: 1

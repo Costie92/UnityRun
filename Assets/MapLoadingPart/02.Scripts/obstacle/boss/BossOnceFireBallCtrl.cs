@@ -5,8 +5,8 @@ namespace hcp
 {
     public class BossOnceFireBallCtrl : MonoBehaviour
     {
-        ParticleSystem particle;
-        ObstacleST obsST;
+        public ParticleSystem particle;
+        ObstacleST obsST = new ObstacleST();
         IObjToCharactor objToCharactor;
         Transform playerTr;
         float moveSpeed = 10.0f;

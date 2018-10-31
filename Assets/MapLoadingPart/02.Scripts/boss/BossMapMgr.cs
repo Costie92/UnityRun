@@ -20,13 +20,16 @@ namespace hcp
         protected override void Awake()
         {
             base.Awake();
-            chunkMargin = chunk.GetComponent<Renderer>().bounds.size.z;
-            
+
+            chunkMargin = chunk.GetComponentInChildren<Renderer>().bounds.size.z;
+
         }
         private void Start()
         {
             MapAndObjPool.GetInstance().ChunkPoolInit(Constants.wantToShowNumOfChunks);
-
+            MapAndObjPool.GetInstance().bossObsBreathPoolInit();
+            MapAndObjPool.GetInstance().bossObsFireBallPoolInit();
+            MapAndObjPool.GetInstance().bossObsMeteorPoolInit();
             InitMapST();
         }
 

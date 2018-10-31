@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace hcp {
     public class BossBreathCtrl : MonoBehaviour {
-        ParticleSystem[] particles;
+        public ParticleSystem[] particles;
 
 
-        ObstacleST obsST;
+        ObstacleST obsST = new ObstacleST();
         IObjToCharactor objToCharactor;
 
         private void Awake()
         {
+            particles = new ParticleSystem[4];
             obsST.obstacleType = E_OBSTACLE.BOSS_BREATH;
             obsST.beenHit = true;
 
             Transform pg = transform.GetChild(0);
+            print(pg.name+"카운트"+pg.childCount);
             for (int i = 0; i < pg.childCount; i++)
             {
                 particles[i] = pg.GetChild(i).gameObject.GetComponent<ParticleSystem>();
