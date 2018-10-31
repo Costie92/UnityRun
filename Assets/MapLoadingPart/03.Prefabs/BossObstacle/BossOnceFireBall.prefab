@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4236773893454672}
   - component: {fileID: 135411032999220916}
+  - component: {fileID: 114772826162158108}
   m_Layer: 0
   m_Name: BossOnceFireBall
   m_TagString: Untagged
@@ -144,6 +145,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1152225431481606}
   m_Mesh: {fileID: 4300000, guid: 04bd492e0e5d35a48a3f6c6ac3f3eba6, type: 3}
+--- !u!114 &114772826162158108
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1190795144794600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b540ce11867e6419f8b9254f0e99f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135411032999220916
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -225,7 +237,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 1
+  moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
   randomSeed: 0

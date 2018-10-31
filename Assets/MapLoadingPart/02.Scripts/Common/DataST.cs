@@ -55,6 +55,10 @@ namespace hcp
         UPPER_HUDDLE,
         FIRE,
 
+        BOSS_FIREBALL,
+        BOSS_BREATH,
+        BOSS_METEOR,
+
         EOBSMAX
     };
     [System.Serializable]

@@ -19,6 +19,10 @@ namespace hcp
         public GameObject obstacleUpperHuddle_3;
         public GameObject obstacleFire;
 
+        public GameObject bossObsFireBall;
+        public GameObject bossObsBreath;
+        public GameObject bossObsMeteor;
+
         public GameObject item_HPPLUS;
         public GameObject item_INVINCIBLE;
         public GameObject item_SHIELD;
@@ -38,6 +42,10 @@ namespace hcp
         public List<GameObject> obsUpperHuddle_2_Pool = new List<GameObject>();
         public List<GameObject> obsUpperHuddle_3_Pool = new List<GameObject>();
         public List<GameObject> obsFirePool = new List<GameObject>();
+
+        public List<GameObject> bossObsFireBallPool = new List<GameObject>();
+        public List<GameObject> bossObsBreathPool = new List<GameObject>();
+        public List<GameObject> bossObsMeteorPool = new List<GameObject>();
 
         public List<GameObject> itemHPPlusPool = new List<GameObject>();
         public List<GameObject> itemInvinciblePool = new List<GameObject>();
@@ -59,6 +67,10 @@ namespace hcp
         private int obsUpperHuddle_2_PoolCapacity = 5;
         private int obsUpperHuddle_3_PoolCapacity = 5;
         private int obsFirePoolCapacity = 5;
+
+        private int bossObsFireBallPoolCapacity = 5;
+        private int bossObsBreathPoolCapacity = 5;
+        private int bossObsMeteorPoolCapacity = 5;
 
         private int itemHPPlusPoolCapacity = 5;
         private int itemInvinciblePoolCapacity = 5;
@@ -169,6 +181,29 @@ namespace hcp
             PoolInit(obstacleFire, obsFirePool, obsFirePoolCapacity, "obsFirePoolParent", "OBSFIRE_");
         }
 
+        public void bossObsFireBallPoolInit(int capacity1 = 5)
+        {
+            bossObsFireBallPoolCapacity = capacity1;
+            PoolInit(bossObsFireBall, bossObsFireBallPool, bossObsFireBallPoolCapacity, "bossObsFirePoolParent", "BOSS_OBSFIREBALL_");
+        }
+
+        public void bossObsBreathPoolInit(int capacity1 = 5)
+        {
+            bossObsBreathPoolCapacity = capacity1;
+            PoolInit(bossObsBreath, bossObsBreathPool, bossObsBreathPoolCapacity, "bossObsBreathPoolParent", "BOSS_OBSBREATH_");
+        }
+
+        public void bossObsMeteorPoolInit(int capacity1 = 10)
+        {
+            bossObsMeteorPoolCapacity = capacity1;
+            PoolInit(bossObsMeteor, bossObsMeteorPool, bossObsMeteorPoolCapacity, "bossObsMeteorPoolParent", "BOSS_OBSMETEOR_");
+        }
+
+
+
+
+
+
         public void itemHPPlusPoolInit(int capacity1 = 5)
         {
             itemHPPlusPoolCapacity = capacity1;
@@ -256,6 +291,20 @@ namespace hcp
         {
             return GetInSthPool(obsFirePool);
         }
+
+        public GameObject GetBossObsFireBallInPool()
+        {
+            return GetInSthPool(bossObsFireBallPool);
+        }
+        public GameObject GetBossObsBreathInPool()
+        {
+            return GetInSthPool(bossObsBreathPool);
+        }
+        public GameObject GetBossObsMeteorInPool()
+        {
+            return GetInSthPool(bossObsMeteorPool);
+        }
+        
 
         public GameObject GetItemHPPlusInPool()
         {
