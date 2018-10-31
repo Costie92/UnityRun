@@ -9,6 +9,12 @@ namespace hcp
         BREATH,
         METEOR
     }
+    public enum E_SPAWNLINE
+    {
+        LEFT=0,
+        CENTER,
+        RIGHT
+    }
 
     public class BossMapMgr : SingletonTemplate<BossMapMgr>
     {
@@ -35,6 +41,21 @@ namespace hcp
 
         private void Update()
         {
+            if (Input.GetKeyDown("p"))
+            {
+                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.METEOR, 100, 2);
+
+                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.METEOR, 100, 1);
+
+                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.METEOR, 100, 0);
+
+
+                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.BREATH, 50, 2);
+
+                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.BREATH, 50, 1);
+
+                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.BREATH, 50, 0);
+            }
             //패턴 따라 넣어주는 처리.
             mapSTList.MoveAllInList(moveSpeed);
             BossChunkLoading();

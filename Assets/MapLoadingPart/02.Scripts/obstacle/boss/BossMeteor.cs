@@ -26,7 +26,7 @@ namespace hcp {
             {
                 particles[i].Play();
             }
-            meteor.transform.position= Vector3.up*20.0f;
+            meteor.transform.Translate(Vector3.up * 20f);
         }
         private void OnDisable()
         {
@@ -34,10 +34,11 @@ namespace hcp {
             {
                 particles[i].Stop();
             }
+            meteor.transform.position = transform.position ;
         }
         private void Update()
         {
-            if (playerTr.position.z + 10f < transform.position.z)
+            if (playerTr.position.z + 20f > transform.position.z)
             {
                 MeteorKaboom();
             }
@@ -46,7 +47,10 @@ namespace hcp {
         {
             if (meteor.transform.position.y > 0)
             {
-                meteor.transform.Translate(Vector3.down * Time.deltaTime * 30.0f, Space.Self);
+                meteor.transform.Translate(Vector3.down * Time.deltaTime * 100.0f, Space.Self);
+            }
+            else {
+                meteor.transform.position = transform.position;
             }
 
         }

@@ -5,5 +5,5 @@ using UnityEngine;
 using hcp;
 public interface IBossPattern
 {
-    void BossPatternObjGen(E_BOSSPATTERN pattern, float disFromPlayer, int line);
+    void BossPatternObjGen(E_BOSSPATTERN pattern, float disFromPlayer, E_SPAWNLINE line);
 }

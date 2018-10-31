@@ -5,7 +5,7 @@ using UnityEngine;
 namespace hcp {
     public class BossPatternGenerator : SingletonTemplate<BossPatternGenerator>,IBossPattern {
 
-        List<GameObject> bossAttackObj = new List<GameObject>();
+        public List<GameObject> bossAttackObj = new List<GameObject>();
         Vector3 pos = new Vector3();
         public float moveSpeed;
         Transform playerTr;
@@ -27,7 +27,7 @@ namespace hcp {
             for (int i = 0; i < bossAttackObj.Count; i++)
             {
                 if(bossAttackObj[i].activeSelf==true)
-                bossAttackObj[i].transform.Translate(Vector3.back * Time.deltaTime * moveSpeed);
+                bossAttackObj[i].transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed);
             }
         }
 
@@ -36,14 +36,16 @@ namespace hcp {
             for (int i = 0; i < bossAttackObj.Count; i++)
             {
                 if (bossAttackObj[i].activeSelf == true && bossAttackObj[i].transform.position.z + 10f <= playerTr.position.z)
+                {
                     bossAttackObj[i].SetActive(false);
+                    bossAttackObj.RemoveAt(i);
+                }
             }
         }
 
-        public void BossPatternObjGen(E_BOSSPATTERN pattern, float disFromPlayer, int line)
+        public void BossPatternObjGen(E_BOSSPATTERN pattern, float disFromPlayer, E_SPAWNLINE line)
         {
-            if ((false == (pattern == E_BOSSPATTERN.BREATH || pattern == E_BOSSPATTERN.METEOR))
-                || (line < 0 || line > 2))
+            if ((false == (pattern == E_BOSSPATTERN.BREATH || pattern == E_BOSSPATTERN.METEOR)))
                 return;
 
             pos.x = GetLineXPos(line);
@@ -59,8 +61,9 @@ namespace hcp {
                     //브레스 프리팹 풀링해오기.
                     obj = MapAndObjPool.GetInstance().GetBossObsBreathInPool();
                     if (obj == null) return;
-                    obj.transform.SetPositionAndRotation(pos, Quaternion.identity);
+                    obj.transform.SetPositionAndRotation(pos, Quaternion.Euler(0,180,0) );
                     obj.SetActive(true);
+                    bossAttackObj.Add(obj);
                     break;
 
                 case E_BOSSPATTERN.METEOR:
@@ -68,22 +71,23 @@ namespace hcp {
                     //메테오 프리팹 풀링해오기
                     obj = MapAndObjPool.GetInstance().GetBossObsMeteorInPool();
                     if (obj == null) return;
-                    obj.transform.SetPositionAndRotation(pos, Quaternion.identity);
+                    obj.transform.SetPositionAndRotation(pos, Quaternion.Euler(0, 180, 0));
                     obj.SetActive(true);
+                    bossAttackObj.Add(obj);
 
                     break;
             }
         }
 
-        float GetLineXPos(int  line)
+        float GetLineXPos(E_SPAWNLINE  line)
         {
             switch (line)
             {
-                case 0:
+                case E_SPAWNLINE.LEFT:
                     return 0.7f;
-                case 1:
+                case E_SPAWNLINE.CENTER:
                     return 3.8f;
-                case 2:
+                case E_SPAWNLINE.RIGHT:
                     return 6.9f;
                 default: return -1;
             }

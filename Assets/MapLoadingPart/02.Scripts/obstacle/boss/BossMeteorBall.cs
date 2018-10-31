@@ -17,6 +17,14 @@ namespace hcp
             objToCharactor = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<IObjToCharactor>();
             particle = transform.GetChild(1).gameObject.GetComponent<ParticleSystem>();
         }
+        private void OnEnable()
+        {
+            particle.Play();
+        }
+        private void OnDisable()
+        {
+            particle.Stop();
+        }
         private void OnTriggerEnter(Collider other)
         {
             objToCharactor.BeenHitByObs(obsST);
