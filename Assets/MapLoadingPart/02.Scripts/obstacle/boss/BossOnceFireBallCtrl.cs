@@ -23,7 +23,7 @@ namespace hcp
 
         private void OnEnable()
         {
-            transform.LookAt(playerTr.position);
+            transform.LookAt(playerTr.position+Vector3.up*2f);
             particle.Play();
         }
         private void OnDisable()

@@ -43,18 +43,24 @@ namespace hcp
         {
             if (Input.GetKeyDown("p"))
             {
-                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.METEOR, 100, 2);
+                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.METEOR, 100, E_SPAWNLINE.CENTER);
 
-                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.METEOR, 100, 1);
+                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.METEOR, 100, E_SPAWNLINE.LEFT);
 
-                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.METEOR, 100, 0);
+                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.METEOR, 100, E_SPAWNLINE.RIGHT);
 
 
-                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.BREATH, 50, 2);
+                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.BREATH, 50, E_SPAWNLINE.CENTER);
 
-                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.BREATH, 50, 1);
+                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.BREATH, 50, E_SPAWNLINE.LEFT);
 
-                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.BREATH, 50, 0);
+                BossPatternGenerator.GetInstance().BossPatternObjGen(E_BOSSPATTERN.BREATH, 50, E_SPAWNLINE.RIGHT);
+            }
+            if (Input.GetKeyDown("x"))
+            {GameObject t = 
+                MapAndObjPool.GetInstance().GetBossObsFireBallInPool();
+                t.transform.position = new Vector3(-10, 10, 100);
+                t.SetActive(true);
             }
             //패턴 따라 넣어주는 처리.
             mapSTList.MoveAllInList(moveSpeed);

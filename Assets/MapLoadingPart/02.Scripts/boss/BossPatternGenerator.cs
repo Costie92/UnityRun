@@ -93,6 +93,13 @@ namespace hcp {
             }
         }
 
-
+        public void BossPatternFireBallShoot(Vector3 pos)
+        {
+            GameObject temp =
+                  MapAndObjPool.GetInstance().GetBossObsFireBallInPool();
+            temp.transform.position = pos;
+            temp.SetActive(true);
+            bossAttackObj.Add(temp);
+        }
     }
 }
