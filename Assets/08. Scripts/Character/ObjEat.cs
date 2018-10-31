@@ -242,9 +242,11 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
         }
         else
         {
-            if (HP == 1) HP--;
+            if (HP == 1)
+                HP--;
             if(unityChanDie == false)
             {
+                unityChanDie = true;
                 cAnim.DieAnimation(); //죽은 애니메이션
                 this.GetComponent<CapsuleCollider>().isTrigger = true; // 오브젝트 뚫고가기
                 this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY; // Rigidbody Y포지션 고정
