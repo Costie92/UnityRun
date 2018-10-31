@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using hcp;
 
 public class UIManager : MonoBehaviour
 {
@@ -16,6 +17,10 @@ public class UIManager : MonoBehaviour
             return _instance;
         }
     }
+
+    private TouchScreenKeyboard keyboard;
+    public UnityAdsHelper adsHelper;
+
     public static bool isPause;
     public GameObject[] Hps;
     public GameObject UI_Shield;
@@ -24,12 +29,13 @@ public class UIManager : MonoBehaviour
     public GameObject PauseMenu;
     public GameObject Result;
     public Text CoinText;
-    private TouchScreenKeyboard keyboard;
     public Button Btn_Pause;
     public Button Btn_Resume;
     public Button Btn_Quit;
     public Button Btn_Retry;
     public Button Btn_Exit;
+
+
     // Use this for initialization
     private void Awake()
     {
@@ -38,17 +44,20 @@ public class UIManager : MonoBehaviour
         {
             Hps[i] = GameObject.Find("Hps").transform.GetChild(i).gameObject;
         }
+
         UI_Shield = GameObject.Find("Shield");
         UI_Magnet = GameObject.Find("Magnet");
         UI_Invincible = GameObject.Find("Invincible");
         PauseMenu = GameObject.Find("PauseMenu");
         Result = GameObject.Find("Result");
+
         CoinText = GameObject.Find("CoinCount").GetComponent<Text>();
         Btn_Pause = GameObject.Find("Btn_Pause").GetComponent<Button>();
         Btn_Resume = GameObject.Find("Btn_Resume").GetComponent<Button>();
         Btn_Quit = GameObject.Find("Btn_Quit").GetComponent<Button>();
         Btn_Retry = GameObject.Find("Btn_Retry").GetComponent<Button>();
         Btn_Exit = GameObject.Find("Btn_Exit").GetComponent<Button>();
+
         Btn_Pause.onClick.AddListener(() => OnClickPause());
         Btn_Resume.onClick.AddListener(() => OnClickResume());
         Btn_Quit.onClick.AddListener(() => OnClickQuit());
@@ -57,7 +66,8 @@ public class UIManager : MonoBehaviour
     }
     void Start()
     {
-        print(hcp.StageManager.stageNum.ToString());
+        adsHelper = this.gameObject.GetComponent<UnityAdsHelper>();
+        print(StageManager.stageNum.ToString());
         isPause = false;
         Time.timeScale = 1;
         PauseMenu.SetActive(false);
@@ -111,19 +121,21 @@ public class UIManager : MonoBehaviour
     {
         isPause = false;
         Time.timeScale = 1;
-        SceneManager.LoadScene("StageSelect");
+        //adsHelper.ShowRewardedAd();
+        SceneManager.LoadScene("StageSelect");        
     }
     void OnClickRetry()
     {
+        
         isPause = false;
         Time.timeScale = 1;
-        if (hcp.StageManager.stageNum == hcp.E_STAGE.NONE)
+        if (StageManager.stageNum == E_STAGE.NONE)
         {
-            SceneManager.LoadScene(hcp.Constants.editedStageSceneName);
+            SceneManager.LoadScene(Constants.editedStageSceneName);
         }
         else
         {
-            SceneManager.LoadScene(hcp.StageManager.stageNum.ToString());
+            SceneManager.LoadScene(StageManager.stageNum.ToString());
         }
     }
     public void ShowResult()

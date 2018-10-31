@@ -32,6 +32,11 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
     public float MaxDubbleTapTime;
     public event SwipeScreen swipeScreen;
     public static bool isTurn;
+    private bool CanMove;
+    public Renderer[] objrenderers;
+    public Color[] alphaColor;
+    private float timeToFade = 1.0f;
+
     // Use this for initialization
     void Awake () {
         _instance = this;
@@ -45,10 +50,22 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
         
         cMove = GameObject.FindWithTag("PLAYER").GetComponent<CharacterMove>();
         unitychan = GameObject.FindWithTag("PLAYER");
+        objrenderers = unitychan.GetComponentsInChildren<Renderer>();
+        alphaColor = new Color[objrenderers.Length];
+        for (int i = 0; i < objrenderers.Length; i++) {
+            alphaColor[i] = objrenderers[i].material.color;
+            alphaColor[i].a = 0;
+        }
     }
     // Update is called once per frame
     void Update()
     {
+        for (int i = 0; i < objrenderers.Length; i++)
+        {
+            objrenderers[i].material.color = Color.Lerp(objrenderers[i].material.color, alphaColor[i], timeToFade * Time.deltaTime);
+        }
+        
+
         if (turningpoint == 0) {
             isTurn = false;
         }
@@ -79,8 +96,9 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
             {
                 MousePosX = Input.mousePosition.x;
                 MousePosY = Input.mousePosition.y;
+                CanMove = !ObjEat.unityChanDie && !ObjEat.HitInvincible;
                 //하단 부분 클릭 했을 경우
-                if (TapCount == 0)
+                if (TapCount == 0 && CanMove)
                 {
                     if (MousePosY < (height / 2.5))
                     {
