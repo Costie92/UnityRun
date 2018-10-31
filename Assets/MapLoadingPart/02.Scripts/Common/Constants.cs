@@ -18,11 +18,14 @@ namespace hcp
         public const int firstObjSpawn = 2;
 
         public static string editStageDataPath = Application.persistentDataPath + "/EditedStageData";
+        public static string isThisStageClearDataPath = Application.persistentDataPath + "/IsThisStageClear";
 
         public const string stageSelectSceneName = "StageSelect";
 
         public const string editedStageSceneName = "EDITED_STAGE";  //에디터 맵 플레이시 부를 씬
         public const string stageEditorSceneName = "STAGE_EDITOR"; //에디터 생성 혹은 수정시 부를 씬 
+
+        public const string isStageClearFileName = "stageCleared.dat";
 
         public const string editStage_1_fileName = "editStage_1.dat";
         public const string editStage_2_fileName = "editStage_2.dat";
