@@ -271,7 +271,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
 
     public bool GetMagnetState()
     {
-        return false;
+        return Magnet||Invincible;
     }
 
     void ICount() // 무적시간
