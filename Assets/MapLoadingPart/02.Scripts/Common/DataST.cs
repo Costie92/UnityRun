@@ -8,7 +8,7 @@ namespace hcp
     public enum E_STAGE
     {
         NONE=0,
-
+        //절대 다른 것 이 사이에 삽입 불가.
         STAGE_1,
         STAGE_2,
         STAGE_3,

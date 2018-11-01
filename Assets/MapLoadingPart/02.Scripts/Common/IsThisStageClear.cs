@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+
+using System.Linq;
 namespace hcp {
     public class IsThisStageClear{
 
@@ -50,7 +52,7 @@ namespace hcp {
             List<StageClearDataST> sclist = MakeListFromClearDataFile();
 
             string lastSaving="";
-
+            
             for (int i = 0; i < sclist.Count; i++)
             {
                 if (sclist[i].stage == stage)
@@ -102,11 +104,11 @@ namespace hcp {
         {
             if (!Directory.Exists(Constants.isThisStageClearDataPath))
             {
-                return false;
+                return true;
             }
             if (! File.Exists(Constants.isThisStageClearDataPath + "/" + Constants.isStageClearFileName))
             {
-                return false;
+                return true;
             }
             
             return IsRecordExists(ReadStageClearFile(),stage);
@@ -118,10 +120,10 @@ namespace hcp {
             for (int i = 0; i < sclist.Count; i++)
             {
                 if (sclist[i].stage == stage)
-                    return true;
+                    return false;
             }
             
-            return false;
+            return true;
         }
 
         List<StageClearDataST> MakeListFromClearDataFile()
