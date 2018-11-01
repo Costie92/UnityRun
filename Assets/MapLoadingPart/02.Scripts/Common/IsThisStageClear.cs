@@ -45,18 +45,9 @@ namespace hcp {
                 sw1.Close();
                 return;
             }
-            
 
-            string[] priparse=
-            ParsingClearedDataPrimary(ReadStageClearFile());
 
-            List<StageClearDataST> sclist = new List<StageClearDataST>();
-            for (int i = 0; i < priparse.Length; i++)
-            {
-                if (priparse[i] == "") continue;
-                StageClearDataST sc = new StageClearDataST(priparse[i]);
-                sclist.Add(sc);
-            }
+            List<StageClearDataST> sclist = MakeListFromClearDataFile();
 
             string lastSaving="";
 
@@ -74,10 +65,11 @@ namespace hcp {
             }
 
             lastSaving += stageSaveString;
-            
-            StreamWriter sw = new StreamWriter(Constants.isThisStageClearDataPath + "/" + Constants.isStageClearFileName);
+            FileStream fs = new FileStream(Constants.isThisStageClearDataPath + "/" + Constants.isStageClearFileName, FileMode.Create);
+            StreamWriter sw = new StreamWriter(fs);
             sw.Write(lastSaving);
             sw.Close();
+            fs.Close();
             return;
 
         }
@@ -93,18 +85,9 @@ namespace hcp {
             {
                 return null;
             }
-            
-            string[] priparse = ParsingClearedDataPrimary(ReadStageClearFile());
 
-            List<StageClearDataST> sclist = new List<StageClearDataST>();
-            for (int i = 0; i < priparse.Length; i++)
-            {
-                if (priparse[i] == "") continue;
-                
-                StageClearDataST sc = new StageClearDataST(priparse[i]);
-                sclist.Add(sc);
-                
-            }
+
+            List<StageClearDataST> sclist = MakeListFromClearDataFile();
 
             for (int i = 0; i < sclist.Count; i++)
             {
@@ -130,14 +113,7 @@ namespace hcp {
         }
         public bool IsRecordExists(string fileContext, E_STAGE stage)
         {
-            string[] priparse = ParsingClearedDataPrimary(fileContext);
-            List<StageClearDataST> sclist = new List<StageClearDataST>();
-            for (int i = 0; i < priparse.Length; i++)
-            {
-                if (priparse[i] == "") continue;
-                StageClearDataST sc = new StageClearDataST(priparse[i]);
-                sclist.Add(sc);
-            }
+            List<StageClearDataST> sclist =MakeListFromClearDataFile();
 
             for (int i = 0; i < sclist.Count; i++)
             {
@@ -146,6 +122,19 @@ namespace hcp {
             }
             
             return false;
+        }
+
+        List<StageClearDataST> MakeListFromClearDataFile()
+        {
+            string[] priparse = ParsingClearedDataPrimary(ReadStageClearFile());
+            List<StageClearDataST> sclist = new List<StageClearDataST>();
+            for (int i = 0; i < priparse.Length; i++)
+            {
+                if (priparse[i] == "") continue;
+                StageClearDataST sc = new StageClearDataST(priparse[i]);
+                sclist.Add(sc);
+            }
+            return sclist;
         }
 
         string ReadStageClearFile()
