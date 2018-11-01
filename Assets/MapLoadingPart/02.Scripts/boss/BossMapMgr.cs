@@ -19,7 +19,7 @@ namespace hcp
     public class BossMapMgr : SingletonTemplate<BossMapMgr>
     {
         public GameObject chunk;
-        public float moveSpeed = 10.0f;
+        public float moveSpeed = 20.0f;
         List<BossMapST> mapSTList = new List<BossMapST>();
         float chunkMargin;
 

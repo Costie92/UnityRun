@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 namespace hcp {
-    public class BossMeteor : MonoBehaviour {
+    public class BossMeteor : MonoBehaviour,IOnlyBossPatternMove {
         public ParticleSystem[] particles ;
 
         GameObject meteor;
@@ -55,6 +55,9 @@ namespace hcp {
 
         }
 
-        
+        public void MoveAtOwnSpeed()
+        {
+            transform.Translate(Vector3.forward * Time.deltaTime * 20f);
+        }
     }
 }

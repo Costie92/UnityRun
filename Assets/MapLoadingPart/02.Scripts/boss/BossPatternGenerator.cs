@@ -23,11 +23,13 @@ namespace hcp {
         }
 
         void MoveBossAttackObj()
-        {
+        {//땅 2배  메테오 2배 브레스 4배
             for (int i = 0; i < bossAttackObj.Count; i++)
             {
-                if(bossAttackObj[i].activeSelf==true)
-                bossAttackObj[i].transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed);
+                if (bossAttackObj[i].activeSelf == true)
+                {
+                    bossAttackObj[i].GetComponent<IOnlyBossPatternMove>().MoveAtOwnSpeed();
+                }
             }
         }
 

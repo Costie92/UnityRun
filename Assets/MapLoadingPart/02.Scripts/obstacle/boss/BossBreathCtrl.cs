@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 namespace hcp {
-    public class BossBreathCtrl : MonoBehaviour {
+    public class BossBreathCtrl : MonoBehaviour,IOnlyBossPatternMove {
         public ParticleSystem[] particles;
 
 
@@ -44,6 +44,11 @@ namespace hcp {
             {
                 objToCharactor.BeenHitByObs(obsST);
             }
+        }
+
+        public void MoveAtOwnSpeed()
+        {
+            transform.Translate(Vector3.forward * Time.deltaTime * 40f);
         }
     }
 }
