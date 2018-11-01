@@ -28,6 +28,7 @@ namespace hcp {
             {
                 if (bossAttackObj[i].activeSelf == true)
                 {
+                    if(bossAttackObj[i].GetComponent<IOnlyBossPatternMove>()!=null)
                     bossAttackObj[i].GetComponent<IOnlyBossPatternMove>().MoveAtOwnSpeed();
                 }
             }

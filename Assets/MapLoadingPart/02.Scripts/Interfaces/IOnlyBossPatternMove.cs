@@ -5,6 +5,6 @@ namespace hcp
 {
     public interface IOnlyBossPatternMove
     {
-        void MoveAtOwnSpeed();
+        public void MoveAtOwnSpeed();
     }
 }
