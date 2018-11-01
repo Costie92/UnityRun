@@ -100,6 +100,8 @@ namespace hcp {
         {
             GameObject temp =
                   MapAndObjPool.GetInstance().GetBossObsFireBallInPool();
+            if (temp == null)
+                return;
             temp.transform.position = pos;
             temp.SetActive(true);
             bossAttackObj.Add(temp);
