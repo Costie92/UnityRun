@@ -30,7 +30,7 @@ namespace hcp {
             StageST.EnqueStageTurningPoint( Constants.turningTerm*3, E_WhichTurn.RIGHT);
 
             StageST.EnqueStageObjs(E_SPAWN_OBJ_TYPE.SHIELD, E_SPAWN_OBJ_TYPE.NOTHING, E_SPAWN_OBJ_TYPE.SHIELD); //이걸 쭉 이어나가서 큐 만들기.
-            StageST.EnqueStageObjs(E_SPAWN_OBJ_TYPE.BALL, E_SPAWN_OBJ_TYPE.BALL, E_SPAWN_OBJ_TYPE.BALL);
+            StageST.EnqueStageObjs(E_SPAWN_OBJ_TYPE.MAGNET, E_SPAWN_OBJ_TYPE.MAGNET, E_SPAWN_OBJ_TYPE.MAGNET);
             StageST.EnqueStageObjs(E_SPAWN_OBJ_TYPE.BALL, E_SPAWN_OBJ_TYPE.HUDDLE, E_SPAWN_OBJ_TYPE.COIN);
             StageST.EnqueStageObjs(E_SPAWN_OBJ_TYPE.BALL, E_SPAWN_OBJ_TYPE.HUDDLE, E_SPAWN_OBJ_TYPE.COIN);
             StageST.EnqueStageObjs(E_SPAWN_OBJ_TYPE.BALL, E_SPAWN_OBJ_TYPE.HUDDLE, E_SPAWN_OBJ_TYPE.COIN);
