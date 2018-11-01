@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 114046206462684588}
   - component: {fileID: 114960952399461336}
   m_Layer: 0
-  m_Name: unitychan
+  m_Name: MainPlayer
   m_TagString: PLAYER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -17,9 +17,9 @@ public class UIManager : MonoBehaviour
             return _instance;
         }
     }
-
+    private GameManager GameMgr;
     private TouchScreenKeyboard keyboard;
-    public UnityAdsHelper adsHelper;
+    private UnityAdsHelper adsHelper;
 
     public static bool isPause;
     public GameObject[] Hps;
@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     public GameObject PauseMenu;
     public GameObject Result;
     public Text CoinText;
+    public Text RecordCoinText;
     public Button Btn_Pause;
     public Button Btn_Resume;
     public Button Btn_Quit;
@@ -39,12 +40,13 @@ public class UIManager : MonoBehaviour
     // Use this for initialization
     private void Awake()
     {
+        _instance = this;
         Hps = new GameObject[5];
         for (int i = 0; i < 5; i++)
         {
             Hps[i] = GameObject.Find("Hps").transform.GetChild(i).gameObject;
         }
-
+        GameMgr = this.GetComponent<GameManager>();
         UI_Shield = GameObject.Find("Shield");
         UI_Magnet = GameObject.Find("Magnet");
         UI_Invincible = GameObject.Find("Invincible");
@@ -52,6 +54,8 @@ public class UIManager : MonoBehaviour
         Result = GameObject.Find("Result");
 
         CoinText = GameObject.Find("CoinCount").GetComponent<Text>();
+        RecordCoinText = GameObject.Find("RecordCoin").GetComponent<Text>();
+
         Btn_Pause = GameObject.Find("Btn_Pause").GetComponent<Button>();
         Btn_Resume = GameObject.Find("Btn_Resume").GetComponent<Button>();
         Btn_Quit = GameObject.Find("Btn_Quit").GetComponent<Button>();
@@ -121,6 +125,7 @@ public class UIManager : MonoBehaviour
     {
         isPause = false;
         Time.timeScale = 1;
+        GameMgr.ClearStage();
         //adsHelper.ShowRewardedAd();
         SceneManager.LoadScene("StageSelect");        
     }
@@ -129,6 +134,7 @@ public class UIManager : MonoBehaviour
         
         isPause = false;
         Time.timeScale = 1;
+        GameMgr.ClearStage();
         if (StageManager.stageNum == E_STAGE.NONE)
         {
             SceneManager.LoadScene(Constants.editedStageSceneName);
@@ -142,6 +148,7 @@ public class UIManager : MonoBehaviour
     {
         isPause = true;
         Result.SetActive(true);
+        RecordCoinText.text = GameMgr.coins.ToString();
         Result.transform.Find("ResultCoin").GetComponent<Text>().text = CoinText.text;
         Time.timeScale = 0;
     }
