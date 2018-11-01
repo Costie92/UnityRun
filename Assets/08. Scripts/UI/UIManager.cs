@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     }
     private GameManager GameMgr;
     private TouchScreenKeyboard keyboard;
-    private UnityAdsHelper adsHelper;
+    //private UnityAdsHelper adsHelper;
 
     public static bool isPause;
     public GameObject[] Hps;
@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviour
     }
     void Start()
     {
-        adsHelper = this.gameObject.GetComponent<UnityAdsHelper>();
+        //adsHelper = this.gameObject.GetComponent<UnityAdsHelper>();
         print(StageManager.stageNum.ToString());
         isPause = false;
         Time.timeScale = 1;
