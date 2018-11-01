@@ -3,7 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - RightWall
+  - Enemy
+  - ShieldItem
+  - LeftWall
+  - SpeedUpItem
+  - PLAYER
+  - OBSTACLE
+  - DEATHWALL
+  - Fire
   layers:
   - Default
   - TransparentFX
@@ -14,8 +23,8 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
+  - Player
+  - fireLayer
   - 
   - 
   - 

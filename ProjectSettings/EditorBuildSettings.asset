@@ -6,9 +6,66 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/StartScene.unity
+    path: Assets/07. Scenes/Start.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/Main Scene.unity
-    guid: 62109f21c0b720c40a57e3a5143bf43d
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_1.unity
+    guid: b0a63843705a99942b6866f021e3a481
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_2.unity
+    guid: ba46959af434dc846944212d2d1df7a2
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_3.unity
+    guid: 3ce87a74d2f49994a9cc8e4520026d83
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_4.unity
+    guid: 649dcae5a1541d64abe0d1d5029238ed
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_5.unity
+    guid: 81abac0a86319d24aa77dde6fa49fbeb
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_6.unity
+    guid: afe0858ca8ea78a4a8b021a636cc813d
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_7.unity
+    guid: 8d07d6b6a7d2a254e9eb81a40ddbfb7b
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_8.unity
+    guid: 072c30567afe7d94395803e67a421aa3
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_9.unity
+    guid: 2248707ce390b164c83b15712c931da5
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_10.unity
+    guid: 5d25a6bd90144474fbafccf4f6b75e17
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_11.unity
+    guid: 77ff968d2e003ca458dec5a4cba5e7ba
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_12.unity
+    guid: b12ca9d8b5caa2c4b93409bf7254f0b5
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_13.unity
+    guid: b4c5b439aa8c69a4e90795c7524fba5e
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_14.unity
+    guid: 55682d26b6f2bb64ba6d521dd440bd85
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_15.unity
+    guid: 130a12a5dc38519449861ec0e5bb462e
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_16.unity
+    guid: 0970bd9a9386f214dbd16238a024ec7d
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/STAGE_EDITOR.unity
+    guid: 689cbfb0c495830428d3a9a75d721312
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/INFINITY_STAGE.unity
+    guid: e96a971afa4202d42a65e94323bbdc04
+  - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/EDITED_STAGE.unity
+    guid: c9f14b4f32b1dbc4a9d368f6d92e6f7c
+  - enabled: 1
+    path: Assets/07. Scenes/StageSelect.unity
+    guid: 26ec0bed23011b44d9a4d794cf979922
   m_configObjects: {}
