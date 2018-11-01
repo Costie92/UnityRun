@@ -8,7 +8,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
 
     Collision collision;
 
-    public static int Coin = 0; // 동전수
+    public static int Coin; // 동전수
     public static int HP = 3; // 체력 //처음3개 최대5개
     public static bool unityChanDie, HitInvincible = false; // 캐릭터가 죽거나 장애물에 피격된 상태확인
     public static bool Invincible, Shield, Magnet = false; // 무적, 방어막, 자석 상태확인
@@ -21,6 +21,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
 
     void Start()
     {
+        Coin = 0;
         cAnim = this.GetComponent<CharacterAnimation>();
         UIMgr = GameObject.Find("GameMgr").GetComponent<UIManager>();
         ItemState(); // 캐릭터, 아이템 상태 초기화 함수

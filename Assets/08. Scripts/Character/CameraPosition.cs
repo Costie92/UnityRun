@@ -14,7 +14,7 @@ public class CameraPosition : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         transform.position = new Vector3(this.UnityChan.transform.position.x, 7.5f, this.UnityChan.transform.position.z - 5f);
     }

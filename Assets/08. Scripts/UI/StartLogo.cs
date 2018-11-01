@@ -10,6 +10,7 @@ public class StartLogo : MonoBehaviour {
     private TouchControl cMove;
 	// Use this for initialization
 	void Start () {
+        Time.timeScale = 1;
         LeanTween.textAlpha(StartText, 1f, 1.0f).setOnComplete(TextComplete);
     }
 	

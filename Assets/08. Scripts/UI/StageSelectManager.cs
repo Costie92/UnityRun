@@ -13,8 +13,10 @@ public class StageSelectManager : MonoBehaviour
     public GameObject EditSelect;
     public GameObject StageMenu;
     public GameObject EditMenu;
+
     public Vector3 ScaleV = new Vector3(1.2f, 1.2f, 1.2f);
     public Vector3 NormalV = new Vector3(1, 1, 1);
+
     // Use this for initialization
     private void Awake()
     {
