@@ -12,6 +12,9 @@ namespace hcp
     [RequireComponent(typeof(RandomObjGenerator))]
     public class MapObjManager : SingletonTemplate<MapObjManager>
     {
+        public GameObject endingStageLand;
+        public float endingPoint;
+
         public GameObject chunk;    //청크
         private Transform playerTr;
         private float chunkMargin;
@@ -142,6 +145,10 @@ namespace hcp
 
             if (isStage()&&stageRemain == false)   //스테이지에서 더 생산 할 게 없음. 종료. 필요.
             {
+                if (playerTr.position.z >= endingPoint + 2f)
+                {
+                   // playerTr.gameObject.GetComponent<CharacterAnimation>().WinAnimation();
+                }
                 return;
             }
 
@@ -154,6 +161,7 @@ namespace hcp
             {
                 Debug.Log("스테이지 종료."+nowPos);   //프론트 청크 -1 만큼 청크가 앞에 있응 상황에서 선언됨
                 stageRemain = false;
+                StageEnding(nowPos);
                 return;
             }
 
@@ -209,6 +217,14 @@ namespace hcp
                         mapTurnToUI.SetWhichTurnToUI(E_WhichTurn.NOT_TURN);
                     }
                 }
+        }
+
+        void StageEnding(float nowPos)
+        {
+            endingPoint = nowPos + ((Constants.frontShowChunks - 1) * chunkMargin);
+            Instantiate(endingStageLand, new Vector3(0, 0,endingPoint), Quaternion.identity);
+            
+            
         }
     }
 }
