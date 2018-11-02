@@ -14,6 +14,7 @@ namespace hcp
     {
         public GameObject endingStageLand;
         public float endingPoint;
+        bool stageAllDone = false;
 
         public GameObject chunk;    //청크
         private Transform playerTr;
@@ -141,7 +142,10 @@ namespace hcp
             //변수 하나 받아와서 여기서 그냥 분기할까 클래스를 나눌까...
         {
             // newPos = GetPosByChunkMargin(); //코루틴으로 체크 부하를 줄임
-
+            if (stageAllDone)
+            {
+                return;
+            }
 
             if (isStage()&&stageRemain == false)   //스테이지에서 더 생산 할 게 없음. 종료. 필요.
             {
@@ -149,6 +153,8 @@ namespace hcp
                 if (playerTr.position.z >= endingPoint + 2f)
                 {
                    playerTr.gameObject.GetComponent<CharacterAnimation>().WinAnimation();
+                        stageAllDone = true;
+
                 }
                 return;
             }
