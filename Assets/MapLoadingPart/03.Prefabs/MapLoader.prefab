@@ -98,6 +98,9 @@ MonoBehaviour:
     type: 2}
   obstacleFire: {fileID: 1986836281195050, guid: 17c04370040159a4e99cce4920bf16a3,
     type: 2}
+  bossObsFireBall: {fileID: 0}
+  bossObsBreath: {fileID: 0}
+  bossObsMeteor: {fileID: 0}
   item_HPPLUS: {fileID: 1040533653885940, guid: 06d83a98b203fcd4982ac2ff57f1b84b,
     type: 2}
   item_INVINCIBLE: {fileID: 1040533653885940, guid: 08d138fc21776274ebfd2fd4c874ebf4,
@@ -120,6 +123,9 @@ MonoBehaviour:
   obsUpperHuddle_2_Pool: []
   obsUpperHuddle_3_Pool: []
   obsFirePool: []
+  bossObsFireBallPool: []
+  bossObsBreathPool: []
+  bossObsMeteorPool: []
   itemHPPlusPool: []
   itemInvinciblePool: []
   itemShieldPool: []
@@ -150,6 +156,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a560ac513009e347bf8a3cfca77c3a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endingStageLand: {fileID: 1119115721780634, guid: 50a9e160f4c2ea94f90f58fa61b909c6,
+    type: 2}
+  endingPoint: 0
   chunk: {fileID: 1853945241947306, guid: 549baa20170142c4d80b7d0ba2fd35b9, type: 2}
   nowPos: 0
   newPos: 0
