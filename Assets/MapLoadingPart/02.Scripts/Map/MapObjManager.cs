@@ -152,7 +152,8 @@ namespace hcp
 
                 if (playerTr.position.z >= endingPoint + 2f)
                 {
-                   //playerTr.gameObject.GetComponent<CharacterAnimation>().WinAnimation();
+                    
+                   playerTr.gameObject.GetComponent<CharacterAnimation>().WinAnimation();
                         stageAllDone = true;
 
                 }
