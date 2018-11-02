@@ -58,7 +58,7 @@ public class StageSelectManager : MonoBehaviour
             }
             EditMenu.SetActive(false);
         }
-        LeanTween.reset();
+        LeanTween.cancelAll(true);
         ResizeScale();
         LeanTween.scale(Select, ScaleV, 1.0f).setLoopPingPong();
     }

@@ -71,7 +71,6 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         //adsHelper = this.gameObject.GetComponent<UnityAdsHelper>();
-        print(StageManager.stageNum.ToString());
         isPause = false;
         Time.timeScale = 1;
         PauseMenu.SetActive(false);
@@ -125,7 +124,6 @@ public class UIManager : MonoBehaviour
     {
         isPause = false;
         Time.timeScale = 1;
-        GameMgr.ClearStage();
         //adsHelper.ShowRewardedAd();
         SceneManager.LoadScene("StageSelect");        
     }
@@ -134,7 +132,6 @@ public class UIManager : MonoBehaviour
         
         isPause = false;
         Time.timeScale = 1;
-        GameMgr.ClearStage();
         if (StageManager.stageNum == E_STAGE.NONE)
         {
             SceneManager.LoadScene(Constants.editedStageSceneName);

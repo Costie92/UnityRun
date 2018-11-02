@@ -32,7 +32,7 @@ public class TutorialUI : MonoBehaviour {
             }
             if (ZPos > 40 && Pointers[1].activeSelf)
             {
-                LeanTween.reset();
+                LeanTween.cancelAll(true);
                 Pointers[1].SetActive(false);
             }
 
@@ -43,7 +43,7 @@ public class TutorialUI : MonoBehaviour {
             }
             if (ZPos > 90 && Pointers[0].activeSelf)
             {
-                LeanTween.reset();
+                LeanTween.cancelAll(true);
                 Pointers[0].SetActive(false);
             }
 
@@ -54,7 +54,7 @@ public class TutorialUI : MonoBehaviour {
             }
             if (ZPos > 165 && Pointers[4].activeSelf)
             {
-                LeanTween.reset();
+                LeanTween.cancelAll(true);
                 Pointers[4].SetActive(false);
             }
 
@@ -65,7 +65,7 @@ public class TutorialUI : MonoBehaviour {
             }
             if (ZPos > 205 && Pointers[3].activeSelf)
             {
-                LeanTween.reset();
+                LeanTween.cancelAll(true);
                 Pointers[3].SetActive(false);
             }
 
@@ -76,7 +76,7 @@ public class TutorialUI : MonoBehaviour {
             }
             if (ZPos > 265 && Pointers[2].activeSelf)
             {
-                LeanTween.reset();
+                LeanTween.cancelAll(true);
                 Pointers[2].SetActive(false);
             }
 
@@ -87,7 +87,7 @@ public class TutorialUI : MonoBehaviour {
             }
             if (ZPos > 325 && Pointers[5].activeSelf)
             {
-                LeanTween.reset();
+                LeanTween.cancelAll(true);
                 Pointers[5].SetActive(false);
             }
         }
