@@ -17,9 +17,12 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
     public static Animator animator; // 애니메이션을 구현하기위해 쓴거
     private UIManager UIMgr;
 
+    public static bool Win = false; 
+
     // Use this for initialization
     void Start()
     {
+        Win = false;
         UIMgr = GameObject.Find("GameMgr").GetComponent<UIManager>();
         animator = GetComponent<Animator>(); // 애니메이션을 구현하기위해 쓴거
     }
@@ -97,10 +100,12 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
 
     public void WinAnimation()
     {
+            Win = true;
             CharacterMove.speedUpdate = 0;
             StartCoroutine(Turn());
             animator.Play("WIN00", -1, 0);
-            Invoke("GameOver", 3.0f);
+        GameManager.instance.ClearStage();
+        Invoke("GameOver", 3.0f);
     }
 
     public void GameOver() // 캐릭터가 쓰러진상태로 유지시켜주는 함수
@@ -122,4 +127,3 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
     }
 
 }
-

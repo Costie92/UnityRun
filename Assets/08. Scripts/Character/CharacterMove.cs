@@ -17,7 +17,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
 
     private CharacterAnimation cAnim;
     public static int shield = 0;
-    public static float runSpeed = 6.5f; // 캐릭터가 앞으로 달려가는 스피드
+    public static float runSpeed = 9.5f; // 캐릭터가 앞으로 달려가는 스피드
     public static float speedUpdate = 1.2f;
     public bool turningPoint = true; // 방향전환해야할 시점일경우 true 아닐경우에는 false
     private int rotateLeftMax, rotateRightMax, rotateUpMax, rotateDownMax, turnLeftControl, turnRightControl = 0; // 왼쪽, 오른쪽으로 반복해서 움직이도록 할때 이용하려고 만든 변수 // 높이를 제어하기 위한 변수 // 왼쪽, 오른쪽 컨트롤을 제어하기 위해 만든 변수
@@ -56,7 +56,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
 
     public void GoFast() // 시간이 지날때마다 이동속도 증가
     {
-        if(speedUpdate < 2.0f) speedUpdate = speedUpdate + 0.05f * Time.deltaTime; // 가속도 설정 최대 2배속이 넘으면 중지
+        if(speedUpdate < 2.0f && CharacterAnimation.Win == false) speedUpdate = speedUpdate + 0.05f * Time.deltaTime; // 가속도 설정 최대 2배속이 넘으면 중지
     }
 
     public void Move(bool isLeftDirection) // 캐릭터 이동
