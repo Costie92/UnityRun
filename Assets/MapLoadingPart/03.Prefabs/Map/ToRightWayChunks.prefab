@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 33898849287151678}
   - component: {fileID: 23424039019871372}
   - component: {fileID: 65025071589943264}
+  - component: {fileID: 114448952062811446}
   m_Layer: 0
   m_Name: DeathWall
   m_TagString: DEATHWALL
@@ -1503,3 +1504,14 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114448952062811446
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1405138640024440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0344fb52f302a4c4185c56c18e23c45e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
