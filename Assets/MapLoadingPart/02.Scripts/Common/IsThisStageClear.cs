@@ -66,7 +66,7 @@ namespace hcp {
                 lastSaving += StageClearDataST.GetForSavingParsingString(sclist[i])+",";
             }
 
-            lastSaving += stageSaveString;
+            lastSaving += stageSaveString + ",";
             FileStream fs = new FileStream(Constants.isThisStageClearDataPath + "/" + Constants.isStageClearFileName, FileMode.Create);
             StreamWriter sw = new StreamWriter(fs);
             sw.Write(lastSaving);
