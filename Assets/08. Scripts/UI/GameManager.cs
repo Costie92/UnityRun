@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public int coins;
+    public bool NeedTuto = false;
     void Start()
     {
         _instance = this;
@@ -26,7 +27,10 @@ public class GameManager : MonoBehaviour {
         {
             if (IsThisStageClear.GetInstance().IsThisStageFirstPlay(StageManager.stageNum))
             {
-
+                if(StageManager.stageNum == E_STAGE.STAGE_1)
+                {
+                    NeedTuto = true;
+                }
                 coins = ObjEat.Coin;
             }
             else
