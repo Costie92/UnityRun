@@ -22,7 +22,6 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
     {
         UIMgr = GameObject.Find("GameMgr").GetComponent<UIManager>();
         animator = GetComponent<Animator>(); // 애니메이션을 구현하기위해 쓴거
-        Invoke("WinAnimation", 5.0f);
     }
 
     // Update is called once per frame
