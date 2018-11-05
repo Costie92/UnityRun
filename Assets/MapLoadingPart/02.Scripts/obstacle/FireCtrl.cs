@@ -4,24 +4,46 @@ using UnityEngine;
 
 namespace hcp
 {
-    public class FireCtrl : ObstacleCtrl
+    public class FireCtrl : MonoBehaviour
     {
-        public override void FromChildOnTriggerEnter(GameObject child, Collider other)
+        [SerializeField]
+        ParticleSystem fireParticle;
+        IObjToCharactor objToCharactor;
+        ObstacleST obsST;
+        Collider myCollider;
+
+        void Awake()
         {
-            base.FromChildOnTriggerEnter(child, other);
-         
-            if (other.gameObject.CompareTag("PLAYER"))
+            obsST = new ObstacleST();
+            obsST.beenHit = true;
+            obsST.obstacleType = E_OBSTACLE.FIRE;
+            fireParticle = transform.Find("FireParticle").gameObject.GetComponent<ParticleSystem>();
+            objToCharactor = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<IObjToCharactor>();
+            myCollider = GetComponent<Collider>();
+        }
+
+        private void OnEnable()
+        {
+            fireParticle.Play();
+        }
+        private void OnDisable()
+        {
+            if (myCollider.enabled == false)
+                myCollider.enabled = true;
+            fireParticle.Stop();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+              if (other.gameObject.CompareTag("PLAYER"))
             {
                 Debug.Log("FIRE 장애물 트리거엔터 이벤트");
                 obsST.beenHit = true;
+                myCollider.enabled = false;
                 objToCharactor.BeenHitByObs(obsST);
+                
             }
         }
-        // Use this for initialization
-        protected override void Awake()
-        {
-            base.Awake();
-            obsST.obstacleType = E_OBSTACLE.FIRE;
-        }
+
     }
 }
