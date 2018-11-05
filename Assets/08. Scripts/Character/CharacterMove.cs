@@ -74,11 +74,11 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     {
         if (this.Character.transform.position.x > 2f) // 왼쪽이동 한계치 설정
         {
-            if (isLeftDirection && rotateLeftMax == 0) this.transform.Translate(-0.1f, 0.0f, 0.0f); // 왼쪽키 눌렀을때 // 누른만큼 이동
+            if (isLeftDirection && rotateLeftMax == 0) this.transform.Translate(-0.1f * Time.deltaTime * 75, 0.0f, 0.0f); // 왼쪽키 눌렀을때 // 누른만큼 이동
         }
         if (this.Character.transform.position.x < 8f) // 오른쪽이동 한계치 설정
         {
-            if (!isLeftDirection && rotateRightMax == 0) this.transform.Translate(0.1f, 0.0f, 0.0f); // 오른쪽키 눌렀을때 // 누른만큼 이동
+            if (!isLeftDirection && rotateRightMax == 0) this.transform.Translate(0.1f * Time.deltaTime * 75, 0.0f, 0.0f); // 오른쪽키 눌렀을때 // 누른만큼 이동
         }
     }
 
@@ -92,7 +92,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
         if (!CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00") && ObjEat.Invincible == false) // 점프상태가 아닐때, 무적상태가 아닐때
         {
             cAnim.JumpAnimation(); // 점프애니메이션
-            rigidbody.velocity = new Vector3(0, 6.0f * speedUpdate, 0); // 캐릭터가 위로 올라감
+            rigidbody.velocity = new Vector3(0, 6.0f * speedUpdate * Time.deltaTime * 60, 0); // 캐릭터가 위로 올라감
         }
     }
 
@@ -100,7 +100,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     {
         if (Character.transform.position.y > 2.5f) // 캐릭터가 2.5위치 위로 올라갈경우
         {
-            rigidbody.AddForce(Vector3.down * 40 * speedUpdate, ForceMode.Impulse); // 캐릭터에게 아래로 힘을 가해줌
+            rigidbody.AddForce(Vector3.down * 40 * speedUpdate * Time.deltaTime * 60, ForceMode.Impulse); // 캐릭터에게 아래로 힘을 가해줌
         }
         if (Input.GetKeyDown(KeyCode.DownArrow)) // 아래 방향키 (1회)누르면
         {
