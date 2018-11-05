@@ -36,11 +36,21 @@ public class StageSelectManager : MonoBehaviour
         Alert.gameObject.SetActive(false);
         // 시작씬, 에디터씬 제외
         Count = SceneManager.sceneCountInBuildSettings - 5;
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            Application.targetFrameRate = 60;
+        }
     }
     // Update is called once per frame
     void Update()
     {
-
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+        }
     }
     public void OnClickSelect(GameObject Select)
     {

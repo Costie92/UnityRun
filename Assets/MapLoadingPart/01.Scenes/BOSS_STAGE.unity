@@ -52,7 +52,7 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
+    m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 10
@@ -313,6 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c46fa1f807e654ab36ccf24930f99b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossAttackObj: []
   moveSpeed: 0
 --- !u!114 &1114713061
 MonoBehaviour:

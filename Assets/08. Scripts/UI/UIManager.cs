@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+        //각 레벨별 UI대응
         Hps = new GameObject[5];
         for (int i = 0; i < 5; i++)
         {
@@ -62,6 +63,7 @@ public class UIManager : MonoBehaviour
         Btn_Retry = GameObject.Find("Btn_Retry").GetComponent<Button>();
         Btn_Exit = GameObject.Find("Btn_Exit").GetComponent<Button>();
 
+        // 버튼 Onclick 액션 추가
         Btn_Pause.onClick.AddListener(() => OnClickPause());
         Btn_Resume.onClick.AddListener(() => OnClickResume());
         Btn_Quit.onClick.AddListener(() => OnClickQuit());
@@ -90,6 +92,7 @@ public class UIManager : MonoBehaviour
 
     void DisplayHp()
     {
+        //체력 변경시 표시
         if (ObjEat.HP >= 0)
         {
             for (int i = 0; i < ObjEat.HP; i++)
@@ -129,7 +132,7 @@ public class UIManager : MonoBehaviour
     }
     void OnClickRetry()
     {
-        
+        //edit 맵인지 레벨 맵인지 확인
         isPause = false;
         Time.timeScale = 1;
         if (StageManager.stageNum == E_STAGE.NONE)
@@ -143,6 +146,7 @@ public class UIManager : MonoBehaviour
     }
     public void ShowResult()
     {
+        //결과표시
         isPause = true;
         Result.SetActive(true);
         RecordCoinText.text = GameMgr.coins.ToString();

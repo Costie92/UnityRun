@@ -45,7 +45,7 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
         isTurn = false;
     }
     void Start() {
-
+        
         cMove = GameObject.FindWithTag("PLAYER").GetComponent<CharacterMove>();
         unitychan = GameObject.FindWithTag("PLAYER");
     }
@@ -55,24 +55,20 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
         if (turningpoint == 0) {
             isTurn = false;
         }
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            if (Input.GetKey(KeyCode.Escape))
-            {
-                Application.Quit();
-            }
-        }
+
         if (ObjEat.Invincible)
         {
             SwipeToTurn();
         }
-        //마우스 클릭시 포지션 저장
+        // 일시정지이거나 클리어 했을 경우 터치 안되게 조절
         if (!UIManager.isPause && !CharacterAnimation.Win)
         {
+            CanMove = !ObjEat.unityChanDie && !ObjEat.HitInvincible;
             if (Input.GetMouseButtonDown(0))
             {
                 if (Input.mousePosition.y > (height / 2.5))
                 {
+                    //마우스 클릭시 포지션 저장
                     ButtonDownMousePos = Input.mousePosition;
                     TapCount = 1;
                 }
@@ -82,7 +78,6 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
             {
                 MousePosX = Input.mousePosition.x;
                 MousePosY = Input.mousePosition.y;
-                CanMove = !ObjEat.unityChanDie && !ObjEat.HitInvincible;
                 //하단 부분 클릭 했을 경우
                 if (TapCount == 0 && CanMove)
                 {
@@ -107,7 +102,7 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
             else if (Input.GetMouseButtonUp(0))
             {
                 //좌로 스와이프
-                if (TapCount == 1)
+                if (TapCount == 1 && CanMove)
                 {
                     float MoveXLength = ButtonDownMousePos.x - MousePosX;
                     float MoveYLength = ButtonDownMousePos.y - MousePosY;
