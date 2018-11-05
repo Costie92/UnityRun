@@ -14,6 +14,9 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
     public static bool Invincible, Shield, Magnet = false; // 무적, 방어막, 자석 상태확인
     public static float invincibleTime, shieldTime, magnetTime = 0.0f; // 무적, 방어막, 자석 지속시간확인
 
+    public GameObject CoinEffect;
+    public GameObject HeartEffect;
+
     private UIManager UIMgr;
     private CharacterAnimation cAnim;
     private bool iOverlap, sOverlap = false; // 방어막 겹쳤을때 확인
@@ -25,6 +28,8 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
         cAnim = this.GetComponent<CharacterAnimation>();
         UIMgr = GameObject.Find("GameMgr").GetComponent<UIManager>();
         ItemState(); // 캐릭터, 아이템 상태 초기화 함수
+        CoinEffect.SetActive(false);
+        HeartEffect.SetActive(false);
     }
 
     void Update()
@@ -50,6 +55,8 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
         switch (itemST.itemType)
         {
             case E_ITEM.HPPLUS: //HP업먹음
+                HeartEffect.SetActive(true);
+                Invoke("EffectOff", 0.25f);
                 if (HP < 5)
                 {
                     HP++;
@@ -80,6 +87,8 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
                 Debug.Log("SHIELD 먹음");
                 break;
             case E_ITEM.COIN: //동전먹음
+                CoinEffect.SetActive(true);
+                Invoke("EffectOff", 0.25f);
                 Coin++; // 동전수 +1
                 break;
             case E_ITEM.MAGNET: //자석먹음
@@ -299,6 +308,12 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
             magnetTime--;
             magnetCount++;
         }
+    }
+
+    void EffectOff()
+    {
+        HeartEffect.SetActive(false);
+        CoinEffect.SetActive(false);
     }
 
 }
