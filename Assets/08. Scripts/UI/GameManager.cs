@@ -25,13 +25,10 @@ public class GameManager : MonoBehaviour {
         
         if (StageManager.stageNum != E_STAGE.NONE)
         {
-            print("aa");
             if (IsThisStageClear.GetInstance().IsThisStageFirstPlay(StageManager.stageNum))
             {
-                print("bb");
                 if (StageManager.stageNum == E_STAGE.STAGE_1)
                 {
-                    print("cc");
                     NeedTuto = true;
                 }
                 coins = ObjEat.Coin;
@@ -52,7 +49,6 @@ public class GameManager : MonoBehaviour {
 
     public void ClearStage()
     {
-        print("Saved");
         if (ObjEat.Coin >= coins) {
             coins = ObjEat.Coin;
         }

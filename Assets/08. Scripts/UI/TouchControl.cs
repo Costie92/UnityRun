@@ -5,8 +5,8 @@ using UnityEngine;
 
 public delegate void SwipeScreen(float tPoint, hcp.E_WhichTurn eTurn);
 
-public class TouchControl : MonoBehaviour,IMapTurnToUI {
-    
+public class TouchControl : MonoBehaviour, IMapTurnToUI {
+
     private static TouchControl _instance = null;
     public static TouchControl instance
     {
@@ -28,17 +28,15 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
     private float MousePosX;
     private float MousePosY;
     private int TapCount;
-    private Vector2 ButtonDownMousePos = new Vector2(0,0);
+    private Vector2 ButtonDownMousePos = new Vector2(0, 0);
     public float MaxDubbleTapTime;
     public event SwipeScreen swipeScreen;
     public static bool isTurn;
     private bool CanMove;
-    public Renderer[] objrenderers;
-    public Color[] alphaColor;
     private float timeToFade = 1.0f;
 
     // Use this for initialization
-    void Awake () {
+    void Awake() {
         _instance = this;
         TapCount = 0;
         //Screen.SetResolution(1920, 1080, false);
@@ -47,25 +45,13 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
         isTurn = false;
     }
     void Start() {
-        
+
         cMove = GameObject.FindWithTag("PLAYER").GetComponent<CharacterMove>();
         unitychan = GameObject.FindWithTag("PLAYER");
-        objrenderers = unitychan.GetComponentsInChildren<Renderer>();
-        alphaColor = new Color[objrenderers.Length];
-        for (int i = 0; i < objrenderers.Length; i++) {
-            alphaColor[i] = objrenderers[i].material.color;
-            alphaColor[i].a = 0;
-        }
     }
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < objrenderers.Length; i++)
-        {
-            objrenderers[i].material.color = Color.Lerp(objrenderers[i].material.color, alphaColor[i], timeToFade * Time.deltaTime);
-        }
-        
-
         if (turningpoint == 0) {
             isTurn = false;
         }
@@ -81,7 +67,7 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
             SwipeToTurn();
         }
         //마우스 클릭시 포지션 저장
-        if (!UIManager.isPause)
+        if (!UIManager.isPause && !CharacterAnimation.Win)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -128,7 +114,6 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
                     if (MoveXLength > (width / 5))
                     {
                         SetWhichTurnToUI(E_WhichTurn.LEFT);
-                        print("Swipe Left");
                         SwipeToTurn();
 
 
@@ -137,21 +122,17 @@ public class TouchControl : MonoBehaviour,IMapTurnToUI {
                     else if (-MoveXLength > (width / 5))
                     {
                         SetWhichTurnToUI(E_WhichTurn.RIGHT);
-                        print("Swipe Right");
                         SwipeToTurn();
                     }
                     //위로 스와이프
                     else if (-MoveYLength > (height / 10))
                     {
                         cMove.Jump();
-                        print("Swipe Up");
-
                     }
                     //아래로 스와이프
                     else if (MoveYLength > (height / 10))
                     {
                         cMove.SlideDown();
-                        print("Swipe Down");
                     }
                     TapCount = 0;
                 }

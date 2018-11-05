@@ -206,7 +206,6 @@ public class StageSelectManager : MonoBehaviour
                 {
                     LeanTween.textAlpha(Alert, 1f, 1.0f).setOnComplete(AlertComplete);
                 }
-                print("해당 씬이 없습니다.");
             }
         }
     }
