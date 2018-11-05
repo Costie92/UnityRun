@@ -8,15 +8,19 @@ public class SkillEffectI : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        this.UnityChan = GameObject.Find("unitychan");
+        this.UnityChan = GameObject.Find("MainPlayer");
     }
 	
 	// Update is called once per frame
 	void Update () {
-        EffectCreat();
+
     }
 
-    void EffectCreat()
+    void LateUpdate()
+    {
+        EffectCreat();
+    }
+        void EffectCreat()
     {
         if(ObjEat.Invincible == true)
         {
