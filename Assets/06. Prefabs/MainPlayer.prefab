@@ -5943,7 +5943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49a5a8bd5b6c5f84580c74663ba260f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CoinEffect: {fileID: 1271850979376270, guid: 232cb73cd1ca10d4c8d143a1cb300951, type: 2}
+  CoinEffect: {fileID: 1379399001030436}
   HeartEffect: {fileID: 1386467408083806}
 --- !u!114 &114457853694283274
 MonoBehaviour:
