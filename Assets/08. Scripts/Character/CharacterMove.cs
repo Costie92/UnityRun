@@ -16,8 +16,10 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     }
 
     private CharacterAnimation cAnim;
+
+    public static bool bossStage = false; // BossStage스크립트에서 true됨
     public static int shield = 0;
-    public static float runSpeed = 9.5f; // 캐릭터가 앞으로 달려가는 스피드
+    public static float runSpeed = 6.5f; // 캐릭터가 앞으로 달려가는 스피드
     public static float speedUpdate = 1.2f;
     public bool turningPoint = true; // 방향전환해야할 시점일경우 true 아닐경우에는 false
     private int rotateLeftMax, rotateRightMax, rotateUpMax, rotateDownMax, turnLeftControl, turnRightControl = 0; // 왼쪽, 오른쪽으로 반복해서 움직이도록 할때 이용하려고 만든 변수 // 높이를 제어하기 위한 변수 // 왼쪽, 오른쪽 컨트롤을 제어하기 위해 만든 변수
@@ -29,6 +31,8 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
 
     void Start()
     {
+        bossStage = false;
+        runSpeed = 6.5f;
         Character = GameObject.FindWithTag("PLAYER");
         cAnim = GetComponent<CharacterAnimation>();
         _instance = this;
@@ -40,11 +44,18 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
 
     void Update()
     {
-        if (ObjEat.HP  != 0) // 적에게 부딪히지 않았을경우
+        if(bossStage == false)
         {
-            Run();
+            if (ObjEat.HP != 0) // 적에게 부딪히지 않았을경우
+            {
+                Run();
+            }
+            InvokeRepeating("GoFast", 60.0f, 60.0f);
         }
-        InvokeRepeating("GoFast",60.0f,60.0f);
+        else if(bossStage == true)
+        {
+            runSpeed = 0;
+        }
         JumpDown();
         CharacterStop();
     }

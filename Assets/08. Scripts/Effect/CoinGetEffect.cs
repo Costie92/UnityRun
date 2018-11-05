@@ -9,7 +9,7 @@ public class CoinGetEffect : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        this.UnityChan = GameObject.Find("MainPlayer");
+        this.UnityChan = GameObject.FindGameObjectWithTag("PLAYER");
     }
 
     // Update is called once per frame
