@@ -1051,7 +1051,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 253039050}
   m_OnClick:
     m_PersistentCalls:
@@ -2915,7 +2915,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 759026691}
   m_OnClick:
     m_PersistentCalls:
@@ -3038,7 +3038,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 764374833}
   m_OnClick:
     m_PersistentCalls:
@@ -4130,7 +4130,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 977741799}
   m_OnClick:
     m_PersistentCalls:
@@ -5774,7 +5774,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1308726074}
   m_OnClick:
     m_PersistentCalls:
@@ -6368,7 +6368,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1428016768}
   m_OnClick:
     m_PersistentCalls:
@@ -6887,7 +6887,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1561879823}
   m_OnClick:
     m_PersistentCalls:
@@ -7210,7 +7210,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1603694879}
   m_OnClick:
     m_PersistentCalls:
@@ -7598,6 +7598,7 @@ MonoBehaviour:
   EditSelect: {fileID: 1399127157}
   StageMenu: {fileID: 1071482411}
   EditMenu: {fileID: 377350452}
+  Stagebuttons: []
   ScaleV: {x: 1.2, y: 1.2, z: 1.2}
   NormalV: {x: 1, y: 1, z: 1}
 --- !u!1 &1834676217

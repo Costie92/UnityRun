@@ -13,7 +13,7 @@ public class StageSelectManager : MonoBehaviour
     public GameObject EditSelect;
     public GameObject StageMenu;
     public GameObject EditMenu;
-
+    public Button[] Stagebuttons;
     public Vector3 ScaleV = new Vector3(1.2f, 1.2f, 1.2f);
     public Vector3 NormalV = new Vector3(1, 1, 1);
 
@@ -24,6 +24,11 @@ public class StageSelectManager : MonoBehaviour
         EditSelect = GameObject.Find("EditSelect");
         StageMenu = GameObject.Find("StageMenu");
         EditMenu = GameObject.Find("EditMenu");
+        Stagebuttons = StageMenu.GetComponentsInChildren<Button>();
+        for (int i = 1; i < Stagebuttons.Length - 1; i++)
+        {
+            Stagebuttons[i].interactable = !(IsThisStageClear.GetInstance().IsThisStageFirstPlay((E_STAGE)(i)));
+        }
     }
     void Start()
     {
