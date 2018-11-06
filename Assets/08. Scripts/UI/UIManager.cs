@@ -89,6 +89,16 @@ public class UIManager : MonoBehaviour
         UI_Shield.SetActive(ObjEat.Shield);
         UI_Magnet.SetActive(ObjEat.Magnet);
     }
+    //애플리케이션 정지
+    void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus) OnClickPause();
+    }
+    //애플리케이션 포커스
+    void OnApplicationFocus(bool focusStatus)
+    {
+        //if (!focusStatus) OnClickPause();
+    }
 
     void DisplayHp()
     {
@@ -113,6 +123,7 @@ public class UIManager : MonoBehaviour
         //keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
 
     }
+    
     void OnClickResume()
     {
         isPause = false;
@@ -139,6 +150,13 @@ public class UIManager : MonoBehaviour
         {
             SceneManager.LoadScene(Constants.editedStageSceneName);
         }
+        else if (StageManager.stageNum == E_STAGE.BOSS) {
+            SceneManager.LoadScene("BOSS_STAGE");
+        }
+        else if (StageManager.stageNum == E_STAGE.INFINITY)
+        {
+            SceneManager.LoadScene("INFINITY_STAGE");
+        }
         else
         {
             SceneManager.LoadScene(StageManager.stageNum.ToString());
@@ -149,6 +167,10 @@ public class UIManager : MonoBehaviour
         //결과표시
         isPause = true;
         Result.SetActive(true);
+        if (StageManager.stageNum == E_STAGE.INFINITY)
+        {
+            GameMgr.ClearStage();
+        }
         RecordCoinText.text = GameMgr.coins.ToString();
         Result.transform.Find("ResultCoin").GetComponent<Text>().text = CoinText.text;
         Time.timeScale = 0;

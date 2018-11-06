@@ -219,6 +219,17 @@ public class StageSelectManager : MonoBehaviour
             }
         }
     }
+
+    public void OnClickBoss() {
+        StageManager.fileNameForEdit = null;
+        StageManager.stageNum = E_STAGE.BOSS;
+        SceneManager.LoadScene("BOSS_STAGE");
+    }
+    public void OnClickInfinity() {
+        StageManager.fileNameForEdit = null;
+        StageManager.stageNum = E_STAGE.INFINITY;
+        SceneManager.LoadScene("INFINITY_STAGE");
+    }
     void AlertComplete()
     {
         LeanTween.textAlpha(Alert, 0f, 1.0f);
