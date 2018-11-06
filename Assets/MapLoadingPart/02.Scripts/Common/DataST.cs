@@ -27,6 +27,7 @@ namespace hcp
         STAGE_16,
 
         INFINITY,
+        BOSS,
         E_STAGEMAX
     };
 
