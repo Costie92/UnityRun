@@ -88,11 +88,13 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
             //마우스 클릭 종료시
             else if (Input.GetMouseButtonUp(0))
             {
-                //좌로 스와이프
+                
                 if (TapCount == 1 && CanMove)
                 {
                     float MoveXLength = ButtonDownMousePos.x - MousePosX;
                     float MoveYLength = ButtonDownMousePos.y - MousePosY;
+
+                    //위로 스와이프
                     if (-MoveYLength > (height / 10))
                     {
                         cMove.Jump();
@@ -102,7 +104,9 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
                     {
                         cMove.SlideDown();
                     }
-                    else if (MoveXLength > (width / 5))
+
+                    //좌로 스와이프
+                    if (MoveXLength > (width / 5))
                     {
                         ThisTurn = E_WhichTurn.LEFT;
                         SwipeToTurn();
@@ -114,7 +118,6 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
                         ThisTurn = E_WhichTurn.RIGHT;
                         SwipeToTurn();
                     }
-                    //위로 스와이프
                     
                     TapCount = 0;
                 }
