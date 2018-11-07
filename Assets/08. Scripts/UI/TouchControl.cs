@@ -128,8 +128,11 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
         //한번만부르게 바꾸기
         if (!isTurn && turningpoint != 0 && unitychan.transform.position.z > turningpoint)
         {
-            isTurn = true;
-            swipeScreen(turningpoint, ThisTurn);
+            if (ThisTurn == GetWhichTurnInUI())
+            {
+                isTurn = true;
+                swipeScreen(turningpoint, ThisTurn);
+            }
         }
     }
 
