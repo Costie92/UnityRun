@@ -40,7 +40,7 @@ public class StageSelectManager : MonoBehaviour
         EditMenu.SetActive(false);
         Alert.gameObject.SetActive(false);
         // 시작씬, 에디터씬 제외
-        Count = SceneManager.sceneCountInBuildSettings - 5;
+        Count = Stagebuttons.Length-2;
         if (Application.platform == RuntimePlatform.Android)
         {
             Application.targetFrameRate = 60;
@@ -158,57 +158,7 @@ public class StageSelectManager : MonoBehaviour
         int StageNum = int.Parse(btn.GetComponentInChildren<Text>().text);
         string StageName = "STAGE_" + StageNum;
         StageManager.fileNameForEdit = null;
-        switch (StageNum)
-        {
-            case 1:
-                StageManager.stageNum = E_STAGE.STAGE_1;
-                break;
-            case 2:
-                StageManager.stageNum = E_STAGE.STAGE_2;
-                break;
-            case 3:
-                StageManager.stageNum = E_STAGE.STAGE_3;
-                break;
-            case 4:
-                StageManager.stageNum = E_STAGE.STAGE_4;
-                break;
-            case 5:
-                StageManager.stageNum = E_STAGE.STAGE_5;
-                break;
-            case 6:
-                StageManager.stageNum = E_STAGE.STAGE_6;
-                break;
-            case 7:
-                StageManager.stageNum = E_STAGE.STAGE_7;
-                break;
-            case 8:
-                StageManager.stageNum = E_STAGE.STAGE_8;
-                break;
-            case 9:
-                StageManager.stageNum = E_STAGE.STAGE_9;
-                break;
-            case 10:
-                StageManager.stageNum = E_STAGE.STAGE_10;
-                break;
-            case 11:
-                StageManager.stageNum = E_STAGE.STAGE_11;
-                break;
-            case 12:
-                StageManager.stageNum = E_STAGE.STAGE_12;
-                break;
-            case 13:
-                StageManager.stageNum = E_STAGE.STAGE_13;
-                break;
-            case 14:
-                StageManager.stageNum = E_STAGE.STAGE_14;
-                break;
-            case 15:
-                StageManager.stageNum = E_STAGE.STAGE_15;
-                break;
-            case 16:
-                StageManager.stageNum = E_STAGE.STAGE_16;
-                break;
-        }
+        StageManager.stageNum = (E_STAGE)StageNum;
         if (StageNum <= Count)
         {
             SceneManager.LoadScene(StageName);

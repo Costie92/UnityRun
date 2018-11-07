@@ -34,7 +34,6 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
     public static bool isTurn;
     private bool CanMove;
     private float timeToFade = 1.0f;
-
     // Use this for initialization
     void Awake() {
         _instance = this;
@@ -66,37 +65,23 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
             CanMove = !ObjEat.unityChanDie && !ObjEat.HitInvincible;
             if (Input.GetMouseButtonDown(0))
             {
-                if (Input.mousePosition.y > (height / 2.5))
-                {
+                //if (Input.mousePosition.y > (height / 2.5))
                     //마우스 클릭시 포지션 저장
                     ButtonDownMousePos = Input.mousePosition;
                     TapCount = 1;
-                }
             }
             // 마우스 클릭 유지시
             if (Input.GetMouseButton(0))
             {
                 MousePosX = Input.mousePosition.x;
                 MousePosY = Input.mousePosition.y;
-                //하단 부분 클릭 했을 경우
-                if (TapCount == 0 && CanMove)
-                {
-                    if (MousePosY < (height / 2.5))
-                    {
-                        //좌측으로 이동
-                        if (MousePosX < (width / 2))
-                        {
-                            cMove.turningPoint = false;
-                            cMove.Move(true);
-                        }
-                        //우측으로 이동
-                        else
-                        {
-                            cMove.turningPoint = false;
-                            cMove.Move(false);
-                        }
-                    }
-                }
+                ////하단 부분 클릭 했을 경우
+                //if (TapCount == 0 && CanMove) { if (MousePosY < (height / 2.5)) {
+                //        //좌측으로 이동
+                //        if (MousePosX < (width / 2)) { cMove.turningPoint = false; cMove.Move(true); }
+                //        //우측으로 이동
+                //        else { cMove.turningPoint = false; cMove.Move(false); } }
+                //}
             }
             //마우스 클릭 종료시
             else if (Input.GetMouseButtonUp(0))
