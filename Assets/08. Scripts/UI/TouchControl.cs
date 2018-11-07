@@ -18,6 +18,7 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
         }
     }
     E_WhichTurn whichTurn;
+    E_WhichTurn ThisTurn;
     public float turningpoint;
     private GameObject unitychan;
     private CharacterMove cMove;
@@ -57,12 +58,13 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
 
         if (ObjEat.Invincible)
         {
+            ThisTurn = GetWhichTurnInUI();
             SwipeToTurn();
         }
         // 일시정지이거나 클리어 했을 경우 터치 안되게 조절
         if (!UIManager.isPause && !CharacterAnimation.Win)
         {
-            CanMove = !ObjEat.unityChanDie && !ObjEat.HitInvincible;
+            CanMove = !ObjEat.unityChanDie && !ObjEat.HitInvincible && !ObjEat.Invincible;
             if (Input.GetMouseButtonDown(0))
             {
                 //if (Input.mousePosition.y > (height / 2.5))
@@ -91,21 +93,7 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
                 {
                     float MoveXLength = ButtonDownMousePos.x - MousePosX;
                     float MoveYLength = ButtonDownMousePos.y - MousePosY;
-                    if (MoveXLength > (width / 5))
-                    {
-                        SetWhichTurnToUI(E_WhichTurn.LEFT);
-                        SwipeToTurn();
-
-
-                    }
-                    //우로 스와이프
-                    else if (-MoveXLength > (width / 5))
-                    {
-                        SetWhichTurnToUI(E_WhichTurn.RIGHT);
-                        SwipeToTurn();
-                    }
-                    //위로 스와이프
-                    else if (-MoveYLength > (height / 10))
+                    if (-MoveYLength > (height / 10))
                     {
                         cMove.Jump();
                     }
@@ -114,6 +102,20 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
                     {
                         cMove.SlideDown();
                     }
+                    else if (MoveXLength > (width / 5))
+                    {
+                        ThisTurn = E_WhichTurn.LEFT;
+                        SwipeToTurn();
+
+                    }
+                    //우로 스와이프
+                    else if (-MoveXLength > (width / 5))
+                    {
+                        ThisTurn = E_WhichTurn.RIGHT;
+                        SwipeToTurn();
+                    }
+                    //위로 스와이프
+                    
                     TapCount = 0;
                 }
             }
@@ -124,7 +126,7 @@ public class TouchControl : MonoBehaviour, IMapTurnToUI {
         if (!isTurn && turningpoint != 0 && unitychan.transform.position.z > turningpoint)
         {
             isTurn = true;
-            swipeScreen(turningpoint, whichTurn);
+            swipeScreen(turningpoint, ThisTurn);
         }
     }
 

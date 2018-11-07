@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BtnRightCtrl : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class BtnRightCtrl : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
 
     private bool isBtnRightDown = false;
@@ -38,5 +38,21 @@ public class BtnRightCtrl : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     public void OnPointerUp(PointerEventData eventData)
     {
         isBtnRightDown = false;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            isBtnRightDown = true;
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            isBtnRightDown = false;
+        }
     }
 }

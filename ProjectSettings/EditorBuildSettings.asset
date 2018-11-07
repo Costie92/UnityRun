@@ -60,6 +60,9 @@ EditorBuildSettings:
     path: Assets/MapLoadingPart/01.Scenes/STAGE_EDITOR.unity
     guid: 689cbfb0c495830428d3a9a75d721312
   - enabled: 1
+    path: Assets/MapLoadingPart/01.Scenes/BOSS_STAGE.unity
+    guid: b16440b605536524a96ed19352d99b51
+  - enabled: 1
     path: Assets/MapLoadingPart/01.Scenes/INFINITY_STAGE.unity
     guid: e96a971afa4202d42a65e94323bbdc04
   - enabled: 1
