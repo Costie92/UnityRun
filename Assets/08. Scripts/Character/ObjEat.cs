@@ -38,6 +38,10 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
         ShieldPower();
         MagnetPower();
         InvinciblePower();
+        if(unityChanDie == false)
+        {
+            HPzero();
+        }
     }
 
     void ItemState() // 캐릭터, 아이템 상태 초기화 함수
@@ -124,6 +128,39 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
                 Debug.Log("UPPER_HUDDLE");
                 break;
             case E_OBSTACLE.FIRE:
+                if (Invincible == false)
+                {
+                    if (Shield == false)
+                    {
+                        HP = 0;
+                    }
+                    DamagedEvent();
+                    Debug.Log("FIRE");
+                }
+                break;
+            case E_OBSTACLE.BOSS_FIREBALL:
+                if (Invincible == false)
+                {
+                    if (Shield == false)
+                    {
+                        HP = 0;
+                    }
+                    DamagedEvent();
+                    Debug.Log("FIRE");
+                }
+                break;
+            case E_OBSTACLE.BOSS_BREATH:
+                if (Invincible == false)
+                {
+                    if (Shield == false)
+                    {
+                        HP = 0;
+                    }
+                    DamagedEvent();
+                    Debug.Log("FIRE");
+                }
+                break;
+            case E_OBSTACLE.BOSS_METEOR:
                 if (Invincible == false)
                 {
                     if (Shield == false)
@@ -271,6 +308,19 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
         Debug.Log("체력닳음");
         Debug.Log("HP " + HP + " 개");
         CharacterMove.runSpeed = CharacterMove.runSpeed * 2.0f;
+    }
+
+    void HPzero()
+    {
+        if(HP == 0)
+        {
+            unityChanDie = true;
+            cAnim.DieAnimation(); //죽은 애니메이션
+            this.GetComponent<CapsuleCollider>().isTrigger = true; // 오브젝트 뚫고가기
+            this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY; // Rigidbody Y포지션 고정
+            Invoke("GameOver", 1.0f); // 쓰러진뒤 2초뒤에 게임오버(게임이 정지되도록 만들어줌) 시켜주는 함수
+            CharacterMove.runSpeed = 0;
+        }
     }
 
     public void GameOver() // 캐릭터가 쓰러진상태로 유지시켜주는 함수

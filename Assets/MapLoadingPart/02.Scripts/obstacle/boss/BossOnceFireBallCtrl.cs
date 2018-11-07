@@ -9,7 +9,7 @@ namespace hcp
         ObstacleST obsST = new ObstacleST();
         IObjToCharactor objToCharactor;
         Transform playerTr;
-        float moveSpeed = 10.0f;
+        float moveSpeed = 2.5f * 10.0f;
 
         private void Awake()
         {
