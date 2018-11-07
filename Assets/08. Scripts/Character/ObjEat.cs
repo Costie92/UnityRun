@@ -26,10 +26,21 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
     {
         Coin = 0;
         cAnim = this.GetComponent<CharacterAnimation>();
+        unityChanDie = false;
+        HitInvincible = false;
+        Invincible = false;
+        Shield = false;
+        Magnet = false;
+        invincibleTime = 0;
+        shieldTime = 0;
+        magnetTime = 0;
         UIMgr = GameObject.Find("GameMgr").GetComponent<UIManager>();
         ItemState(); // 캐릭터, 아이템 상태 초기화 함수
         CoinEffect.SetActive(false);
         HeartEffect.SetActive(false);
+        if (StageManager.stageNum == E_STAGE.BOSS) {
+            HP = 1;
+        }
     }
 
     void Update()
