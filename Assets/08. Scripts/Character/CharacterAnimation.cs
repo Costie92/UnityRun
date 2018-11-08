@@ -55,7 +55,7 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
             this.GetComponent<CapsuleCollider>().height = 0.5f; // 캐릭터 콜라이더 높이 줄이기
 
         }
-        Invoke("resetCollider", animator.GetCurrentAnimatorStateInfo(0).length); // 2초후 캐릭터 콜라이더를 되돌림
+        //Invoke("resetCollider", animator.GetCurrentAnimatorStateInfo(0).length); // 2초후 캐릭터 콜라이더를 되돌림
     }
 
     public void JumpAnimation() // 점프하기 (위방향키)

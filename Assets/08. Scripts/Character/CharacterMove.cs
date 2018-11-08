@@ -115,11 +115,14 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     
     void OnCollisionEnter(Collision collision) // 땅과 닿았을때 걷기(점프 취소 구현을 위해 만든 함수)
     {
-        this.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.75f, 0); // 캐릭터 콜라이더 중심 옮기기
-        this.GetComponent<CapsuleCollider>().height = 1.5f; // 캐릭터 콜라이더 높이 바꾸기
-        if (!CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("RUN00_F") && !CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("SLIDE00")) // 다른 애니메이션과 겹쳐서 실행되지 않도록 해주는 조건
+        if (!CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("SLIDE00"))
         {
-            cAnim.RunAnimation(); // 캐릭터가 걷는 애니메이션을함
+            this.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.75f, 0); // 캐릭터 콜라이더 중심 옮기기
+            this.GetComponent<CapsuleCollider>().height = 1.5f; // 캐릭터 콜라이더 높이 바꾸기
+            if (!CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("RUN00_F") && !CharacterAnimation.animator.GetCurrentAnimatorStateInfo(0).IsName("SLIDE00")) // 다른 애니메이션과 겹쳐서 실행되지 않도록 해주는 조건
+            {
+                cAnim.RunAnimation(); // 캐릭터가 걷는 애니메이션을함
+            }
         }
     }
 
