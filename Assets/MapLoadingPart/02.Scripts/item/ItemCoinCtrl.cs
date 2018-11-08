@@ -24,7 +24,7 @@ namespace hcp
                 magneted = true;
 
             if(magneted)
-                transform.position = Vector3.Lerp(transform.position, playerTr.position-Vector3.right*1.2f,Time.deltaTime*25f);
+                transform.position = Vector3.Lerp(transform.position, playerTr.position-Vector3.right*1.2f,Time.deltaTime*30f);
         }
         private void OnDisable()
         {
