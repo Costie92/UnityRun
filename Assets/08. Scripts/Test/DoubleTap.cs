@@ -7,7 +7,7 @@ public class DoubleTap : MonoBehaviour {
     int TapCount;
     public float MaxDubbleTapTime;
     float TapTime;
-    public SimpleTouchController Controller;
+    //public SimpleTouchController Controller;
     private float MousePosX;
     // Use this for initialization
     void Start() {
