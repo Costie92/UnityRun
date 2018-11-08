@@ -1,2 +1,8 @@
 https://www.mixamo.com
 https://github.com/playgameservices/play-games-plugin-for-unity
+
+1. 점프높이랑 코인 맞추기
+2. 점프 애니메이션이랑 속도 맞추기
+3. 스테이지 배경 , 바닥 만들기
+4. 보스 스테이지 타이머 / 보스전 종료
+5. 구글 업로드 / 로그인 / 랭킹 연동
