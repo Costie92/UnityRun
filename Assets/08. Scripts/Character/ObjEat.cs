@@ -117,7 +117,6 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
             case E_ITEM.EITEMMAX:
                 Debug.Log("아이템 겟에서 오류");
                 return;
-
         }
     }
 
@@ -181,6 +180,10 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
                     DamagedEvent();
                     Debug.Log("FIRE");
                 }
+                break;
+            case E_OBSTACLE.DEATH_WALL:
+                HP = 0;
+                DamagedEvent();
                 break;
             case E_OBSTACLE.EOBSMAX:
                 Debug.Log("옵스타클 충돌에서 오류");
@@ -247,7 +250,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
     {
         if (Invincible == false && HitInvincible == false)
         {
-            CharacterMove.runSpeed = 6.5f;
+            CharacterMove.runSpeed = 13.0f;
             this.GetComponent<CapsuleCollider>().isTrigger = false; // 오브젝트 뚫기 해제
             this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation; // Rigidbody 포지션 초기화
         }
