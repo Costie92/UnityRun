@@ -19,7 +19,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
 
     public static bool bossStage = false; // BossStage스크립트에서 true됨
     public static int shield = 0;
-    public static float runSpeed = 6.5f; // 캐릭터가 앞으로 달려가는 스피드
+    public static float runSpeed = 13.0f; // 캐릭터가 앞으로 달려가는 스피드
     public static float speedUpdate = 1.2f;
     public bool turningPoint = true; // 방향전환해야할 시점일경우 true 아닐경우에는 false
     private int rotateLeftMax, rotateRightMax, rotateUpMax, rotateDownMax, turnLeftControl, turnRightControl = 0; // 왼쪽, 오른쪽으로 반복해서 움직이도록 할때 이용하려고 만든 변수 // 높이를 제어하기 위한 변수 // 왼쪽, 오른쪽 컨트롤을 제어하기 위해 만든 변수
@@ -32,7 +32,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
     void Start()
     {
         bossStage = false;
-        runSpeed = 6.5f;
+        runSpeed = 13.0f;
         Character = GameObject.FindWithTag("PLAYER");
         cAnim = GetComponent<CharacterAnimation>();
         _instance = this;
@@ -98,7 +98,7 @@ public class CharacterMove : MonoBehaviour // 캐릭터의 실제 움직임담�
 
     public void JumpDown() // 점프취소 (강제로 점프를 취소함)
     {
-        if (Character.transform.position.y > 2.5f) // 캐릭터가 2.5위치 위로 올라갈경우
+        if (Character.transform.position.y > 2.2f) // 캐릭터가 2.5위치 위로 올라갈경우
         {
             rigidbody.AddForce(Vector3.down * 40 * speedUpdate, ForceMode.Impulse); // 캐릭터에게 아래로 힘을 가해줌
         }

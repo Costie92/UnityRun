@@ -15,7 +15,7 @@ public class ItemCoinParabolaAdjust : MonoBehaviour {
     private void Awake()
     {
         coinLineHighPointY = 3;
-        jumpStartPointZ = 3;    //점프 시작위치에 맞춰서 설정
+        jumpStartPointZ = 6f;    //점프 시작위치에 맞춰서 설정
 
         a = -coinLineHighPointY / (jumpStartPointZ * jumpStartPointZ);
 
