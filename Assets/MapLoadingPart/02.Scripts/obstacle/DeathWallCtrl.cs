@@ -10,7 +10,7 @@ namespace hcp
         private void Awake()
         {
             obsST = new ObstacleST();
-            obsST.obstacleType = E_OBSTACLE.FIRE;   //그냥 파이어로 처리 (즉사는 같은 거임./)
+            obsST.obstacleType = E_OBSTACLE.DEATH_WALL;   //그냥 파이어로 처리 (즉사는 같은 거임./)
             obsST.beenHit = true;
             objToCharactor = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<IObjToCharactor>();
         }

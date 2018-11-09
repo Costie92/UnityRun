@@ -60,6 +60,8 @@ namespace hcp
         BOSS_BREATH,
         BOSS_METEOR,
 
+        DEATH_WALL,
+
         EOBSMAX
     };
     [System.Serializable]
