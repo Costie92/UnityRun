@@ -295,4 +295,17 @@ public class BossAttack : MonoBehaviour {
             ObjEat.HP = 0;
         }
     }
+
+    public void End() {
+        DragonJump();
+        DragonJump();
+        CancelInvoke();
+        Invoke("BossEnd", 4.0f);
+    }
+
+    public void BossEnd()
+    {
+        BossMapMgr.GetInstance().StopMapMove();
+        GameObject.FindWithTag("PLAYER").GetComponent<CharacterAnimation>().WinAnimation();
+    }
 }
