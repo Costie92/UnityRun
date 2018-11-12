@@ -76,14 +76,14 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
                 {
                     HP++;
                 }
-                Debug.Log("HP " + HP + " 개");
+                //Debug.Log("HP " + HP + " 개");
                 break;
             case E_ITEM.INVINCIBLE: //무적
                 invincibleCount = 0;
                 invincibleTime = 5;
                 UIMgr.UI_Invincible.GetComponentInChildren<ProgressCoolDown>().MaxtTime = invincibleTime;
                 UIMgr.UI_Invincible.GetComponentInChildren<ProgressCoolDown>().ItemTime = invincibleTime;
-                Debug.Log("INVINCIBLE 먹음");
+                //Debug.Log("INVINCIBLE 먹음");
                 break;
             case E_ITEM.SHIELD: //방어막먹음
                 shieldCount = 0;
@@ -99,7 +99,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
                 {
                     ShieldEvent();
                 }
-                Debug.Log("SHIELD 먹음");
+                //Debug.Log("SHIELD 먹음");
                 break;
             case E_ITEM.COIN: //동전먹음
                 CoinEffect.SetActive(true);
@@ -112,10 +112,10 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
                 UIMgr.UI_Magnet.GetComponentInChildren<ProgressCoolDown>().MaxtTime = magnetTime;
                 UIMgr.UI_Magnet.GetComponentInChildren<ProgressCoolDown>().ItemTime = magnetTime;
                 MagnetEvent();
-                Debug.Log("MAGNET 먹음");
+                //Debug.Log("MAGNET 먹음");
                 break;
             case E_ITEM.EITEMMAX:
-                Debug.Log("아이템 겟에서 오류");
+                //Debug.Log("아이템 겟에서 오류");
                 return;
         }
     }
@@ -127,15 +127,15 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
         {
             case E_OBSTACLE.BALL:
                 DamagedEvent();
-                Debug.Log("BALL");
+                //Debug.Log("BALL");
                 break;
             case E_OBSTACLE.HUDDLE:
                 DamagedEvent();
-                Debug.Log("HUDDLE");
+                //Debug.Log("HUDDLE");
                 break;
             case E_OBSTACLE.UPPER_HUDDLE:
                 DamagedEvent();
-                Debug.Log("UPPER_HUDDLE");
+                //Debug.Log("UPPER_HUDDLE");
                 break;
             case E_OBSTACLE.FIRE:
                 if (Invincible == false)
@@ -145,7 +145,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
                         HP = 0;
                     }
                     DamagedEvent();
-                    Debug.Log("FIRE");
+                    //Debug.Log("FIRE");
                 }
                 break;
             case E_OBSTACLE.BOSS_FIREBALL:
@@ -156,7 +156,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
                         HP = 0;
                     }
                     DamagedEvent();
-                    Debug.Log("FIRE");
+                    //Debug.Log("FIRE");
                 }
                 break;
             case E_OBSTACLE.BOSS_BREATH:
@@ -167,7 +167,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
                         HP = 0;
                     }
                     DamagedEvent();
-                    Debug.Log("FIRE");
+                    //Debug.Log("FIRE");
                 }
                 break;
             case E_OBSTACLE.BOSS_METEOR:
@@ -178,7 +178,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
                         HP = 0;
                     }
                     DamagedEvent();
-                    Debug.Log("FIRE");
+                    //Debug.Log("FIRE");
                 }
                 break;
             case E_OBSTACLE.DEATH_WALL:
@@ -186,7 +186,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
                 DamagedEvent();
                 break;
             case E_OBSTACLE.EOBSMAX:
-                Debug.Log("옵스타클 충돌에서 오류");
+                //Debug.Log("옵스타클 충돌에서 오류");
                 return;
         }
     }
@@ -287,7 +287,7 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
             if (HitInvincible == false) 
             DamagedEvent2(); // 데미지입음
         }
-        print("무적" + HitInvincible);
+        //print("무적" + HitInvincible);
     }
 
     void DamagedEvent2() // 장애물에 부딪힐시 발생하는 이벤트
@@ -319,8 +319,8 @@ public class ObjEat : MonoBehaviour, IObjToCharactor
 
     void DamagedEvent3() // 데미지 닳았을때 이벤트
     {
-        Debug.Log("체력닳음");
-        Debug.Log("HP " + HP + " 개");
+        //Debug.Log("체력닳음");
+        //Debug.Log("HP " + HP + " 개");
         CharacterMove.runSpeed = CharacterMove.runSpeed * 2.0f;
     }
 

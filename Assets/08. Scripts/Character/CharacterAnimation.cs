@@ -49,7 +49,7 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
     {
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("SLIDE00") && !animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00")) // 슬라이드 애니메이션이 실행중이 아닐때 (중복해서 슬라이드 애니메이션이 실행하는것을 막아주는 조건)
         {
-            Debug.Log("미끄러지기");
+            //Debug.Log("미끄러지기");
             animator.Play("SLIDE00", -1, 0); // 슬라이드하는 애니메이션 실행
             this.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.25f, 0); // 캐릭터 콜라이더 중심 옮기기
             this.GetComponent<CapsuleCollider>().height = 0.5f; // 캐릭터 콜라이더 높이 줄이기
@@ -62,7 +62,7 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
     {
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("JUMP00")) // 점프 애니메이션이 실행중이 아닐때 (중복해서 슬라이드 애니메이션이 실행하는것을 막아주는 조건)
         {
-            Debug.Log("점프하기");
+            //Debug.Log("점프하기");
             animator.Play("JUMP00", -1, 0); // 점프하는 애니메이션 실행
             /*
             this.GetComponent<CapsuleCollider>().center = new Vector3(0, 1.5f, 0); // 캐릭터 콜라이더 중심 옮기기

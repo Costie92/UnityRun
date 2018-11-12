@@ -21,9 +21,10 @@ public class CharacterDie : MonoBehaviour {
 
     public void FallingDie() // 캐릭터 낙사
     {
-        if(this.transform.position.y < -15f)
+        if(this.transform.position.y < -10f)
         {
             Die();
+            ObjEat.HP = 0;
         }
     }
 
