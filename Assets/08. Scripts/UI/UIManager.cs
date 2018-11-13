@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
 using hcp;
 
 public class UIManager : MonoBehaviour
@@ -123,7 +126,7 @@ public class UIManager : MonoBehaviour
         //keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
 
     }
-    
+
     void OnClickResume()
     {
         isPause = false;
@@ -139,7 +142,7 @@ public class UIManager : MonoBehaviour
         isPause = false;
         Time.timeScale = 1;
         //adsHelper.ShowRewardedAd();
-        SceneManager.LoadScene("StageSelect");        
+        SceneManager.LoadScene("StageSelect");
     }
     void OnClickRetry()
     {
@@ -150,7 +153,8 @@ public class UIManager : MonoBehaviour
         {
             SceneManager.LoadScene(Constants.editedStageSceneName);
         }
-        else if (StageManager.stageNum == E_STAGE.BOSS) {
+        else if (StageManager.stageNum == E_STAGE.BOSS)
+        {
             SceneManager.LoadScene("BOSS_STAGE");
         }
         else if (StageManager.stageNum == E_STAGE.INFINITY)
@@ -169,10 +173,40 @@ public class UIManager : MonoBehaviour
         Result.SetActive(true);
         if (StageManager.stageNum == E_STAGE.INFINITY)
         {
+            ShowRanking();
             GameMgr.ClearStage();
         }
         RecordCoinText.text = GameMgr.coins.ToString();
         Result.transform.Find("ResultCoin").GetComponent<Text>().text = CoinText.text;
         Time.timeScale = 0;
     }
+    public void ShowRanking()
+    {
+        PlayGamesPlatform.Activate();
+        Social.localUser.Authenticate((bool suc) =>
+        {
+            if (suc)    
+            {
+                Social.ReportScore((long)ObjEat.Coin, GPGSIds.leaderboard_unityrun, (bool success) =>
+            {
+                if (success)
+                {
+                    ((PlayGamesPlatform)Social.Active).ShowLeaderboardUI(GPGSIds.leaderboard_unityrun);
+                    //            Result.transform.Find("ResultCoin").GetComponent<Text>().text = "Success";
+                }
+                else if (!success)
+                {
+                    //1번 랭킹에 사용할 기록(실패시 내용은 생략)
+                }
+            });
+            }
+            else
+            {
+                //            Result.transform.Find("ResultCoin").GetComponent<Text>().text = "False";
+                //로그인 안 됐을 때 뜨는 코드, 여기선 생략
+            }
+        });
+
+    }
+
 }
