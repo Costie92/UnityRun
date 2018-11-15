@@ -170,18 +170,19 @@ public class UIManager : MonoBehaviour
     {
         //결과표시
         isPause = true;
-        Result.SetActive(true);
         RecordCoinText.text = GameMgr.coins.ToString();
+        Result.SetActive(true);
+        Result.transform.Find("ResultCoin").GetComponent<Text>().text = CoinText.text;
         if (StageManager.stageNum == E_STAGE.INFINITY)
         {
             ShowRanking();
-            GameMgr.ClearStage();
+            
         }
-        Result.transform.Find("ResultCoin").GetComponent<Text>().text = CoinText.text;
         Time.timeScale = 0;
     }
     public void ShowRanking()
     {
+        Result.SetActive(false);
         Social.localUser.Authenticate((bool suc) =>
         {
             if (suc)    
@@ -190,11 +191,32 @@ public class UIManager : MonoBehaviour
             {
                 if (success)
                 {
+
                     ((PlayGamesPlatform)Social.Active).ShowLeaderboardUI(GPGSIds.leaderboard_unityrun);
                     //            Result.transform.Find("ResultCoin").GetComponent<Text>().text = "Success";
+                    Social.LoadScores(GPGSIds.leaderboard_unityrun, scores =>
+                    {
+                        if (scores.Length > 0)
+                        {
+                            foreach (IScore score in scores)
+                            {
+                                if (score.userID == Social.localUser.id)
+                                {
+                                    GameMgr.coins = int.Parse(score.formattedValue);
+                                }
+                            }
+                        }
+                        else{
+
+                        }
+                        Result.SetActive(true);
+                        GameMgr.ClearStage();
+                    });
                 }
                 else if (!success)
                 {
+                    Result.SetActive(true);
+                    GameMgr.ClearStage();
                     //1번 랭킹에 사용할 기록(실패시 내용은 생략)
                 }
             });

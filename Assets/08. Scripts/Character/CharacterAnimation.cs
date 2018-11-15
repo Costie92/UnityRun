@@ -43,11 +43,7 @@ public class CharacterAnimation : MonoBehaviour // 캐릭터의 애니메이션 
     public void DieAnimation() // 캐릭터가 죽는모습을 보여주고 게임을 정지시킴
     {
         animator.Play("DAMAGED01", -1, 0); // 뒤로 쓰러지는 애니메이션 실행
-        float waittime = animator.GetCurrentAnimatorStateInfo(0).length;
-        if (StageManager.stageNum == E_STAGE.INFINITY) {
-            waittime += 3.0f;
-        }
-        Invoke("GameOver", waittime); // 쓰러진뒤 2초뒤에 게임오버(게임이 정지되도록 만들어줌) 시켜주는 함수
+        Invoke("GameOver", animator.GetCurrentAnimatorStateInfo(0).length); // 쓰러진뒤 2초뒤에 게임오버(게임이 정지되도록 만들어줌) 시켜주는 함수
     }
 
     public void SlideAnimation() // 슬라이드 (아래방향키)
