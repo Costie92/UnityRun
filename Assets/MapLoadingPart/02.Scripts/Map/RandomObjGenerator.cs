@@ -88,18 +88,18 @@ namespace hcp
             INVINCIBLE = 1;
             SHIELD = 1;
             COIN = 1;
-            COIN_STRAIGHT = 1;
-            COIN_PARABOLA = 1;
+            COIN_STRAIGHT = 15;
+            COIN_PARABOLA = 5;
             MAGNET = 1;
 
-            BALL = 1;
-            HUDDLE = 1;
-            UPPER_HUDDLE_1 = 1;
-            UPPER_HUDDLE_2 = 1;
-            UPPER_HUDDLE_3 = 1;
-            FIRE = 1;
+            BALL = 5;
+            HUDDLE = 10;
+            UPPER_HUDDLE_1 = 5;
+            UPPER_HUDDLE_2 = 5;
+            UPPER_HUDDLE_3 = 10;
+            FIRE = 5;
 
-            NOTHING = 1;
+            NOTHING = 15;
 
             
         }

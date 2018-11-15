@@ -171,18 +171,17 @@ public class UIManager : MonoBehaviour
         //결과표시
         isPause = true;
         Result.SetActive(true);
+        RecordCoinText.text = GameMgr.coins.ToString();
         if (StageManager.stageNum == E_STAGE.INFINITY)
         {
             ShowRanking();
             GameMgr.ClearStage();
         }
-        RecordCoinText.text = GameMgr.coins.ToString();
         Result.transform.Find("ResultCoin").GetComponent<Text>().text = CoinText.text;
         Time.timeScale = 0;
     }
     public void ShowRanking()
     {
-        PlayGamesPlatform.Activate();
         Social.localUser.Authenticate((bool suc) =>
         {
             if (suc)    

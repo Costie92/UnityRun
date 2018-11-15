@@ -25,10 +25,12 @@ public class StartLogo : MonoBehaviour {
     }
     void Awake () {
         Time.timeScale = 1;
-        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().RequestServerAuthCode(false /* Don't force refresh */).Build();
-        PlayGamesPlatform.InitializeInstance(config);
-        PlayGamesPlatform.DebugLogEnabled = true;
+        mWaitingForAuth = false;
+        //PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().RequestServerAuthCode(false /* Don't force refresh */).Build();
+        //PlayGamesPlatform.InitializeInstance(config);
+        //PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
+
         LeanTween.textAlpha(StartText, 1f, 1.0f).setOnComplete(TextComplete);
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -65,8 +67,9 @@ public class StartLogo : MonoBehaviour {
                     }
                     else
                     {
-                        StartText.GetComponent<Text>().text = "Authentication failed";
+                        StartText.GetComponent<Text>().text = "Guest Login";
                         mWaitingForAuth = false;
+                        Invoke("LoginSuccess", 2.0f);
                         //"Authentication failed.";
                     }
                 });
